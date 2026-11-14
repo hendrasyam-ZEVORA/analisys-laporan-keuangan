@@ -37,10 +37,11 @@
   th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; }
   th:first-child, td:first-child { text-align:left; }
   th { color:var(--muted); font-weight:600; }
-  ol.insights li, ul.insights li { margin-bottom:10px; line-height:1.45; font-size:14px; }
+  ol.insights > li { margin-bottom:18px; line-height:1.45; font-size:14px; }
   .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; opacity:.85; }
   .note { font-size:12px; color:var(--muted); line-height:1.5; }
   canvas { max-height:280px; }
+  .mini { position:relative; height:200px; max-width:560px; margin-top:8px; }
   #dokumen ul { list-style:none; padding:0; margin:0; }
   #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
   #dokumen li:last-child { border-bottom:none; }
@@ -154,12 +155,22 @@
   <div class="card" style="margin-bottom:16px">
     <h2>Temuan dan rekomendasi untuk area</h2>
     <ol class="insights">
-      <li><strong>Penjualan naik kuat, tapi melambat di Q3.</strong> Pertumbuhan turun dari sekitar +51% di Q2 menjadi +25% di Q3. Penjualan Q3 hampir sama dengan Q2. <span class="tag">fakta laporan</span><br><span class="note">Aksi: periksa sell-out per outlet di area untuk Q4, dan bandingkan dengan pertumbuhan di sisi distributor.</span></li>
+      <li><strong>Penjualan naik kuat, tapi melambat di Q3.</strong> Pertumbuhan turun dari sekitar +51% di Q2 menjadi +25% di Q3. Penjualan Q3 hampir sama dengan Q2. <span class="tag">fakta laporan</span><br><span class="note">Aksi: periksa sell-out per outlet di area untuk Q4, dan bandingkan dengan pertumbuhan di sisi distributor.</span>
+        <div class="mini"><canvas id="chGrowth"></canvas></div>
+      </li>
       <li><strong>Margin kotor turun di Q3.</strong> Dari 31,9% menjadi 29,3%. Pembelian kemasan dari pemasok utama naik tajam sepanjang 2026 dan menjadi dugaan penyebab. <span class="tag">dugaan, perlu verifikasi</span><br><span class="note">Aksi: jangan andalkan promo harga untuk mengejar target, karena ruang margin sedang menyempit.</span></li>
-      <li><strong>Biaya angkut naik sekitar 38% di Q3.</strong> Ini berkaitan langsung dengan rute, frekuensi kirim, dan jarak ke distributor serta outlet. <span class="tag">fakta laporan</span><br><span class="note">Aksi: evaluasi rute dan frekuensi kirim di area, dan cek apakah ada outlet yang kecil tapi sering dikirim.</span></li>
-      <li><strong>Iklan dipangkas, dan laba naik sebagian karena itu.</strong> Iklan semester I turun 41%, tetapi Q3 hanya turun 8%, jadi pemangkasan mulai berhenti. <span class="tag">fakta laporan</span><br><span class="note">Aksi: pantau apakah dukungan di titik jual cukup untuk menjaga penjualan saat anggaran iklan kembali naik.</span></li>
-      <li><strong>Persediaan menumpuk.</strong> Naik 59% sejak Desember 2025, sementara kas turun 19%. <span class="tag">fakta laporan, penyebab belum diketahui</span><br><span class="note">Aksi: cocokkan dengan DOI dan stok di distributor dan outlet di area Anda. Jika stok di saluran lebih tinggi dari sell-out, perlu percepatan penjualan atau penyesuaian order.</span></li>
-      <li><strong>Target pertumbuhan 2026 sudah terlihat tercapai di level penjualan.</strong> Target perusahaan dua digit, sementara penjualan 9 bulan naik 31%. Yang perlu dipantau sekarang adalah margin dan biaya. <span class="tag">fakta laporan</span></li>
+      <li><strong>Biaya angkut naik sekitar 38% di Q3.</strong> Ini berkaitan langsung dengan rute, frekuensi kirim, dan jarak ke distributor serta outlet. <span class="tag">fakta laporan</span><br><span class="note">Aksi: evaluasi rute dan frekuensi kirim di area, dan cek apakah ada outlet yang kecil tapi sering dikirim.</span>
+        <div class="mini"><canvas id="chFreight"></canvas></div>
+      </li>
+      <li><strong>Iklan dipangkas, dan laba naik sebagian karena itu.</strong> Iklan semester I turun 41%, tetapi Q3 hanya turun 8%, jadi pemangkasan mulai berhenti. <span class="tag">fakta laporan</span><br><span class="note">Aksi: pantau apakah dukungan di titik jual cukup untuk menjaga penjualan saat anggaran iklan kembali naik.</span>
+        <div class="mini"><canvas id="chAds"></canvas></div>
+      </li>
+      <li><strong>Persediaan menumpuk.</strong> Naik 59% sejak Desember 2025, sementara kas turun 19%. <span class="tag">fakta laporan, penyebab belum diketahui</span><br><span class="note">Aksi: cocokkan dengan DOI dan stok di distributor dan outlet di area Anda. Jika stok di saluran lebih tinggi dari sell-out, perlu percepatan penjualan atau penyesuaian order.</span>
+        <div class="mini"><canvas id="chBalance"></canvas></div>
+      </li>
+      <li><strong>Target pertumbuhan 2026 sudah terlihat tercapai di level penjualan.</strong> Target perusahaan dua digit, sementara penjualan 9 bulan naik 31%. Yang perlu dipantau sekarang adalah margin dan biaya. <span class="tag">fakta laporan</span>
+        <div class="mini"><canvas id="chNine"></canvas></div>
+      </li>
     </ol>
   </div>
 
@@ -193,7 +204,9 @@ const ACCENTS = {
   plum:   { name: "Plum",   c: "#5b2a86", soft: "#d3bfe6" },
   ember:  { name: "Ember",  c: "#9a3412", soft: "#f1c7b0" },
 };
-let salesChart = null, marginChart = null;
+
+/* Setiap grafik disimpan bersama fungsi pewarnanya, supaya ikut berganti saat aksen diubah */
+const charts = [];
 
 function applyAccent(key) {
   const a = ACCENTS[key] || ACCENTS.ocean;
@@ -218,20 +231,23 @@ function buildSwatches() {
   }
 }
 function updateChartColors() {
-  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
-  const soft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim() || "#b8c3dd";
-  if (salesChart) {
-    salesChart.data.datasets[0].backgroundColor = soft;
-    salesChart.data.datasets[1].backgroundColor = acc;
-    salesChart.update();
+  const cs = getComputedStyle(document.documentElement);
+  const acc = cs.getPropertyValue("--accent").trim() || "#1f3a8a";
+  const soft = cs.getPropertyValue("--accent-soft").trim() || "#b8c3dd";
+  for (const { ch, paint } of charts) {
+    paint(ch, acc, soft);
+    ch.update();
   }
-  if (marginChart) {
-    marginChart.data.datasets[0].borderColor = "#9aa5bd";
-    marginChart.data.datasets[0].backgroundColor = "#9aa5bd";
-    marginChart.data.datasets[1].borderColor = acc;
-    marginChart.data.datasets[1].backgroundColor = acc;
-    marginChart.update();
-  }
+}
+function addChart(id, type, labels, datasets, extraOpts, paint, keepAspect) {
+  const opts = Object.assign({
+    responsive: true,
+    maintainAspectRatio: !!keepAspect,
+    plugins: { legend: { position: "bottom" } },
+  }, extraOpts || {});
+  const ch = new Chart(document.getElementById(id), { type, data: { labels, datasets }, options: opts });
+  charts.push({ ch, paint });
+  return ch;
 }
 
 /* ===== Gate: hanya menyimpan HASH password, bukan password asli ===== */
@@ -317,6 +333,7 @@ const fmt = n => n.toLocaleString("id-ID", { maximumFractionDigits: 1, minimumFr
 const pct = (a, b) => ((a / b - 1) * 100);
 const fmtPct = v => (v >= 0 ? "+" : "") + v.toLocaleString("id-ID", { maximumFractionDigits: 1 }) + "%";
 const gm = (g, s) => g.map((x, i) => (x / s[i]) * 100);
+const sum = arr => arr.reduce((a, b) => a + b, 0);
 
 function renderTable() {
   const rows = [
@@ -349,28 +366,59 @@ function renderCharts() {
   chartsDone = true;
   renderTable();
   if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
-  salesChart = new Chart(document.getElementById("chSales"), {
-    type: "bar",
-    data: {
-      labels: Q,
-      datasets: [
-        { label: "2025", data: sales25, backgroundColor: "#b8c3dd" },
-        { label: "2026", data: sales26, backgroundColor: "#1f3a8a" },
-      ],
-    },
-    options: { plugins: { legend: { position: "bottom" } }, scales: { y: { beginAtZero: true } } },
-  });
-  marginChart = new Chart(document.getElementById("chMargin"), {
-    type: "line",
-    data: {
-      labels: Q,
-      datasets: [
-        { label: "2025", data: gm(gp25, sales25), borderColor: "#9aa5bd", backgroundColor: "#9aa5bd", tension: .3 },
-        { label: "2026", data: gm(gp26, sales26), borderColor: "#1f3a8a", backgroundColor: "#1f3a8a", tension: .3 },
-      ],
-    },
-    options: { plugins: { legend: { position: "bottom" } }, scales: { y: { ticks: { callback: v => v + "%" } } } },
-  });
+
+  /* Grafik utama */
+  addChart("chSales", "bar", Q, [
+    { label: "2025", data: sales25 },
+    { label: "2026", data: sales26 },
+  ], { scales: { y: { beginAtZero: true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; }, true);
+
+  addChart("chMargin", "line", Q, [
+    { label: "2025", data: gm(gp25, sales25), tension: .3 },
+    { label: "2026", data: gm(gp26, sales26), tension: .3 },
+  ], { scales: { y: { ticks: { callback: v => v + "%" } } } },
+  (ch, acc) => {
+    ch.data.datasets[0].borderColor = "#9aa5bd"; ch.data.datasets[0].backgroundColor = "#9aa5bd";
+    ch.data.datasets[1].borderColor = acc; ch.data.datasets[1].backgroundColor = acc;
+  }, true);
+
+  /* Grafik per temuan (fakta laporan) */
+
+  // Temuan 1: pertumbuhan penjualan per kuartal (%)
+  const growth = sales26.map((x, i) => pct(x, sales25[i]));
+  addChart("chGrowth", "bar", Q, [
+    { label: "Pertumbuhan penjualan vs 2025", data: growth },
+  ], { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => v + "%" } } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; });
+
+  // Temuan 3: biaya angkut pihak ketiga (Rp miliar)
+  addChart("chFreight", "bar", ["9 bulan", "Q3 saja"], [
+    { label: "2025", data: [204.1, 67.7] },
+    { label: "2026", data: [266.3, 93.7] },
+  ], { scales: { y: { beginAtZero: true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; });
+
+  // Temuan 4: iklan dan promosi (Rp miliar)
+  addChart("chAds", "bar", ["Semester I", "9 bulan", "Q3 saja"], [
+    { label: "2025", data: [288.9, 356.3, 67.4] },
+    { label: "2026", data: [170.9, 232.6, 61.7] },
+  ], { scales: { y: { beginAtZero: true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; });
+
+  // Temuan 5: kas, piutang, persediaan, utang (Rp miliar)
+  addChart("chBalance", "bar", ["Kas", "Piutang usaha", "Persediaan", "Utang usaha"], [
+    { label: "31 Des 2025", data: [3163, 741, 1107, 484] },
+    { label: "30 Sep 2026", data: [2573, 858, 1762, 544] },
+  ], { scales: { y: { beginAtZero: true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; });
+
+  // Temuan 6: penjualan neto 9 bulan (Rp miliar)
+  addChart("chNine", "bar", ["9 bulan 2025", "9 bulan 2026"], [
+    { label: "Penjualan neto 9 bulan", data: [sum(sales25), sum(sales26)] },
+  ], { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = [soft, acc]; });
+
   updateChartColors();
 }
 </script>
