@@ -7,15 +7,24 @@
 <title>Analisis Laporan Keuangan ULTJ (Ultra) 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root { --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --blue:#1f3a8a; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
+  :root {
+    --accent: #1f3a8a;
+    --accent-soft: #b8c3dd;
+    --blue: var(--accent);
+    --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec;
+    --green:#1a7f4b; --red:#b42318; --amber:#b25e09;
+  }
   * { box-sizing: border-box; }
   body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
-  header { background:var(--blue); color:#fff; padding:20px 24px; }
+  header { background:var(--accent); color:#fff; padding:20px 24px; transition: background .3s ease; }
   header h1 { margin:0; font-size:20px; }
   header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  .swatches { display:flex; align-items:center; gap:8px; margin-top:12px; font-size:12px; opacity:.9; }
+  .swatch { width:22px; height:22px; border-radius:50%; border:2px solid #fff; cursor:pointer; padding:0; }
+  .swatch.on { box-shadow: 0 0 0 2px var(--accent), 0 0 0 4px #fff; }
   main { max-width:1100px; margin:0 auto; padding:20px; }
   .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
-  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; border-top:3px solid var(--accent); }
   .kpi .label { font-size:12px; color:var(--muted); }
   .kpi .value { font-size:24px; font-weight:700; margin-top:4px; }
   .kpi .sub { font-size:12px; margin-top:4px; color:var(--muted); }
@@ -29,23 +38,32 @@
   th:first-child, td:first-child { text-align:left; }
   th { color:var(--muted); font-weight:600; }
   ol.insights li, ul.insights li { margin-bottom:10px; line-height:1.45; font-size:14px; }
-  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:#eef1f7; color:var(--muted); margin-left:4px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; opacity:.85; }
   .note { font-size:12px; color:var(--muted); line-height:1.5; }
   canvas { max-height:280px; }
   #dokumen ul { list-style:none; padding:0; margin:0; }
   #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
   #dokumen li:last-child { border-bottom:none; }
-  #dokumen li a { color:var(--blue); font-weight:600; text-decoration:none; }
+  #dokumen li a { color:var(--accent); font-weight:600; text-decoration:none; }
   #dokumen li a:hover { text-decoration:underline; }
   /* gate */
-  #gate { position:fixed; inset:0; background:var(--blue); display:flex; align-items:center; justify-content:center; z-index:10; }
+  #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
   #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
   #gate h2 { margin:0 0 6px; font-size:18px; }
   #gate p { margin:0 0 16px; font-size:13px; color:var(--muted); }
   #gate input { width:100%; padding:10px; font-size:15px; border:1px solid var(--line); border-radius:6px; }
-  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--blue); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
+  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
   #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
   .hidden { display:none !important; }
+  /* animasi ringan saat halaman dibuka */
+  @keyframes rise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+  #app .kpi, #app .card { animation: rise .45s ease both; }
+  #app .kpi:nth-child(2) { animation-delay:.05s; }
+  #app .kpi:nth-child(3) { animation-delay:.1s; }
+  #app .kpi:nth-child(4) { animation-delay:.15s; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+  }
 </style>
 </head>
 <body>
@@ -64,6 +82,9 @@
 <header>
   <h1>PT Ultrajaya Milk Industry &amp; Trading Company Tbk (ULTJ)</h1>
   <p>Analisis laporan keuangan konsolidasian 2025 dan 2026 (sampai 30 September 2026). Angka dalam miliar rupiah.</p>
+  <div class="swatches" id="swatches" aria-label="Pilih aksen warna">
+    <span>Aksen:</span>
+  </div>
 </header>
 
 <main>
@@ -165,6 +186,54 @@
 const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
 const DRIVE_FOLDER_ID = "1eJi_Q6w1UJWZkl9FcZPrhUTn9XWMi_qg";
 
+/* ===== Aksen warna: Ocean (navy) adalah default ===== */
+const ACCENTS = {
+  ocean:  { name: "Ocean",  c: "#1f3a8a", soft: "#b8c3dd" },
+  forest: { name: "Forest", c: "#1f5f3f", soft: "#b9d8c6" },
+  plum:   { name: "Plum",   c: "#5b2a86", soft: "#d3bfe6" },
+  ember:  { name: "Ember",  c: "#9a3412", soft: "#f1c7b0" },
+};
+let salesChart = null, marginChart = null;
+
+function applyAccent(key) {
+  const a = ACCENTS[key] || ACCENTS.ocean;
+  const root = document.documentElement.style;
+  root.setProperty("--accent", a.c);
+  root.setProperty("--accent-soft", a.soft);
+  document.querySelectorAll(".swatch").forEach(b => b.classList.toggle("on", b.dataset.accent === key));
+  try { localStorage.setItem("ultj_accent", key); } catch (e) {}
+  updateChartColors();
+}
+function buildSwatches() {
+  const wrap = document.getElementById("swatches");
+  for (const [key, a] of Object.entries(ACCENTS)) {
+    const b = document.createElement("button");
+    b.className = "swatch";
+    b.dataset.accent = key;
+    b.title = a.name;
+    b.setAttribute("aria-label", "Aksen " + a.name);
+    b.style.background = a.c;
+    b.addEventListener("click", () => applyAccent(key));
+    wrap.appendChild(b);
+  }
+}
+function updateChartColors() {
+  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
+  const soft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim() || "#b8c3dd";
+  if (salesChart) {
+    salesChart.data.datasets[0].backgroundColor = soft;
+    salesChart.data.datasets[1].backgroundColor = acc;
+    salesChart.update();
+  }
+  if (marginChart) {
+    marginChart.data.datasets[0].borderColor = "#9aa5bd";
+    marginChart.data.datasets[0].backgroundColor = "#9aa5bd";
+    marginChart.data.datasets[1].borderColor = acc;
+    marginChart.data.datasets[1].backgroundColor = acc;
+    marginChart.update();
+  }
+}
+
 /* ===== Gate: hanya menyimpan HASH password, bukan password asli ===== */
 const SALT = "ultj-analisys-v1";
 const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002"; // isi dengan hasil dari langkah pembuatan hash
@@ -188,6 +257,12 @@ async function tryUnlock() {
 }
 document.getElementById("unlock").addEventListener("click", tryUnlock);
 document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+buildSwatches();
+let savedAccent = "ocean";
+try { savedAccent = localStorage.getItem("ultj_accent") || "ocean"; } catch (e) {}
+applyAccent(savedAccent);
+
 if (sessionStorage.getItem("ultj_ok") === "1") showApp();
 
 /* ===== Daftar dokumen otomatis dari Google Drive ===== */
@@ -274,7 +349,7 @@ function renderCharts() {
   chartsDone = true;
   renderTable();
   if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
-  new Chart(document.getElementById("chSales"), {
+  salesChart = new Chart(document.getElementById("chSales"), {
     type: "bar",
     data: {
       labels: Q,
@@ -285,7 +360,7 @@ function renderCharts() {
     },
     options: { plugins: { legend: { position: "bottom" } }, scales: { y: { beginAtZero: true } } },
   });
-  new Chart(document.getElementById("chMargin"), {
+  marginChart = new Chart(document.getElementById("chMargin"), {
     type: "line",
     data: {
       labels: Q,
@@ -296,6 +371,7 @@ function renderCharts() {
     },
     options: { plugins: { legend: { position: "bottom" } }, scales: { y: { ticks: { callback: v => v + "%" } } } },
   });
+  updateChartColors();
 }
 </script>
 </body>
