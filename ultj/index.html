@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>Analisis Laporan Keuangan ULTJ (Ultra) 2026</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root { --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --blue:#1f3a8a; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
   * { box-sizing: border-box; }
@@ -241,9 +241,10 @@ function renderTable() {
 
 let chartsDone = false;
 function renderCharts() {
-  if (chartsDone || typeof Chart === "undefined") return;
+  if (chartsDone) return;
   chartsDone = true;
   renderTable();
+  if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
   new Chart(document.getElementById("chSales"), {
     type: "bar",
     data: {
