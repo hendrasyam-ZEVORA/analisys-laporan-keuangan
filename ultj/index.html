@@ -32,6 +32,11 @@
   .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:#eef1f7; color:var(--muted); margin-left:4px; }
   .note { font-size:12px; color:var(--muted); line-height:1.5; }
   canvas { max-height:280px; }
+  #dokumen ul { list-style:none; padding:0; margin:0; }
+  #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
+  #dokumen li:last-child { border-bottom:none; }
+  #dokumen li a { color:var(--blue); font-weight:600; text-decoration:none; }
+  #dokumen li a:hover { text-decoration:underline; }
   /* gate */
   #gate { position:fixed; inset:0; background:var(--blue); display:flex; align-items:center; justify-content:center; z-index:10; }
   #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
@@ -141,27 +146,11 @@
     <div class="card">
       <h2>Dokumen Laporan ULTJ</h2>
       <p class="note" style="font-size:13px;margin-top:0;">
-        Tersimpan di Google Drive. Bisa dibuka dari perangkat mana pun.
+        Tersimpan di Google Drive. Daftar ini dimuat otomatis dari folder Drive setiap halaman dibuka.
         <a href="https://drive.google.com/drive/folders/1eJi_Q6w1UJWZkl9FcZPrhUTn9XWMi_qg" target="_blank" rel="noopener">Buka folder Drive</a>
       </p>
-      <ul style="list-style:none;padding:0;margin:0;">
-        <li style="padding:12px 0;border-bottom:1px solid #eee;">
-          <a href="https://drive.google.com/file/d/14GX0k32z5eC5mYaqH6LFn2NmvJ5WDrEo/view" target="_blank" rel="noopener">Yearly 2025.pdf</a>
-          <span class="note"> — Laporan tahunan 2025</span>
-        </li>
-        <li style="padding:12px 0;border-bottom:1px solid #eee;">
-          <a href="https://drive.google.com/file/d/1C1s2WK2FhkdDWXFqHhL9hYegbRuYBy1h/view" target="_blank" rel="noopener">maret 2026 Q1 2026.pdf</a>
-          <span class="note"> — Kuartal I 2026 (3 bulan s.d. 31 Maret)</span>
-        </li>
-        <li style="padding:12px 0;border-bottom:1px solid #eee;">
-          <a href="https://drive.google.com/file/d/19kS56au2-3PdJrZioQnIBHdqXC4kvzm1/view" target="_blank" rel="noopener">Juni 2026 Q2 2026.pdf</a>
-          <span class="note"> — Semester I 2026 (6 bulan s.d. 30 Juni)</span>
-        </li>
-        <li style="padding:12px 0;">
-          <a href="https://drive.google.com/file/d/1Te7vm41ZVXJxH5FDVoj-sMO01vvD9u9U/view" target="_blank" rel="noopener">september 2026 Q3 2026.pdf</a>
-          <span class="note"> — 9 bulan s.d. 30 September 2026</span>
-        </li>
-      </ul>
+      <p class="note" id="infoDok">Memuat daftar dokumen...</p>
+      <ul id="listDok"></ul>
     </div>
   </section>
 
@@ -172,6 +161,10 @@
 </div>
 
 <script>
+/* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
+const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
+const DRIVE_FOLDER_ID = "1eJi_Q6w1UJWZkl9FcZPrhUTn9XWMi_qg";
+
 /* ===== Gate: hanya menyimpan HASH password, bukan password asli ===== */
 const SALT = "ultj-analisys-v1";
 const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002"; // isi dengan hasil dari langkah pembuatan hash
@@ -184,6 +177,7 @@ function showApp() {
   document.getElementById("gate").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   renderCharts();
+  loadDokumen();
 }
 async function tryUnlock() {
   const err = document.getElementById("gerr");
@@ -195,6 +189,41 @@ async function tryUnlock() {
 document.getElementById("unlock").addEventListener("click", tryUnlock);
 document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
 if (sessionStorage.getItem("ultj_ok") === "1") showApp();
+
+/* ===== Daftar dokumen otomatis dari Google Drive ===== */
+async function loadDokumen() {
+  const list = document.getElementById("listDok");
+  const info = document.getElementById("infoDok");
+  const q = "'" + DRIVE_FOLDER_ID + "' in parents and mimeType='application/pdf' and trashed=false";
+  const url = "https://www.googleapis.com/drive/v3/files"
+    + "?q=" + encodeURIComponent(q)
+    + "&fields=" + encodeURIComponent("files(id,name)")
+    + "&orderBy=name&pageSize=100"
+    + "&key=" + DRIVE_API_KEY;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    list.innerHTML = "";
+    if (!data.files || data.files.length === 0) {
+      info.textContent = "Belum ada dokumen PDF di folder Drive.";
+      return;
+    }
+    info.textContent = data.files.length + " dokumen tersedia.";
+    for (const f of data.files) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://drive.google.com/file/d/" + f.id + "/view";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = f.name;
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+  } catch (e) {
+    info.textContent = "Daftar tidak bisa dimuat (" + e.message + "). Buka folder Drive secara langsung dari tautan di atas.";
+  }
+}
 
 /* ===== Data (Rp miliar) ===== */
 const Q = ["Q1", "Q2", "Q3"];
