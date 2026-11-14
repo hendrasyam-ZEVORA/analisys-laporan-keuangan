@@ -47,6 +47,8 @@
   #dokumen li:last-child { border-bottom:none; }
   #dokumen li a { color:var(--accent); font-weight:600; text-decoration:none; }
   #dokumen li a:hover { text-decoration:underline; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  #ringkasanPDF { display:none; }
   /* gate */
   #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
   #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
@@ -62,6 +64,29 @@
   #app .kpi:nth-child(2) { animation-delay:.05s; }
   #app .kpi:nth-child(3) { animation-delay:.1s; }
   #app .kpi:nth-child(4) { animation-delay:.15s; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+  }
+  @media print {
+    @page { size: A4; margin: 14mm; }
+    body { background:#fff; color:#000; }
+    #gate, #app { display:none !important; }
+    #ringkasanPDF { display:block !important; font-size:10.5pt; line-height:1.4; }
+    #ringkasanPDF h1 { font-size:15pt; margin:0 0 2mm; color:var(--accent); }
+    #ringkasanPDF h2 { font-size:12pt; margin:5mm 0 2mm; color:var(--accent); }
+    #ringkasanPDF .pdf-sub { font-size:9pt; color:#444; margin:0 0 4mm; }
+    #ringkasanPDF .pdf-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:3mm; }
+    #ringkasanPDF .pdf-kpis div { border:1px solid #ccc; border-top:3px solid var(--accent); border-radius:2mm; padding:2mm; }
+    #ringkasanPDF .pdf-kpis span { display:block; font-size:8pt; color:#555; }
+    #ringkasanPDF .pdf-kpis strong { display:block; font-size:14pt; margin:1mm 0; }
+    #ringkasanPDF .pdf-kpis em { font-size:8pt; font-style:normal; color:#444; }
+    #ringkasanPDF table { width:100%; border-collapse:collapse; font-size:9.5pt; }
+    #ringkasanPDF th, #ringkasanPDF td { border-bottom:1px solid #ddd; padding:1.5mm 2mm; text-align:right; }
+    #ringkasanPDF th:first-child, #ringkasanPDF td:first-child { text-align:left; }
+    #ringkasanPDF ol li { margin-bottom:2mm; }
+    #ringkasanPDF .pdf-note { font-size:8pt; color:#555; margin-top:4mm; }
+    .pdf-btn, .swatches { display:none !important; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation:none !important; transition:none !important; }
   }
@@ -86,6 +111,7 @@
   <div class="swatches" id="swatches" aria-label="Pilih aksen warna">
     <span>Aksen:</span>
   </div>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF ringkasan</button>
 </header>
 
 <main>
@@ -192,6 +218,29 @@
 </main>
 </div>
 
+<section id="ringkasanPDF">
+  <h1>Ringkasan Analisis ULTJ (Ultra), sampai 30 September 2026</h1>
+  <p class="pdf-sub">PT Ultrajaya Milk Industry &amp; Trading Company Tbk. Angka dalam miliar rupiah, memakai penjualan neto (setelah PPN dan bonus kinerja).</p>
+  <div class="pdf-kpis">
+    <div><span>Penjualan neto 9 bulan 2026</span><strong>Rp8.179</strong><em>+31,1% vs 9M 2025</em></div>
+    <div><span>Laba tahun berjalan 9 bulan 2026</span><strong>Rp1.448</strong><em>+48,1% vs 9M 2025</em></div>
+    <div><span>Margin kotor Q3 2026</span><strong>29,3%</strong><em>turun dari 31,9% (Q3 2025)</em></div>
+    <div><span>Biaya angkut pihak ketiga Q3 2026</span><strong>Rp94</strong><em>+38% vs Q3 2025</em></div>
+  </div>
+  <h2>Ringkasan per kuartal</h2>
+  <table id="pdfTbl"></table>
+  <h2>Temuan utama dan aksi untuk area</h2>
+  <ol>
+    <li><strong>Penjualan melambat di Q3.</strong> Pertumbuhan turun dari +51% di Q2 menjadi +25% di Q3. Aksi: periksa sell-out per outlet untuk Q4.</li>
+    <li><strong>Margin kotor turun di Q3 (dugaan).</strong> Dari 31,9% menjadi 29,3%, penyebab belum diverifikasi. Aksi: jangan andalkan promo harga untuk mengejar target.</li>
+    <li><strong>Biaya angkut naik sekitar 38% di Q3.</strong> Aksi: evaluasi rute dan frekuensi kirim, serta outlet kecil yang sering dikirim.</li>
+    <li><strong>Iklan dipangkas.</strong> Semester I turun 41%, tetapi Q3 hanya turun 8%. Aksi: pantau apakah dukungan di titik jual cukup saat anggaran kembali naik.</li>
+    <li><strong>Persediaan naik 59%</strong> sejak Desember 2025, sementara kas turun 19%. Aksi: cocokkan dengan DOI dan stok di saluran area.</li>
+    <li><strong>Target 2026 terlihat tercapai di level penjualan.</strong> Penjualan 9 bulan naik 31%. Yang perlu dipantau sekarang adalah margin dan biaya.</li>
+  </ol>
+  <p class="pdf-note">Sumber: Laporan Tahunan ULTJ 2025; laporan keuangan konsolidasian ULTJ per 31 Maret, 30 Juni, dan 30 September 2026. Analisis ini bukan rekomendasi investasi.</p>
+</section>
+
 <script>
 /* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
 const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
@@ -279,8 +328,6 @@ let savedAccent = "ocean";
 try { savedAccent = localStorage.getItem("ultj_accent") || "ocean"; } catch (e) {}
 applyAccent(savedAccent);
 
-if (sessionStorage.getItem("ultj_ok") === "1") showApp();
-
 /* ===== Daftar dokumen otomatis dari Google Drive ===== */
 async function loadDokumen() {
   const list = document.getElementById("listDok");
@@ -365,6 +412,7 @@ function renderCharts() {
   if (chartsDone) return;
   chartsDone = true;
   renderTable();
+  buildPdfTable();
   if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
 
   /* Grafik utama */
@@ -421,6 +469,19 @@ function renderCharts() {
 
   updateChartColors();
 }
+
+/* ===== Tabel untuk ringkasan PDF ===== */
+function buildPdfTable() {
+  const t = document.getElementById("pdfTbl");
+  const g25 = gm(gp25, sales25), g26 = gm(gp26, sales26);
+  const f1 = v => v.toLocaleString("id-ID", { maximumFractionDigits: 1 });
+  let h = "<tr><th>Metrik</th><th>Q1 2025</th><th>Q1 2026</th><th>Q2 2025</th><th>Q2 2026</th><th>Q3 2025</th><th>Q3 2026</th></tr>";
+  h += "<tr><td>Penjualan neto</td>" + [0, 1, 2].map(i => "<td>" + fmt(sales25[i]) + "</td><td>" + fmt(sales26[i]) + "</td>").join("") + "</tr>";
+  h += "<tr><td>Margin kotor (%)</td>" + [0, 1, 2].map(i => "<td>" + f1(g25[i]) + "</td><td>" + f1(g26[i]) + "</td>").join("") + "</tr>";
+  t.innerHTML = h;
+}
+
+if (sessionStorage.getItem("ultj_ok") === "1") showApp();
 </script>
 </body>
 </html>
