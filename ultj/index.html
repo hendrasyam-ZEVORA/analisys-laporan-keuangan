@@ -146,7 +146,7 @@
 <script>
 /* ===== Gate: hanya menyimpan HASH password, bukan password asli ===== */
 const SALT = "ultj-analisys-v1";
-const PW_HASH = "GANTI_DENGAN_HASH"; // isi dengan hasil dari langkah pembuatan hash
+const PW_HASH = "e253dbe7ad82e76eea3fb62f2a6dacfa31ef9fd8c9c0c3fabd2291cd23e3750e"; // isi dengan hasil dari langkah pembuatan hash
 
 async function sha256Hex(text) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
