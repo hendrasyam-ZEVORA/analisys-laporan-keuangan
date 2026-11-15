@@ -86,6 +86,14 @@
     #ringkasanPDF ol li { margin-bottom:2mm; }
     #ringkasanPDF .pdf-note { font-size:8pt; color:#555; margin-top:4mm; }
     .pdf-btn, .swatches { display:none !important; }
+    #app { display:block !important; }
+    #gate, #ringkasanPDF, #dokumen { display:none !important; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    main { padding:0 !important; max-width:none !important; }
+    header { padding:14px 18px !important; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
+    .mini { height:180px !important; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation:none !important; transition:none !important; }
@@ -324,6 +332,7 @@ document.getElementById("unlock").addEventListener("click", tryUnlock);
 document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
 
 buildSwatches();
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
 let savedAccent = "ocean";
 try { savedAccent = localStorage.getItem("ultj_accent") || "ocean"; } catch (e) {}
 applyAccent(savedAccent);

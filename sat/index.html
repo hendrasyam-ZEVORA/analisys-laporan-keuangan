@@ -45,6 +45,18 @@
   #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
   #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
   .hidden { display:none !important; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  @media print {
+    @page { size:A4; margin:12mm; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #gate, #dokumen, .pdf-btn { display:none !important; }
+    #app { display:block !important; }
+    main { padding:0; max-width:none; }
+    header { padding:14px 18px; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
+    .mini { height:180px !important; }
+  }
 </style>
 </head>
 <body>
@@ -63,6 +75,7 @@
 <header>
   <h1>PT Sumber Alfaria Trijaya Tbk (SAT, Alfamart)</h1>
   <p>Analisis dari presentasi manajemen Q1 2026 sampai Q3 2026, dengan pembanding 2025. Angka dalam miliar rupiah kecuali disebutkan lain.</p>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
 </header>
 
 <main>
@@ -263,6 +276,7 @@ function renderCharts() {
   updateChartColors();
 }
 
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
 if (sessionStorage.getItem("sat_ok") === "1") showApp();
 </script>
 </body>
