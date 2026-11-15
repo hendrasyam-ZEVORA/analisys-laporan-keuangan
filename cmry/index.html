@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Analisis CMRY (Cimory) 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:#fff; padding:20px 24px; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; border-top:3px solid var(--accent); }
+  .kpi .label { font-size:12px; color:var(--muted); }
+  .kpi .value { font-size:24px; font-weight:700; margin-top:4px; }
+  .kpi .sub { font-size:12px; margin-top:4px; color:var(--muted); }
+  .up { color:var(--green); } .down { color:var(--red); } .warn { color:var(--amber); }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { margin:0 0 10px; font-size:15px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  th:first-child, td:first-child { text-align:left; }
+  th { color:var(--muted); font-weight:600; }
+  ol.insights > li { margin-bottom:18px; line-height:1.45; font-size:14px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  canvas { max-height:280px; }
+  .mini { position:relative; height:200px; max-width:560px; margin-top:8px; }
+  #dokumen ul { list-style:none; padding:0; margin:0; }
+  #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
+  #dokumen li:last-child { border-bottom:none; }
+  #dokumen li a { color:var(--accent); font-weight:600; text-decoration:none; }
+  #dokumen li a:hover { text-decoration:underline; }
+  #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
+  #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
+  #gate h2 { margin:0 0 6px; font-size:18px; }
+  #gate p { margin:0 0 16px; font-size:13px; color:var(--muted); }
+  #gate input { width:100%; padding:10px; font-size:15px; border:1px solid var(--line); border-radius:6px; }
+  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
+  #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
+  .hidden { display:none !important; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  @media print {
+    @page { size:A4 landscape; margin:10mm; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #gate, #dokumen, .pdf-btn { display:none !important; }
+    #app { display:block !important; }
+    main { padding:0; max-width:none; }
+    header { padding:14px 18px; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
+    .mini { height:180px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <h2>Analisis CMRY (Cimory)</h2>
+    <p>Masukkan password untuk melihat analisis.</p>
+    <input id="pw" type="password" autocomplete="off" placeholder="Password">
+    <button id="unlock">Buka</button>
+    <div class="err" id="gerr"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header>
+  <h1>PT Cisarua Mountain Dairy Tbk (CMRY, Cimory)</h1>
+  <p>Analisis laporan keuangan interim Q1 sampai Q3 2026 (tidak diaudit), dengan pembanding 2025 dan laporan tahunan 2025. Angka dalam miliar rupiah kecuali disebutkan lain.</p>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
+</header>
+
+<main>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Penjualan neto 9 bulan 2026</div><div class="value">Rp9.930</div><div class="sub up">+26,1% vs 9M 2025</div></div>
+    <div class="kpi"><div class="label">Laba usaha 9 bulan 2026</div><div class="value">Rp1.862</div><div class="sub up">+3,6% vs 9M 2025, margin turun ke 18,7%</div></div>
+    <div class="kpi"><div class="label">Laba bersih Q3 2026</div><div class="value">Rp546</div><div class="sub down">turun 10,1% vs Q3 2025</div></div>
+    <div class="kpi"><div class="label">Kas dan sekuritas, 30 Sep 2026</div><div class="value">Rp899</div><div class="sub down">turun Rp802 sejak 31 Des 2025</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Penjualan neto per kuartal, 2025 vs 2026</h2>
+      <canvas id="chRev"></canvas>
+      <p class="note">Q1 2026 dari laporan interim tiga bulan. Q2 dan Q3 dihitung dari selisih laporan kumulatif.</p>
+    </div>
+    <div class="card">
+      <h2>Laba bersih per kuartal, 2025 vs 2026</h2>
+      <canvas id="chNp"></canvas>
+      <p class="note">Laba periode berjalan yang diatribusikan ke pemilik entitas induk.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Ringkasan per kuartal (Rp miliar)</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>Metrik</th><th>Q1 2025</th><th>Q1 2026</th><th>Q2 2025</th><th>Q2 2026</th><th>Q3 2025</th><th>Q3 2026</th><th>9M 2025</th><th>9M 2026</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Penjualan neto</td><td>2.437</td><td>3.117 <span class="up">+27,9%</span></td><td>2.711</td><td>3.344 <span class="up">+23,4%</span></td><td>2.725</td><td>3.469 <span class="up">+27,3%</span></td><td>7.873</td><td>9.930 <span class="up">+26,1%</span></td></tr>
+        <tr><td>Laba bruto</td><td>1.084</td><td>1.345 <span class="up">+24,1%</span></td><td>1.228</td><td>1.455 <span class="up">+18,5%</span></td><td>1.263</td><td>1.461 <span class="up">+15,7%</span></td><td>3.575</td><td>4.262 <span class="up">+19,2%</span></td></tr>
+        <tr><td>Margin laba bruto (%)</td><td>44,5</td><td>43,2</td><td>45,3</td><td>43,5</td><td>46,3</td><td>42,1</td><td>45,4</td><td>42,9</td></tr>
+        <tr><td>Beban penjualan dan pemasaran</td><td>519</td><td>655 <span class="down">+26,1%</span></td><td>550</td><td>697 <span class="down">+26,7%</span></td><td>551</td><td>790 <span class="down">+43,5%</span></td><td>1.620</td><td>2.141 <span class="down">+32,2%</span></td></tr>
+        <tr><td>Laba usaha</td><td>505</td><td>629 <span class="up">+24,6%</span></td><td>630</td><td>612 <span class="down">-2,9%</span></td><td>661</td><td>620 <span class="down">-6,2%</span></td><td>1.797</td><td>1.862 <span class="up">+3,6%</span></td></tr>
+        <tr><td>Margin laba usaha (%)</td><td>20,7</td><td>20,2</td><td>23,3</td><td>18,3</td><td>24,3</td><td>17,9</td><td>22,8</td><td>18,7</td></tr>
+        <tr><td>Laba bersih (pemilik)</td><td>480</td><td>555 <span class="up">+15,7%</span></td><td>514</td><td>617 <span class="up">+20,0%</span></td><td>607</td><td>546 <span class="down">-10,1%</span></td><td>1.601</td><td>1.718 <span class="up">+7,3%</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Q4 2025 (laporan tahunan 2025 dikurangi 9M 2025): penjualan neto 2.851, laba usaha 471, laba bersih 432. Beban penjualan dan pemasaran Q1 dan Q2 2026 dihitung dari selisih kumulatif. Angka di atas dihitung ulang dari laporan keuangan, bukan dari slide.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Temuan dan implikasi untuk area</h2>
+    <ol class="insights">
+      <li><strong>Penjualan CMRY tumbuh di atas 23% di setiap kuartal 2026.</strong> Penjualan neto 9 bulan naik dari Rp7.873 miliar menjadi Rp9.930 miliar. <span class="tag">fakta laporan</span><br><span class="note">Aksi: CMRY sedang merebut ruang dan volume. Cek seberapa besar kenaikan itu datang dari area Anda dan dari channel mana.</span>
+        <div class="mini"><canvas id="chRevMini"></canvas></div>
+      </li>
+      <li><strong>Laba usaha hampir tidak ikut naik, dan margin turun dari 22,8% ke 18,7%.</strong> Laba usaha 9 bulan naik 3,6%, tapi Q2 turun 2,9% dan Q3 turun 6,2%. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: tekanan margin ini membuat CMRY lebih mungkin mengejar volume dengan promosi. Antisipasi dengan memantau aktivitas mereka di area.</span>
+        <div class="mini"><canvas id="chOm"></canvas></div>
+      </li>
+      <li><strong>Beban penjualan dan pemasaran jadi penyebab utama tekanan margin.</strong> Di Q3 2026 beban ini naik 43,5% (dari Rp551 miliar ke Rp790 miliar), jauh di atas kenaikan penjualan 27,3%. Porsinya terhadap penjualan naik dari 20,2% ke 22,8%. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: lonjakan belanja pemasaran di Q3 kemungkinan berarti promo, aktivasi, atau slotting yang lebih agresif. Catat promo CMRY di toko modern area Anda minggu ini.</span>
+        <div class="mini"><canvas id="chSell"></canvas></div>
+      </li>
+      <li><strong>Laba bersih Q3 turun 10,1% walau penjualan naik 27,3%.</strong> Laba bersih 9 bulan masih naik 7,3%, jadi tekanannya terkonsentrasi di Q3. Pendapatan keuangan di Q3 juga lebih kecil dibanding tahun lalu. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: jika laba Q4 tetap tertekan, CMRY bisa mengetatkan belanja di area. Pantau apakah promo mereka berkurang di Q4 atau awal 2027.</span>
+        <div class="mini"><canvas id="chNpMini"></canvas></div>
+      </li>
+      <li><strong>Kas dan sekuritas turun Rp802 miliar (-47%) sejak 31 Desember 2025.</strong> Kas dan setara kas turun dari Rp948 miliar menjadi Rp341 miliar. Penyebab penurunan belum bisa dipastikan dari laporan posisi keuangan saja. <span class="tag">fakta laporan, penyebab perlu dicek di laporan arus kas</span><br><span class="note">Aksi: pantau apakah CMRY menahan pembelian stok, memperpanjang pembayaran ke pemasok, atau justru membelanjakan kas untuk investasi.</span>
+        <div class="mini"><canvas id="chCash"></canvas></div>
+      </li>
+      <li><strong>Tahun 2025 adalah tahun pertumbuhan terkuat dalam empat tahun terakhir.</strong> Penjualan neto 2025 naik 18,8% menjadi Rp10.724 miliar, laba bersih pemilik naik 33,8%, dan margin laba kotor 45,3%. <span class="tag">fakta laporan tahunan 2025</span><br><span class="note">Aksi: CMRY punya basis modal dan margin yang kuat untuk terus berpromosi. Jangan menilai ancamannya hanya dari penurunan laba Q3.</span>
+        <div class="mini"><canvas id="chFy"></canvas></div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Rencana aksi untuk area (urut prioritas)</h2>
+    <ol class="insights">
+      <li><strong>Minggu ini: catat promo dan aktivasi CMRY di 10 toko modern prioritas area.</strong> Tulis jenis promo, harga, dan posisi di rak setiap minggu. <br><span class="note">Ukuran berhasil: ada data empat minggu berturut-turut untuk 10 toko, dibandingkan dengan promo brand Anda.</span></li>
+      <li><strong>Bulan ini: petakan ruang rak dan share kategori susu serta yogurt CMRY di area.</strong> Gunakan kenaikan penjualan CMRY 27% sebagai alasan untuk mengecek posisi rak brand Anda. <br><span class="note">Ukuran berhasil: ada tabel share rak per toko yang bisa dibawa ke pertemuan dengan key account.</span></li>
+      <li><strong>Sebelum pertemuan berikutnya: siapkan skenario jika CMRY mengurangi promosi di Q4.</strong> Jika laba usaha mereka terus turun, belanja promosi bisa dipangkas atau dialihkan ke channel lain. <br><span class="note">Ukuran berhasil: rencana alokasi promo area sudah punya dua skenario, naik dan turun.</span></li>
+      <li><strong>Pantau tanda kas ketat di CMRY.</strong> Kas dan sekuritas turun Rp802 miliar sejak Desember 2025. Catat jika ketersediaan produk CMRY di area mulai kosong atau promosi mendadak berhenti. <br><span class="note">Ukuran berhasil: ada catatan kejadian stok kosong atau promo berhenti, dengan tanggal dan toko.</span></li>
+      <li><strong>Setelah laporan arus kas dibaca: perbarui halaman ini.</strong> Perlu dipastikan apakah penurunan kas berasal dari belanja modal, dividen, atau modal kerja. <br><span class="note">Ukuran berhasil: halaman ini punya penjelasan penyebab penurunan kas dari laporan arus kas.</span></li>
+    </ol>
+    <p class="note">Rencana ini disusun dari laporan keuangan CMRY. Sebelum dijalankan, cocokkan dengan data promo, sell-out, dan distributor di area Anda.</p>
+  </div>
+
+  <section id="dokumen" style="margin-bottom:16px;">
+    <div class="card">
+      <h2>Dokumen CMRY</h2>
+      <p class="note" style="font-size:13px;margin-top:0;">
+        Laporan keuangan interim, laporan tahunan, dan laporan pertumbuhan berkelanjutan. Daftar ini dimuat otomatis dari folder Drive.
+        <a href="https://drive.google.com/drive/folders/1nsYI1dEZ_F7257KlHxvHE8G_K0JyCJj3" target="_blank" rel="noopener">Buka folder Drive</a>
+      </p>
+      <p class="note" id="infoDok">Memuat daftar dokumen...</p>
+      <ul id="listDok"></ul>
+    </div>
+  </section>
+
+  <p class="note">
+    Sumber: laporan keuangan konsolidasian interim PT Cisarua Mountain Dairy Tbk untuk periode 3, 6, dan 9 bulan 2026 (tidak diaudit), serta laporan tahunan 2025. Laporan pertumbuhan berkelanjutan 2023 sampai 2025 belum dianalisis di versi ini. Analisis ini bukan rekomendasi investasi.
+  </p>
+</main>
+</div>
+
+<script>
+/* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
+const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
+const DRIVE_FOLDER_ID = "1nsYI1dEZ_F7257KlHxvHE8G_K0JyCJj3";
+
+/* ===== Gate: password sama dengan ULTJ dan SAT ===== */
+const SALT = "ultj-analisys-v1";
+const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002";
+
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function showApp() {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderCharts();
+  loadDokumen();
+}
+async function tryUnlock() {
+  const err = document.getElementById("gerr");
+  const h = await sha256Hex(SALT + document.getElementById("pw").value);
+  if (h === PW_HASH) { sessionStorage.setItem("cmry_ok", "1"); showApp(); }
+  else { err.textContent = "Password salah."; }
+}
+document.getElementById("unlock").addEventListener("click", tryUnlock);
+document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+/* ===== Daftar dokumen otomatis dari Google Drive ===== */
+async function loadDokumen() {
+  const list = document.getElementById("listDok");
+  const info = document.getElementById("infoDok");
+  const q = "'" + DRIVE_FOLDER_ID + "' in parents and mimeType='application/pdf' and trashed=false";
+  const url = "https://www.googleapis.com/drive/v3/files"
+    + "?q=" + encodeURIComponent(q)
+    + "&fields=" + encodeURIComponent("files(id,name)")
+    + "&orderBy=name&pageSize=100"
+    + "&key=" + DRIVE_API_KEY;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    list.innerHTML = "";
+    if (!data.files || data.files.length === 0) { info.textContent = "Belum ada dokumen PDF di folder Drive."; return; }
+    info.textContent = data.files.length + " dokumen tersedia.";
+    for (const f of data.files) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://drive.google.com/file/d/" + f.id + "/view";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = f.name;
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+  } catch (e) {
+    info.textContent = "Daftar tidak bisa dimuat (" + e.message + "). Buka folder Drive secara langsung dari tautan di atas.";
+  }
+}
+
+/* ===== Grafik ===== */
+const charts = [];
+function addChart(id, type, labels, datasets, extraOpts, paint, keepAspect) {
+  const opts = Object.assign({ responsive:true, maintainAspectRatio: !!keepAspect, plugins:{ legend:{ position:"bottom" } } }, extraOpts || {});
+  const ch = new Chart(document.getElementById(id), { type, data:{ labels, datasets }, options: opts });
+  charts.push({ ch, paint });
+  return ch;
+}
+function updateChartColors() {
+  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
+  const soft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim() || "#b8c3dd";
+  for (const { ch, paint } of charts) { paint(ch, acc, soft); ch.update(); }
+}
+
+let chartsDone = false;
+function renderCharts() {
+  if (chartsDone) return;
+  chartsDone = true;
+  if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
+  const Q = ["Q1", "Q2", "Q3"];
+  const barPaint2 = (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; };
+  const linePaint2 = (ch, acc) => {
+    ch.data.datasets[0].borderColor = "#9aa5bd"; ch.data.datasets[0].backgroundColor = "#9aa5bd";
+    ch.data.datasets[1].borderColor = acc; ch.data.datasets[1].backgroundColor = acc;
+  };
+  const pctTicks = { ticks:{ callback: v => v + "%" } };
+
+  addChart("chRev", "bar", Q, [
+    { label: "2025", data: [2437, 2711, 2725] },
+    { label: "2026", data: [3117, 3344, 3469] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chRevMini", "bar", Q, [
+    { label: "2025", data: [2437, 2711, 2725] },
+    { label: "2026", data: [3117, 3344, 3469] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chNp", "bar", Q, [
+    { label: "2025", data: [480, 514, 607] },
+    { label: "2026", data: [555, 617, 546] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chNpMini", "bar", Q, [
+    { label: "2025", data: [480, 514, 607] },
+    { label: "2026", data: [555, 617, 546] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chOm", "line", Q, [
+    { label: "Margin laba usaha 2025", data: [20.7, 23.3, 24.3], tension:.25 },
+    { label: "Margin laba usaha 2026", data: [20.2, 18.3, 17.9], tension:.25 },
+  ], { scales:{ y: Object.assign({ beginAtZero:false }, pctTicks) } }, linePaint2);
+
+  addChart("chSell", "bar", Q, [
+    { label: "2025", data: [21.3, 20.3, 20.2] },
+    { label: "2026", data: [21.0, 20.8, 22.8] },
+  ], { scales:{ y: Object.assign({ beginAtZero:true }, pctTicks) } }, barPaint2);
+
+  addChart("chCash", "bar", ["31 Des 2025", "30 Sep 2026"], [
+    { label: "Kas dan setara kas", data: [948, 341] },
+    { label: "Investasi surat berharga", data: [753, 558] },
+  ], { scales:{ x:{ stacked:true }, y:{ stacked:true, beginAtZero:true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = soft; });
+
+  addChart("chFy", "bar", ["2022", "2023", "2024", "2025"], [
+    { label: "Penjualan neto", data: [6378, 7773, 9026, 10724] },
+    { label: "Laba bersih (pemilik)", data: [1061, 1242, 1519, 2033] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  updateChartColors();
+}
+
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
+if (sessionStorage.getItem("cmry_ok") === "1") showApp();
+</script>
+</body>
+</html>
