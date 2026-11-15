@@ -120,6 +120,40 @@
     <p class="note">Q4 2025 (laporan tahunan 2025 dikurangi 9M 2025): penjualan neto 2.851, laba usaha 471, laba bersih 432. Beban penjualan dan pemasaran Q1 dan Q2 2026 dihitung dari selisih kumulatif. Angka di atas dihitung ulang dari laporan keuangan, bukan dari slide.</p>
   </div>
 
+  <div class="grid2">
+    <div class="card">
+      <h2>Arus kas 9 bulan (Rp miliar)</h2>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Komponen</th><th>9M 2025</th><th>9M 2026</th><th>Perubahan</th></tr></thead>
+        <tbody>
+          <tr><td>Pajak penghasilan dibayar</td><td>316</td><td>457</td><td class="down">+44,6%</td></tr>
+          <tr><td>Kas neto dari aktivitas operasi</td><td>1.521</td><td>1.217</td><td class="down">-20,0%</td></tr>
+          <tr><td>Belanja aset tetap dan uang muka</td><td>372</td><td>692</td><td class="down">+86,0%</td></tr>
+          <tr><td>Surat berharga, neto (jual dikurangi beli)</td><td>-158</td><td>358</td><td class="up">masuk kas</td></tr>
+          <tr><td>Kas neto dari aktivitas investasi</td><td>-395</td><td>-235</td><td class="up">+40,6% lebih kecil</td></tr>
+          <tr><td>Dividen dibayar</td><td>-1.190</td><td>-1.587</td><td class="down">+33,3%</td></tr>
+          <tr><td>Penurunan kas dan setara kas</td><td>-66</td><td>-607</td><td class="down">-</td></tr>
+          <tr><td>Kas dan setara kas akhir periode</td><td>1.215</td><td>341</td><td class="down">-71,9%</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note">Dihitung dari laporan arus kas interim konsolidasian 9 bulan, tidak diaudit.</p>
+    </div>
+    <div class="card">
+      <h2>Ke mana kas CMRY pergi, 9M 2025 vs 9M 2026</h2>
+      <canvas id="chCf"></canvas>
+      <p class="note">Nilai positif berarti kas masuk, nilai negatif berarti kas keluar.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Penjelasan penurunan kas</h2>
+    <p style="font-size:14px;line-height:1.55;margin:0 0 8px">Kas dan setara kas turun Rp607 miliar dalam 9 bulan 2026, dari Rp948 miliar menjadi Rp341 miliar. Penyebab terbesarnya adalah dividen Rp1.587 miliar, naik 33,3% dibanding tahun lalu. Kedua, belanja aset tetap dan uang muka naik menjadi Rp692 miliar, hampir dua kali lipat dari Rp372 miliar.</p>
+    <p style="font-size:14px;line-height:1.55;margin:0 0 8px">Arus kas operasi juga melemah. Kas dari operasi turun 20% menjadi Rp1.217 miliar, karena pajak yang dibayar naik 44,6%. Penjualan surat berharga memberi tambahan kas Rp358 miliar, tetapi belum cukup untuk menutup dividen dan belanja modal.</p>
+    <p class="note">Total kas dan sekuritas turun Rp802 miliar sejak 31 Desember 2025. Selisih sekitar Rp163 miliar antara arus kas sekuritas dan perubahan saldo sekuritas belum saya telusuri. Perlu dicek di catatan laporan keuangan tentang investasi surat berharga.</p>
+  </div>
+
   <div class="card" style="margin-bottom:16px">
     <h2>Temuan dan implikasi untuk area</h2>
     <ol class="insights">
@@ -135,7 +169,7 @@
       <li><strong>Laba bersih Q3 turun 10,1% walau penjualan naik 27,3%.</strong> Laba bersih 9 bulan masih naik 7,3%, jadi tekanannya terkonsentrasi di Q3. Pendapatan keuangan di Q3 juga lebih kecil dibanding tahun lalu. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: jika laba Q4 tetap tertekan, CMRY bisa mengetatkan belanja di area. Pantau apakah promo mereka berkurang di Q4 atau awal 2027.</span>
         <div class="mini"><canvas id="chNpMini"></canvas></div>
       </li>
-      <li><strong>Kas dan sekuritas turun Rp802 miliar (-47%) sejak 31 Desember 2025.</strong> Kas dan setara kas turun dari Rp948 miliar menjadi Rp341 miliar. Penyebab penurunan belum bisa dipastikan dari laporan posisi keuangan saja. <span class="tag">fakta laporan, penyebab perlu dicek di laporan arus kas</span><br><span class="note">Aksi: pantau apakah CMRY menahan pembelian stok, memperpanjang pembayaran ke pemasok, atau justru membelanjakan kas untuk investasi.</span>
+      <li><strong>Kas dan sekuritas turun Rp802 miliar (-47%) sejak 31 Desember 2025, terutama karena dividen dan belanja modal.</strong> Dividen dibayar Rp1.587 miliar dan belanja aset tetap plus uang muka Rp692 miliar, sementara kas operasi hanya Rp1.217 miliar. <span class="tag">perhitungan dari laporan arus kas</span><br><span class="note">Aksi: belanja modal yang naik dua kali lipat menandakan kapasitas produksi atau distribusi baru. Pantau apa yang dibangun dan kapan mulai beroperasi, karena itu menentukan pasokan CMRY di area.</span>
         <div class="mini"><canvas id="chCash"></canvas></div>
       </li>
       <li><strong>Tahun 2025 adalah tahun pertumbuhan terkuat dalam empat tahun terakhir.</strong> Penjualan neto 2025 naik 18,8% menjadi Rp10.724 miliar, laba bersih pemilik naik 33,8%, dan margin laba kotor 45,3%. <span class="tag">fakta laporan tahunan 2025</span><br><span class="note">Aksi: CMRY punya basis modal dan margin yang kuat untuk terus berpromosi. Jangan menilai ancamannya hanya dari penurunan laba Q3.</span>
@@ -150,8 +184,8 @@
       <li><strong>Minggu ini: catat promo dan aktivasi CMRY di 10 toko modern prioritas area.</strong> Tulis jenis promo, harga, dan posisi di rak setiap minggu. <br><span class="note">Ukuran berhasil: ada data empat minggu berturut-turut untuk 10 toko, dibandingkan dengan promo brand Anda.</span></li>
       <li><strong>Bulan ini: petakan ruang rak dan share kategori susu serta yogurt CMRY di area.</strong> Gunakan kenaikan penjualan CMRY 27% sebagai alasan untuk mengecek posisi rak brand Anda. <br><span class="note">Ukuran berhasil: ada tabel share rak per toko yang bisa dibawa ke pertemuan dengan key account.</span></li>
       <li><strong>Sebelum pertemuan berikutnya: siapkan skenario jika CMRY mengurangi promosi di Q4.</strong> Jika laba usaha mereka terus turun, belanja promosi bisa dipangkas atau dialihkan ke channel lain. <br><span class="note">Ukuran berhasil: rencana alokasi promo area sudah punya dua skenario, naik dan turun.</span></li>
-      <li><strong>Pantau tanda kas ketat di CMRY.</strong> Kas dan sekuritas turun Rp802 miliar sejak Desember 2025. Catat jika ketersediaan produk CMRY di area mulai kosong atau promosi mendadak berhenti. <br><span class="note">Ukuran berhasil: ada catatan kejadian stok kosong atau promo berhenti, dengan tanggal dan toko.</span></li>
-      <li><strong>Setelah laporan arus kas dibaca: perbarui halaman ini.</strong> Perlu dipastikan apakah penurunan kas berasal dari belanja modal, dividen, atau modal kerja. <br><span class="note">Ukuran berhasil: halaman ini punya penjelasan penyebab penurunan kas dari laporan arus kas.</span></li>
+      <li><strong>Pantau tanda perubahan pasokan CMRY di area.</strong> Dengan belanja modal yang naik dan dividen besar, catat jika ketersediaan produk CMRY di area mulai kosong atau promosi mendadak berhenti. <br><span class="note">Ukuran berhasil: ada catatan kejadian stok kosong atau promo berhenti, dengan tanggal dan toko.</span></li>
+      <li><strong>Pantau proyek belanja modal CMRY yang sedang berjalan.</strong> Cek lokasi dan waktu mulai beroperasi pabrik atau gudang baru yang didanai kas tahun ini. <br><span class="note">Ukuran berhasil: daftar proyek CMRY dengan tanggal operasi, dan dampaknya ke pasokan area sudah tercatat.</span></li>
     </ol>
     <p class="note">Rencana ini disusun dari laporan keuangan CMRY. Sebelum dijalankan, cocokkan dengan data promo, sell-out, dan distributor di area Anda.</p>
   </div>
@@ -301,6 +335,11 @@ function renderCharts() {
     { label: "Penjualan neto", data: [6378, 7773, 9026, 10724] },
     { label: "Laba bersih (pemilik)", data: [1061, 1242, 1519, 2033] },
   ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chCf", "bar", ["Operasi", "Aset tetap + uang muka", "Dividen", "Surat berharga (neto)"], [
+    { label: "9M 2025", data: [1521, -372, -1190, -158] },
+    { label: "9M 2026", data: [1217, -692, -1587, 358] },
+  ], { scales:{ y:{ beginAtZero:false } } }, barPaint2, true);
 
   updateChartColors();
 }

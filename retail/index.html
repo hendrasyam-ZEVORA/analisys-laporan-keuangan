@@ -4,30 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Pertumbuhan Toko Retail 2026 (Alfamart, Alfamidi, Indomaret)</title>
+<title>Pertumbuhan Toko Retail 2026 (sudut pandang Area Manager)</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; }
+  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
   * { box-sizing:border-box; }
   body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
   header { background:var(--accent); color:#fff; padding:20px 24px; }
   header h1 { margin:0; font-size:20px; }
   header p { margin:4px 0 0; opacity:.85; font-size:13px; }
-  main { max-width:900px; margin:0 auto; padding:20px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px; margin-bottom:16px; }
-  .card h2 { margin:0 0 8px; font-size:16px; }
-  .lead { font-size:15px; line-height:1.6; }
-  p { line-height:1.6; font-size:14px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; border-top:3px solid var(--accent); }
+  .kpi .label { font-size:12px; color:var(--muted); }
+  .kpi .value { font-size:24px; font-weight:700; margin-top:4px; }
+  .kpi .sub { font-size:12px; margin-top:4px; color:var(--muted); }
+  .up { color:var(--green); } .down { color:var(--red); }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
+  .card h2 { margin:0 0 10px; font-size:15px; }
   table { width:100%; border-collapse:collapse; font-size:13px; }
-  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
   th:first-child, td:first-child { text-align:left; }
   th { color:var(--muted); font-weight:600; }
-  .up { color:var(--green); } .down { color:var(--red); }
-  .note { font-size:12px; color:var(--muted); line-height:1.5; }
-  .mini { position:relative; height:220px; margin-top:8px; }
+  ol.insights > li { margin-bottom:18px; line-height:1.45; font-size:14px; }
   .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; }
-  ol li { margin-bottom:12px; line-height:1.55; font-size:14px; }
-  a.back { color:var(--accent); font-size:13px; text-decoration:none; }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  canvas { max-height:280px; }
+  .mini { position:relative; height:200px; max-width:560px; margin-top:8px; }
   #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
   #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
   #gate h2 { margin:0 0 6px; font-size:18px; }
@@ -40,10 +44,12 @@
   @media print {
     @page { size:A4 landscape; margin:10mm; }
     * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    #gate, .pdf-btn, a.back { display:none !important; }
+    #gate, .pdf-btn { display:none !important; }
     #app { display:block !important; }
     main { padding:0; max-width:none; }
-    .card { break-inside:avoid; page-break-inside:avoid; }
+    header { padding:14px 18px; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
     .mini { height:180px !important; }
   }
 </style>
@@ -52,7 +58,7 @@
 
 <div id="gate">
   <div class="box">
-    <h2>Pertumbuhan Toko Retail</h2>
+    <h2>Pertumbuhan Toko Retail 2026</h2>
     <p>Masukkan password untuk melihat analisis.</p>
     <input id="pw" type="password" autocomplete="off" placeholder="Password">
     <button id="unlock">Buka</button>
@@ -62,22 +68,121 @@
 
 <div id="app" class="hidden">
 <header>
-  <a class="back" href="../" style="color:#fff;opacity:.85">← Kembali ke daftar</a>
-  <h1>Pertumbuhan Toko Retail 2026</h1>
-  <p>Alfamart, Alfamidi, dan pembanding Indomaret, Lawson, Circle K. Data jumlah toko dari presentasi manajemen SAT per 31 Desember 2025, 31 Maret, 30 Juni, dan 30 September 2026.</p>
+  <h1>Pertumbuhan Toko Retail 2026: sudut pandang Area Manager</h1>
+  <p>Pasar groceries Indonesia, per channel dan per wilayah, YTD September 2026 dibanding YTD September 2025. Angka pasar dari NielsenIQ dalam presentasi manajemen Alfamart, angka toko dari presentasi yang sama.</p>
   <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
 </header>
 
 <main>
-  <div class="card">
-    <h2>Ringkasan</h2>
-    <p class="lead">Dalam sembilan bulan 2026, jumlah toko grup SAT naik dari 24.434 menjadi 25.045, atau bertambah 611 toko (+2,5%). Alfamart sendiri bertambah 493 toko, sementara Indomaret bertambah 780 toko. Pendapatan SAT naik 7,2% dalam periode yang sama, jadi pertumbuhan penjualan lebih besar dari pertumbuhan jumlah toko.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Groceries Indonesia, YTD Sep 2026</div><div class="value">+6,3%</div><div class="sub up">naik dari +2,3% YTD Sep 2025</div></div>
+    <div class="kpi"><div class="label">Modern trade, YTD Sep 2026</div><div class="value">+8,7%</div><div class="sub up">naik dari +0,8% YTD Sep 2025</div></div>
+    <div class="kpi"><div class="label">General trade, YTD Sep 2026</div><div class="value">+4,1%</div><div class="sub down">stagnan, pangsa turun 1,1 poin</div></div>
+    <div class="kpi"><div class="label">Toko grup Alfamart, 30 Sep 2026</div><div class="value">25.045</div><div class="sub up">+611 toko sejak akhir 2025</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Pertumbuhan per channel, YTD Sep 2025 vs YTD Sep 2026</h2>
+      <canvas id="chChannel"></canvas>
+    </div>
+    <div class="card">
+      <h2>Pangsa channel, YTD Sep 2025 vs YTD Sep 2026 (%)</h2>
+      <canvas id="chShare"></canvas>
+    </div>
   </div>
 
   <div class="card">
-    <h2>Jumlah toko Alfamart per kuartal</h2>
-    <div class="mini"><canvas id="chStock"></canvas></div>
-    <table style="margin-top:10px">
+    <h2>Pertumbuhan dan pangsa per channel</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>Channel</th><th>Pertumbuhan YTD Sep 25</th><th>Pertumbuhan YTD Sep 26</th><th>Pangsa YTD Sep 25</th><th>Pangsa YTD Sep 26</th><th>Perubahan pangsa</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>General trade (Retail GT)</td><td>4,2%</td><td>4,1%</td><td>51,9%</td><td>50,8%</td><td class="down">-1,1 poin</td></tr>
+        <tr><td>Modern trade, total</td><td>0,8%</td><td>8,7%</td><td>-</td><td>-</td><td>-</td></tr>
+        <tr><td>&nbsp;&nbsp;Minimarket</td><td>1,2%</td><td>9,0%</td><td>37,7%</td><td>38,6%</td><td class="up">+0,9 poin</td></tr>
+        <tr><td>&nbsp;&nbsp;Super / hyper</td><td>-0,7%</td><td>7,8%</td><td>10,4%</td><td>10,6%</td><td class="up">+0,2 poin</td></tr>
+        <tr><td>Grosir</td><td colspan="5" style="text-align:left;color:var(--muted)">Tidak dipisahkan di presentasi manajemen. Belum bisa dihitung dari sumber ini.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Pertumbuhan dan pangsa channel dibaca dari slide NielsenIQ "Indonesia Groceries Growth" dan "Trade Channel Contribution". Pangsa minimarket, super/hyper, dan general trade tidak sama dengan pangsa toko, karena dihitung dari penjualan.</p>
+  </div>
+
+  <div class="card">
+    <h2>Pertumbuhan groceries per wilayah, YTD Sep 2026</h2>
+    <div class="mini" style="max-width:none;height:260px"><canvas id="chRegion"></canvas></div>
+    <div style="overflow-x:auto;margin-top:12px">
+    <table>
+      <thead>
+        <tr><th>Wilayah</th><th>Pertumbuhan groceries</th><th>Kontribusi ke pertumbuhan nasional</th><th>Kategori untuk area</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Greater Jakarta</td><td>2,7%</td><td>17,4%</td><td>Java, besar tapi lambat</td></tr>
+        <tr><td>West Java</td><td>8,3%</td><td>16,7%</td><td>Java, besar</td></tr>
+        <tr><td>Central Java</td><td>2,5%</td><td>16,5%</td><td>Java, besar tapi lambat</td></tr>
+        <tr><td>East Java</td><td>2,6%</td><td>13,0%</td><td>Java, besar tapi lambat</td></tr>
+        <tr><td>South Sumatra</td><td>5,6%</td><td>6,7%</td><td>Sumatra</td></tr>
+        <tr><td>North Sumatra</td><td>8,3%</td><td>5,1%</td><td>Sumatra</td></tr>
+        <tr><td>Central Sumatra</td><td>9,8%</td><td>3,9%</td><td>Sumatra, tumbuh cepat</td></tr>
+        <tr><td>Kalimantan</td><td>12,2%</td><td>7,6%</td><td>Luar Jawa, tumbuh cepat</td></tr>
+        <tr><td>Sulawesi</td><td>11,6%</td><td>6,4%</td><td>Luar Jawa, tumbuh cepat</td></tr>
+        <tr><td>Bali Nusra</td><td>13,6%</td><td>4,7%</td><td>Luar Jawa, tumbuh cepat</td></tr>
+        <tr><td>Eastern Indonesia</td><td>30,2%</td><td>2,1%</td><td>Luar Jawa, basis kecil</td></tr>
+        <tr><td><strong>Indonesia</strong></td><td><strong>6,3%</strong></td><td><strong>100%</strong></td><td>-</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Kontribusi adalah porsi setiap wilayah terhadap total pertumbuhan groceries nasional, dibaca dari slide "Indonesia Groceries Growth". Kolom kategori adalah pengelompokan dari penulis.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Pertumbuhan modern trade per wilayah, YTD Sep 2026</h2>
+      <canvas id="chMtRegion"></canvas>
+      <p class="note">Java MT tumbuh 6,1% dan menyumbang 62,0% pertumbuhan MT nasional. Other Islands MT tumbuh 14,4% dan menyumbang 21,5%. Sumatra MT tumbuh 11,9% dan menyumbang 16,5%.</p>
+    </div>
+    <div class="card">
+      <h2>Pangsa toko grup Alfamart per wilayah (%)</h2>
+      <canvas id="chGeo"></canvas>
+      <p class="note">Sejak 2025, toko dari dua cabang dipindah dari Java ke Greater Jakarta setelah konsolidasi back-office. Ini hanya menjelaskan pergeseran antara Java dan Greater Jakarta.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Temuan dari sudut pandang area</h2>
+    <ol class="insights">
+      <li><strong>Pertumbuhan pasar sekarang datang dari modern trade, bukan general trade.</strong> Modern trade naik 8,7% dan minimarket naik 9,0%. General trade hanya 4,1%, sedikit turun dari 4,2%. <span class="tag">fakta laporan</span><br><span class="note">Aksi: untuk dairy yang masih banyak di GT, pertumbuhan volume harus datang dari jumlah outlet yang dilayani distributor, bukan dari pasar yang tumbuh sendiri.</span></li>
+      <li><strong>Java menyumbang sekitar 64% pertumbuhan groceries, tetapi tumbuhnya paling lambat.</strong> Greater Jakarta, Central Java, dan East Java tumbuh 2,5% sampai 2,7%. West Java tumbuh 8,3%. <span class="tag">perhitungan dari kontribusi slide</span><br><span class="note">Aksi: di Java, volume datang dari besarnya basis, bukan dari pertumbuhan. Jaga share rak dan frekuensi kunjungan di kota-kota besar.</span></li>
+      <li><strong>Luar Jawa tumbuh cepat, tetapi basisnya masih kecil.</strong> Eastern Indonesia tumbuh 30,2% dengan kontribusi 2,1%. Bali Nusra 13,6%, Kalimantan 12,2%, dan Sulawesi 11,6%. <span class="tag">fakta laporan</span><br><span class="note">Aksi: jika area Anda di luar Jawa, pertumbuhan pasar tinggi berarti peluang listing dan distribusi lebih cepat dibanding Java.</span>
+        <div class="mini"><canvas id="chKontribusi"></canvas></div>
+      </li>
+      <li><strong>Indomaret menambah toko paling banyak dibanding Alfamart dan Alfamidi.</strong> Indomaret bertambah 780 toko dalam 9 bulan, Alfamart 493, dan Alfamidi 115. <span class="tag">fakta laporan, dihitung dari slide</span><br><span class="note">Aksi: di kota yang ada toko Indomaret baru, cek posisi rak dairy dan promo di toko itu. Indomaret adalah pesaing yang paling cepat menambah titik jual.</span>
+        <div class="mini"><canvas id="chCompare"></canvas></div>
+      </li>
+      <li><strong>Toko Alfamart semakin banyak di luar Jawa.</strong> Pangsa toko grup di luar Jawa naik ke 37,7% dari 36,6% di 2025, sementara pangsa Java turun ke 33,5% dari 39,4%. Reklasifikasi hanya memindahkan toko dari Java ke Greater Jakarta, jadi tidak ikut menjelaskan kenaikan pangsa luar Jawa. <span class="tag">fakta laporan</span><br><span class="note">Aksi: cek apakah distributor di luar Jawa sudah siap melayani toko baru, terutama dari gudang dan hub yang ada.</span></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Rencana aksi untuk area (urut prioritas)</h2>
+    <ol class="insights">
+      <li><strong>Minggu ini: petakan area Anda ke tabel wilayah.</strong> Tentukan apakah area Anda termasuk Java yang besar tapi lambat, atau luar Jawa yang cepat tapi basisnya kecil. <br><span class="note">Ukuran berhasil: ada satu halaman yang memetakan setiap kota di area ke kategori wilayah, lengkap dengan omzet dairy.</span></li>
+      <li><strong>Bulan ini: minta daftar toko baru minimarket per kota di area.</strong> Minta ke distributor atau tim Alfamart, Alfamidi, dan Indomaret. Presentasi hanya memberi jumlah total, jadi lokasi toko baru belum diketahui. <br><span class="note">Ukuran berhasil: daftar toko baru per kota sudah ada, dan SKU dairy inti terpasang di toko baru dalam 30 hari.</span></li>
+      <li><strong>Bulan ini: audit outlet general trade yang dilayani distributor di area.</strong> Pangsa GT turun 1,1 poin ke 50,8%, jadi cek apakah outlet GT di area Anda ikut berkurang atau tetap. <br><span class="note">Ukuran berhasil: jumlah outlet GT aktif per kota dibandingkan tiga bulan lalu, dengan selisihnya tercatat.</span></li>
+      <li><strong>Java: pertahankan share di kota dengan kontribusi terbesar.</strong> Prioritaskan Greater Jakarta, West Java, Central Java, dan East Java, karena di sana pertumbuhan nasional paling banyak datang. <br><span class="note">Ukuran berhasil: share dairy di kota-kota itu tidak turun dibanding bulan sebelumnya.</span></li>
+      <li><strong>Luar Jawa: uji listing modern trade di wilayah yang tumbuh di atas 10%.</strong> Pilih Kalimantan, Sulawesi, Bali Nusra, atau Sumatra Tengah sebagai percontohan. <br><span class="note">Ukuran berhasil: listing SKU inti di minimal 20 toko modern percontohan dalam satu kuartal.</span></li>
+      <li><strong>Lengkapi data grosir.</strong> Presentasi manajemen tidak memisahkan grosir, jadi pertumbuhannya belum bisa dihitung. Minta data grosir dari tim sales dan distributor. <br><span class="note">Ukuran berhasil: pertumbuhan grosir area sudah ada angkanya dan bisa dibandingkan dengan GT.</span></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Toko Alfamart dan pesaing minimarket</h2>
+    <div class="mini" style="max-width:none;height:220px"><canvas id="chStock"></canvas></div>
+    <div style="overflow-x:auto;margin-top:10px">
+    <table>
       <thead><tr><th>Toko</th><th>31 Des 2025</th><th>31 Mar 2026</th><th>30 Jun 2026</th><th>30 Sep 2026</th><th>Tambah 9 bulan</th></tr></thead>
       <tbody>
         <tr><td>Alfamart</td><td>21.120</td><td>21.287</td><td>21.442</td><td>21.613</td><td class="up">+493 (+2,3%)</td></tr>
@@ -87,43 +192,12 @@
         <tr><td>Circle K</td><td>501</td><td>498</td><td>513</td><td>522</td><td class="up">+21</td></tr>
       </tbody>
     </table>
+    </div>
     <p class="note">Angka dari slide "Modern Trade Stores" tiap kuartal. Angka 31 Des 2025 untuk Lawson dan Circle K mengikuti slide Q3 2026. Slide Q1 2026 mencatat 355 dan 501, jadi ada selisih kecil antar slide.</p>
   </div>
 
-  <div class="card">
-    <h2>Penambahan toko bersih grup SAT per kuartal</h2>
-    <div class="mini"><canvas id="chNet"></canvas></div>
-    <p class="note">Total toko grup: 24.434 (akhir 2025), 24.645 (Maret), 24.830 (Juni), 25.045 (September). Penambahan per kuartal dihitung dari selisih total toko tiap periode.</p>
-  </div>
-
-  <div class="card">
-    <h2>Bandingkan penambahan toko 9 bulan 2026</h2>
-    <div class="mini"><canvas id="chCompare"></canvas></div>
-  </div>
-
-  <div class="card">
-    <h2>Temuan dari data</h2>
-    <ol>
-      <li><strong>Penambahan toko grup stabil di setiap kuartal.</strong> Penambahan bersih grup adalah 209 toko di Q1, 187 di Q2, dan 215 di Q3 2026. <span class="tag">fakta laporan</span></li>
-      <li><strong>Alfamart menambah sekitar 160 toko per kuartal.</strong> Penambahannya 167 di Q1, 155 di Q2, dan 171 di Q3. Ini lebih lambat dari Indomaret, yang menambah 206, 279, dan 295 toko di periode yang sama. <span class="tag">fakta laporan, dihitung dari slide</span></li>
-      <li><strong>Pertumbuhan penjualan lebih besar dari pertumbuhan toko.</strong> Toko grup naik 2,5% dan pendapatan naik 7,2% dalam sembilan bulan. Selisih ini menunjukkan kenaikan penjualan per toko, yang kemungkinan datang dari toko lama. Data penjualan per toko belum tersedia di presentasi, jadi ini masih perlu dikonfirmasi. <span class="tag">perhitungan, perlu verifikasi</span></li>
-      <li><strong>Pusat distribusi tidak bertambah di 2026.</strong> Alfamart tetap memakai 51 gudang yang ada, dan fokusnya beralih ke optimasi kapasitas. Toko baru harus dilayani dari jaringan yang sama. <span class="tag">fakta laporan</span></li>
-      <li><strong>Lawson menyusut, Circle K tumbuh.</strong> Lawson turun dari 353 menjadi 340 toko, sementara Circle K naik dari 501 menjadi 522 toko sampai 30 September 2026. <span class="tag">fakta laporan</span></li>
-    </ol>
-  </div>
-
-  <div class="card">
-    <h2>Apa yang perlu dilakukan di area</h2>
-    <ol>
-      <li><strong>Minta daftar toko baru per kota dari distributor atau tim Alfamart.</strong> Presentasi hanya memberi jumlah total, jadi lokasi toko baru di area Anda belum diketahui. Ukuran berhasil: punya daftar toko baru per kota sebelum akhir bulan.</li>
-      <li><strong>Pastikan SKU dairy inti ikut masuk ke toko baru di hari pertama.</strong> Dengan penambahan sekitar 160 toko Alfamart per kuartal, toko baru adalah peluang paling cepat untuk menambah penjualan. Ukuran berhasil: SKU inti terpasang di semua toko baru dalam 30 hari.</li>
-      <li><strong>Pertahankan rak di toko lama.</strong> Pertumbuhan penjualan lebih besar dari pertumbuhan toko, jadi toko lama tetap sumber penjualan utama. Cek rak dan ketersediaan di toko lama sebelum fokus ke toko baru.</li>
-      <li><strong>Waspadai Indomaret di kota yang sama.</strong> Indomaret menambah toko paling cepat di antara pemain minimarket. Di kota yang ada toko Indomaret baru, cek apakah posisi rak dairy kita tetap terjaga.</li>
-    </ol>
-  </div>
-
   <p class="note">
-    Sumber: presentasi manajemen PT Sumber Alfaria Trijaya Tbk untuk Q1 2026, Q2 2026, dan Q3 2026, termasuk slide "Modern Trade Stores" dan "Stores Network" dari NielsenIQ dan manajemen. Ini presentasi, bukan laporan audit. Analisis ini bukan rekomendasi investasi.
+    Sumber: presentasi manajemen PT Sumber Alfaria Trijaya Tbk, September 2026 (YTD Sep 2026) dan presentasi Q1 2026 hingga Q3 2026, termasuk slide NielsenIQ "Indonesia Groceries Growth", "MT Growth by Region", "Trade Channel Contribution", dan "Stores Network". Angka pertumbuhan Q1 dan semester I tidak dipakai di halaman ini karena belum diverifikasi ulang dari slide. Ini presentasi, bukan laporan audit. Analisis ini bukan rekomendasi investasi.
   </p>
 </main>
 </div>
@@ -155,31 +229,67 @@ function addChart(id, type, labels, datasets, extra, paint) {
   charts.push({ ch, paint });
 }
 function updateChartColors() {
-  const cs = getComputedStyle(document.documentElement);
   const acc = "#1f3a8a", soft = "#b8c3dd";
   for (const { ch, paint } of charts) { if (paint) paint(ch, acc, soft); ch.update(); }
 }
 window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
+
+const pct = { ticks:{ callback: v => v + "%" } };
+const pair = (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; };
 
 let chartsDone = false;
 function renderCharts() {
   if (chartsDone || typeof Chart === "undefined") return;
   chartsDone = true;
 
-  addChart("chStock", "bar", ["31 Des 2025", "31 Mar 2026", "30 Jun 2026", "30 Sep 2026"], [
-    { label:"Toko Alfamart", data:[21120, 21287, 21442, 21613] },
-  ], { plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:false } } },
-  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; });
+  addChart("chChannel", "bar", ["Groceries Indonesia", "Modern trade", "General trade", "MT super/hyper", "MT minimarket"], [
+    { label:"YTD Sep 2025", data:[2.3, 0.8, 4.2, -0.7, 1.2] },
+    { label:"YTD Sep 2026", data:[6.3, 8.7, 4.1, 7.8, 9.0] },
+  ], { scales:{ y: Object.assign({ beginAtZero:true }, pct) } }, pair);
 
-  addChart("chNet", "bar", ["Q1 2026", "Q2 2026", "Q3 2026"], [
-    { label:"Penambahan toko bersih grup", data:[209, 187, 215] },
-  ], { plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } },
-  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; });
+  addChart("chShare", "bar", ["General trade", "Minimarket", "Super / hyper"], [
+    { label:"YTD Sep 2025", data:[51.9, 37.7, 10.4] },
+    { label:"YTD Sep 2026", data:[50.8, 38.6, 10.6] },
+  ], { scales:{ y: Object.assign({ beginAtZero:false }, pct) } }, pair);
+
+  addChart("chRegion", "bar", ["Eastern Indonesia", "Bali Nusra", "Kalimantan", "Sulawesi", "C. Sumatra", "N. Sumatra", "W. Java", "S. Sumatra", "E. Java", "C. Java", "Greater Jakarta"], [
+    { label:"Pertumbuhan groceries YTD Sep 2026", data:[30.2, 13.6, 12.2, 11.6, 9.8, 8.3, 8.3, 5.6, 2.6, 2.5, 2.7] },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false } }, scales:{ x: Object.assign({ beginAtZero:true }, pct) } },
+  (ch, acc) => {
+    const java = ["W. Java","E. Java","C. Java","Greater Jakarta"];
+    ch.data.datasets[0].backgroundColor = ch.data.labels.map(l => java.includes(l) ? acc : "#9aa5bd");
+  });
+
+  addChart("chMtRegion", "bar", ["Indonesia MT", "Sumatra MT", "Other Islands MT", "Java MT"], [
+    { label:"Pertumbuhan MT YTD Sep 2026", data:[8.7, 11.9, 14.4, 6.1] },
+  ], { plugins:{ legend:{ display:false } }, scales:{ y: Object.assign({ beginAtZero:true }, pct) } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = [acc, "#9aa5bd", "#9aa5bd", acc]; });
+
+  addChart("chGeo", "bar", ["2021", "2022", "2023", "2024", "2025", "YTD Sep 2026"], [
+    { label:"Outer Islands", data:[32.2, 33.1, 33.0, 35.1, 36.6, 37.7] },
+    { label:"Java", data:[40.3, 39.9, 40.1, 39.9, 39.4, 33.5] },
+    { label:"Greater Jakarta", data:[27.5, 27.0, 26.9, 25.0, 24.0, 28.8] },
+  ], { scales:{ x:{ stacked:true }, y:{ stacked:true, max:100, ticks:{ callback: v => v + "%" } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = acc;
+    ch.data.datasets[1].backgroundColor = "#9aa5bd";
+    ch.data.datasets[2].backgroundColor = soft;
+  });
+
+  addChart("chKontribusi", "bar", ["Java (4 wilayah)", "Sumatra (3)", "Kalimantan", "Sulawesi", "Bali Nusra", "Eastern Indonesia"], [
+    { label:"Kontribusi ke pertumbuhan groceries (%)", data:[63.6, 15.7, 7.6, 6.4, 4.7, 2.1] },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false } }, scales:{ x: Object.assign({ beginAtZero:true }, pct) } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = [acc, "#9aa5bd", "#9aa5bd", "#9aa5bd", "#9aa5bd", "#9aa5bd"]; });
 
   addChart("chCompare", "bar", ["Alfamart", "Alfamidi", "Indomaret"], [
     { label:"Tambah toko 9 bulan 2026", data:[493, 115, 780] },
   ], { indexAxis:"y", plugins:{ legend:{ display:false } }, scales:{ x:{ beginAtZero:true } } },
   (ch, acc) => { ch.data.datasets[0].backgroundColor = [acc, acc, "#9aa5bd"]; });
+
+  addChart("chStock", "bar", ["31 Des 2025", "31 Mar 2026", "30 Jun 2026", "30 Sep 2026"], [
+    { label:"Toko Alfamart", data:[21120, 21287, 21442, 21613] },
+  ], { plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:false } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; });
 
   updateChartColors();
 }
