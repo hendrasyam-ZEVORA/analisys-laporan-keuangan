@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Pertumbuhan Toko Retail 2026 (Alfamart, Alfamidi, Indomaret)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:#fff; padding:20px 24px; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  main { max-width:900px; margin:0 auto; padding:20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px; margin-bottom:16px; }
+  .card h2 { margin:0 0 8px; font-size:16px; }
+  .lead { font-size:15px; line-height:1.6; }
+  p { line-height:1.6; font-size:14px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; }
+  th:first-child, td:first-child { text-align:left; }
+  th { color:var(--muted); font-weight:600; }
+  .up { color:var(--green); } .down { color:var(--red); }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  .mini { position:relative; height:220px; margin-top:8px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; }
+  ol li { margin-bottom:12px; line-height:1.55; font-size:14px; }
+  a.back { color:var(--accent); font-size:13px; text-decoration:none; }
+  #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
+  #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
+  #gate h2 { margin:0 0 6px; font-size:18px; }
+  #gate p { margin:0 0 16px; font-size:13px; color:var(--muted); }
+  #gate input { width:100%; padding:10px; font-size:15px; border:1px solid var(--line); border-radius:6px; }
+  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
+  #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
+  .hidden { display:none !important; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  @media print {
+    @page { size:A4 landscape; margin:10mm; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #gate, .pdf-btn, a.back { display:none !important; }
+    #app { display:block !important; }
+    main { padding:0; max-width:none; }
+    .card { break-inside:avoid; page-break-inside:avoid; }
+    .mini { height:180px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <h2>Pertumbuhan Toko Retail</h2>
+    <p>Masukkan password untuk melihat analisis.</p>
+    <input id="pw" type="password" autocomplete="off" placeholder="Password">
+    <button id="unlock">Buka</button>
+    <div class="err" id="gerr"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header>
+  <a class="back" href="../" style="color:#fff;opacity:.85">← Kembali ke daftar</a>
+  <h1>Pertumbuhan Toko Retail 2026</h1>
+  <p>Alfamart, Alfamidi, dan pembanding Indomaret, Lawson, Circle K. Data jumlah toko dari presentasi manajemen SAT per 31 Desember 2025, 31 Maret, 30 Juni, dan 30 September 2026.</p>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Ringkasan</h2>
+    <p class="lead">Dalam sembilan bulan 2026, jumlah toko grup SAT naik dari 24.434 menjadi 25.045, atau bertambah 611 toko (+2,5%). Alfamart sendiri bertambah 493 toko, sementara Indomaret bertambah 780 toko. Pendapatan SAT naik 7,2% dalam periode yang sama, jadi pertumbuhan penjualan lebih besar dari pertumbuhan jumlah toko.</p>
+  </div>
+
+  <div class="card">
+    <h2>Jumlah toko Alfamart per kuartal</h2>
+    <div class="mini"><canvas id="chStock"></canvas></div>
+    <table style="margin-top:10px">
+      <thead><tr><th>Toko</th><th>31 Des 2025</th><th>31 Mar 2026</th><th>30 Jun 2026</th><th>30 Sep 2026</th><th>Tambah 9 bulan</th></tr></thead>
+      <tbody>
+        <tr><td>Alfamart</td><td>21.120</td><td>21.287</td><td>21.442</td><td>21.613</td><td class="up">+493 (+2,3%)</td></tr>
+        <tr><td>Alfamidi</td><td>2.507</td><td>2.546</td><td>2.577</td><td>2.622</td><td class="up">+115 (+4,6%)</td></tr>
+        <tr><td>Indomaret</td><td>23.866</td><td>24.072</td><td>24.351</td><td>24.646</td><td class="up">+780 (+3,3%)</td></tr>
+        <tr><td>Lawson</td><td>353</td><td>351</td><td>346</td><td>340</td><td class="down">-13</td></tr>
+        <tr><td>Circle K</td><td>501</td><td>498</td><td>513</td><td>522</td><td class="up">+21</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Angka dari slide "Modern Trade Stores" tiap kuartal. Angka 31 Des 2025 untuk Lawson dan Circle K mengikuti slide Q3 2026. Slide Q1 2026 mencatat 355 dan 501, jadi ada selisih kecil antar slide.</p>
+  </div>
+
+  <div class="card">
+    <h2>Penambahan toko bersih grup SAT per kuartal</h2>
+    <div class="mini"><canvas id="chNet"></canvas></div>
+    <p class="note">Total toko grup: 24.434 (akhir 2025), 24.645 (Maret), 24.830 (Juni), 25.045 (September). Penambahan per kuartal dihitung dari selisih total toko tiap periode.</p>
+  </div>
+
+  <div class="card">
+    <h2>Bandingkan penambahan toko 9 bulan 2026</h2>
+    <div class="mini"><canvas id="chCompare"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h2>Temuan dari data</h2>
+    <ol>
+      <li><strong>Penambahan toko grup stabil di setiap kuartal.</strong> Penambahan bersih grup adalah 209 toko di Q1, 187 di Q2, dan 215 di Q3 2026. <span class="tag">fakta laporan</span></li>
+      <li><strong>Alfamart menambah sekitar 160 toko per kuartal.</strong> Penambahannya 167 di Q1, 155 di Q2, dan 171 di Q3. Ini lebih lambat dari Indomaret, yang menambah 206, 279, dan 295 toko di periode yang sama. <span class="tag">fakta laporan, dihitung dari slide</span></li>
+      <li><strong>Pertumbuhan penjualan lebih besar dari pertumbuhan toko.</strong> Toko grup naik 2,5% dan pendapatan naik 7,2% dalam sembilan bulan. Selisih ini menunjukkan kenaikan penjualan per toko, yang kemungkinan datang dari toko lama. Data penjualan per toko belum tersedia di presentasi, jadi ini masih perlu dikonfirmasi. <span class="tag">perhitungan, perlu verifikasi</span></li>
+      <li><strong>Pusat distribusi tidak bertambah di 2026.</strong> Alfamart tetap memakai 51 gudang yang ada, dan fokusnya beralih ke optimasi kapasitas. Toko baru harus dilayani dari jaringan yang sama. <span class="tag">fakta laporan</span></li>
+      <li><strong>Lawson menyusut, Circle K tumbuh.</strong> Lawson turun dari 353 menjadi 340 toko, sementara Circle K naik dari 501 menjadi 522 toko sampai 30 September 2026. <span class="tag">fakta laporan</span></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Apa yang perlu dilakukan di area</h2>
+    <ol>
+      <li><strong>Minta daftar toko baru per kota dari distributor atau tim Alfamart.</strong> Presentasi hanya memberi jumlah total, jadi lokasi toko baru di area Anda belum diketahui. Ukuran berhasil: punya daftar toko baru per kota sebelum akhir bulan.</li>
+      <li><strong>Pastikan SKU dairy inti ikut masuk ke toko baru di hari pertama.</strong> Dengan penambahan sekitar 160 toko Alfamart per kuartal, toko baru adalah peluang paling cepat untuk menambah penjualan. Ukuran berhasil: SKU inti terpasang di semua toko baru dalam 30 hari.</li>
+      <li><strong>Pertahankan rak di toko lama.</strong> Pertumbuhan penjualan lebih besar dari pertumbuhan toko, jadi toko lama tetap sumber penjualan utama. Cek rak dan ketersediaan di toko lama sebelum fokus ke toko baru.</li>
+      <li><strong>Waspadai Indomaret di kota yang sama.</strong> Indomaret menambah toko paling cepat di antara pemain minimarket. Di kota yang ada toko Indomaret baru, cek apakah posisi rak dairy kita tetap terjaga.</li>
+    </ol>
+  </div>
+
+  <p class="note">
+    Sumber: presentasi manajemen PT Sumber Alfaria Trijaya Tbk untuk Q1 2026, Q2 2026, dan Q3 2026, termasuk slide "Modern Trade Stores" dan "Stores Network" dari NielsenIQ dan manajemen. Ini presentasi, bukan laporan audit. Analisis ini bukan rekomendasi investasi.
+  </p>
+</main>
+</div>
+
+<script>
+const SALT = "ultj-analisys-v1";
+const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002";
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function showApp() {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderCharts();
+}
+async function tryUnlock() {
+  const h = await sha256Hex(SALT + document.getElementById("pw").value);
+  if (h === PW_HASH) { sessionStorage.setItem("retail_ok", "1"); showApp(); }
+  else { document.getElementById("gerr").textContent = "Password salah."; }
+}
+document.getElementById("unlock").addEventListener("click", tryUnlock);
+document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+const charts = [];
+function addChart(id, type, labels, datasets, extra, paint) {
+  const opts = Object.assign({ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:"bottom" } } }, extra || {});
+  const ch = new Chart(document.getElementById(id), { type, data:{ labels, datasets }, options: opts });
+  charts.push({ ch, paint });
+}
+function updateChartColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const acc = "#1f3a8a", soft = "#b8c3dd";
+  for (const { ch, paint } of charts) { if (paint) paint(ch, acc, soft); ch.update(); }
+}
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
+
+let chartsDone = false;
+function renderCharts() {
+  if (chartsDone || typeof Chart === "undefined") return;
+  chartsDone = true;
+
+  addChart("chStock", "bar", ["31 Des 2025", "31 Mar 2026", "30 Jun 2026", "30 Sep 2026"], [
+    { label:"Toko Alfamart", data:[21120, 21287, 21442, 21613] },
+  ], { plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:false } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; });
+
+  addChart("chNet", "bar", ["Q1 2026", "Q2 2026", "Q3 2026"], [
+    { label:"Penambahan toko bersih grup", data:[209, 187, 215] },
+  ], { plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; });
+
+  addChart("chCompare", "bar", ["Alfamart", "Alfamidi", "Indomaret"], [
+    { label:"Tambah toko 9 bulan 2026", data:[493, 115, 780] },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false } }, scales:{ x:{ beginAtZero:true } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = [acc, acc, "#9aa5bd"]; });
+
+  updateChartColors();
+}
+
+if (sessionStorage.getItem("retail_ok") === "1") showApp();
+</script>
+</body>
+</html>
