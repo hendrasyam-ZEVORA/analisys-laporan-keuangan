@@ -6,6 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Analisis CMRY (Cimory) 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/infografis.js"></script>
+<link rel="stylesheet" href="../assets/infografis.css">
 <style>
   :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
   * { box-sizing:border-box; }
@@ -46,20 +48,10 @@
   #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
   .hidden { display:none !important; }
   .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
-  .info-title { font-size:22px; font-weight:800; line-height:1.2; margin:0 0 4px; }
-  .info-title span { color:var(--muted); font-weight:600; }
-  .info-sub { font-size:12px; color:var(--muted); margin:0 0 10px; }
-  .info-chart { position:relative; height:340px; }
-  .info-chart.sm { height:260px; }
-  .info-mean { font-size:13px; line-height:1.45; background:var(--bg); border-radius:8px; padding:10px 12px; margin-top:10px; }
-  .png-btn { margin-top:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; }
-  .legend-row { display:flex; justify-content:space-between; font-size:13px; padding:5px 0; border-bottom:1px solid var(--line); }
-  .legend-row b { font-size:15px; }
   @media print {
     @page { size:A4 landscape; margin:10mm; }
     * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    #gate, #dokumen, .pdf-btn, .png-btn { display:none !important; }
-    .info-chart { height:260px !important; }
+    #gate, #dokumen, .pdf-btn { display:none !important; }
     #app { display:block !important; }
     main { padding:0; max-width:none; }
     header { padding:14px 18px; }
@@ -96,7 +88,7 @@
     <div class="kpi"><div class="label">Kas dan sekuritas, 30 Sep 2026</div><div class="value">Rp899</div><div class="sub down">turun Rp802 sejak 31 Des 2025</div></div>
   </div>
 
-  <h2 style="font-size:16px;margin:4px 0 10px">Infografis 9 bulan 2026</h2>
+  <h2 class="info-head">Infografis 9 bulan 2026</h2>
   <div class="grid2">
     <div class="card" id="ig1">
       <p class="info-title"><span>Komposisi</span> Laba CMRY</p>
@@ -264,6 +256,9 @@
 </div>
 
 <script>
+window.IG_SOURCE = "Sumber: laporan keuangan interim CMRY 30 Sep 2026 (tidak diaudit)";
+window.IG_NAME = "cmry";
+
 /* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
 const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
 const DRIVE_FOLDER_ID = "1nsYI1dEZ_F7257KlHxvHE8G_K0JyCJj3";
@@ -337,45 +332,6 @@ function updateChartColors() {
   for (const { ch, paint } of charts) { paint(ch, acc, soft); ch.update(); }
 }
 
-/* ===== Unduh kartu infografis sebagai gambar ===== */
-function exportCard(cardId, canvasId) {
-  const card = document.getElementById(cardId);
-  const src = document.getElementById(canvasId);
-  const title = card.querySelector(".info-title").textContent.trim();
-  const sub = card.querySelector(".info-sub").textContent.trim();
-  const mean = card.querySelector(".info-mean").textContent.trim();
-  const W = 1080, pad = 60, cw = W - pad * 2;
-  const out = document.createElement("canvas");
-  const c = out.getContext("2d");
-  const wrap = (txt, font, maxW) => {
-    c.font = font; const words = txt.split(" "); const lines = []; let line = "";
-    for (const w of words) { const t = line ? line + " " + w : w; if (c.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }
-    if (line) lines.push(line); return lines;
-  };
-  const fT = "800 52px system-ui, sans-serif", fS = "400 26px system-ui, sans-serif", fM = "400 28px system-ui, sans-serif";
-  const tL = wrap(title, fT, cw), sL = wrap(sub, fS, cw), mL = wrap(mean, fM, cw - 40);
-  const chH = Math.round(cw * src.height / src.width);
-  const H = pad + tL.length * 62 + 16 + sL.length * 34 + 30 + chH + 30 + mL.length * 38 + 40 + 70;
-  out.width = W; out.height = H;
-  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
-  c.fillStyle = "#fff"; c.fillRect(0, 0, W, H);
-  c.fillStyle = acc; c.fillRect(0, 0, W, 14);
-  let y = pad + 40;
-  c.fillStyle = "#1d2430"; c.font = fT; tL.forEach(l => { c.fillText(l, pad, y); y += 62; });
-  c.fillStyle = acc; c.fillRect(pad, y - 34, 220, 6); y += 10;
-  c.fillStyle = "#6b7385"; c.font = fS; sL.forEach(l => { c.fillText(l, pad, y); y += 34; });
-  y += 10;
-  c.drawImage(src, pad, y, cw, chH); y += chH + 30;
-  c.fillStyle = "#f1f3f7"; c.fillRect(pad, y, cw, mL.length * 38 + 30);
-  c.fillStyle = "#1d2430"; c.font = fM; y += 40; mL.forEach(l => { c.fillText(l, pad + 20, y); y += 38; });
-  c.fillStyle = "#6b7385"; c.font = "400 22px system-ui, sans-serif";
-  c.fillText("Sumber: Laporan keuangan interim CMRY 30 Sep 2026 (tidak diaudit) · analisys.hendrasyam.online", pad, H - 34);
-  const a = document.createElement("a");
-  a.download = cardId + "-cmry.png";
-  a.href = out.toDataURL("image/png");
-  a.click();
-}
-
 let chartsDone = false;
 function renderCharts() {
   if (chartsDone) return;
@@ -431,7 +387,6 @@ function renderCharts() {
   ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
 
   /* ===== Infografis ===== */
-  const fmtM = v => "Rp" + v.toLocaleString("id-ID", { maximumFractionDigits:1 }) + " M";
   const wfRows = [
     ["Penjualan neto", 0, 9929.5, "t", "Rp9.930 M"],
     ["Beban pokok penjualan", 4261.6, 9929.5, "m", "−Rp5.668 M"],
@@ -444,27 +399,6 @@ function renderCharts() {
     ["Pajak penghasilan", 1717.8, 2166.8, "m", "−Rp449 M"],
     ["Laba bersih", 0, 1717.8, "n", "Rp1.718 M · margin 17,3%"],
   ];
-  const labelPlugin = {
-    id:"valLabels",
-    afterDatasetsDraw(chart) {
-      const lbl = chart.options.plugins.valLabels;
-      if (!Array.isArray(lbl)) return;
-      const { ctx } = chart;
-      chart.getDatasetMeta(0).data.forEach((bar, i) => {
-        ctx.save();
-        ctx.font = "600 11px system-ui, sans-serif";
-        ctx.fillStyle = "#1d2430";
-        ctx.textBaseline = "middle";
-        const x = Math.max(bar.x, bar.base) + 6;
-        const txt = lbl[i];
-        const w = ctx.measureText(txt).width;
-        if (x + w > chart.chartArea.right + 4) { ctx.textAlign = "right"; ctx.fillText(txt, Math.min(bar.x, bar.base) - 6, bar.y); }
-        else { ctx.textAlign = "left"; ctx.fillText(txt, x, bar.y); }
-        ctx.restore();
-      });
-    }
-  };
-  Chart.register(labelPlugin);
 
   addChart("chWf", "bar", wfRows.map(r => r[0]), [
     { label:"Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius:6, borderSkipped:false, barPercentage:.8 },

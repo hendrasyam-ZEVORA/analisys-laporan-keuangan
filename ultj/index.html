@@ -6,6 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Analisis Laporan Keuangan ULTJ (Ultra) 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/infografis.js"></script>
+<link rel="stylesheet" href="../assets/infografis.css">
 <style>
   :root {
     --accent: #1f3a8a;
@@ -129,6 +131,45 @@
     <div class="kpi"><div class="label">Margin kotor Q3 2026</div><div class="value">29,3%</div><div class="sub down">turun dari 31,9% (Q3 2025)</div></div>
     <div class="kpi"><div class="label">Biaya angkut pihak ketiga Q3 2026</div><div class="value">Rp94</div><div class="sub warn">+38% vs Q3 2025</div></div>
   </div>
+
+  <h2 class="info-head">Infografis 9 bulan 2026</h2>
+  <div class="grid2">
+    <div class="card" id="ig1">
+      <p class="info-title"><span>Komposisi</span> Laba ULTJ</p>
+      <p class="info-sub">Januari–September 2026, Rp miliar. Margin terhadap penjualan neto.</p>
+      <div class="info-chart"><canvas id="chWf"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> dari setiap Rp100 penjualan neto, Ultra menyimpan Rp17,7 sebagai laba bersih. Beban penjualan hanya Rp8,3, jauh di bawah CMRY yang Rp21,6. Laba Ultra naik 48,1% karena biaya penjualan justru turun saat penjualan naik 31,1%.</p>
+      <button class="png-btn" onclick="exportCard('ig1','chWf')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig2">
+      <p class="info-title">Iklan Ultra <span>Turun</span> 34,7%<span>, penjualan naik</span> 31,1%</p>
+      <p class="info-sub">Beban penjualan per jenis, 9 bulan, Rp miliar. Total Rp681 miliar, turun 8,1%.</p>
+      <div class="info-chart sm"><canvas id="chSellMix"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> iklan dan promosi turun dari Rp356 miliar ke Rp233 miliar, atau Rp2,8 per Rp100 penjualan (tahun lalu Rp5,7). Biaya angkut naik 30,5% mengikuti volume. Ultra tumbuh tanpa menambah promosi, sementara CMRY menaikkan iklan 29,2%. Di toko, perang promo lebih mungkin datang dari CMRY.</p>
+      <button class="png-btn" onclick="exportCard('ig2','chSellMix')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig3">
+      <p class="info-title"><span>Tidak ada</span> Pelanggan Ultra <span>di atas</span> 10%</p>
+      <p class="info-sub">Porsi penjualan neto ke pelanggan besar yang wajib diungkap (di atas 10%), 9 bulan 2026.</p>
+      <div class="info-chart sm"><canvas id="chCust"></canvas></div>
+      <div class="legend-row"><span>ULTJ</span><span><b>0 pelanggan</b> di atas 10%</span></div>
+      <div class="legend-row"><span>CMRY</span><span><b>26,5%</b> ke Indomaret dan Alfamart</span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> penjualan Ultra tersebar ke banyak pelanggan, tidak ada satu pun yang di atas 10% penjualan. Ultra tidak bergantung pada dua jaringan minimarket seperti CMRY, jadi risiko dari negosiasi dengan satu peritel lebih kecil.</p>
+      <button class="png-btn" onclick="exportCard('ig3','chCust')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig4">
+      <p class="info-title">24% <span>Biaya Pokok Ultra ke</span> Tetra Pak <span>&amp;</span> SIG</p>
+      <p class="info-sub">Pembelian dari pemasok kemasan terbesar, porsi terhadap beban pokok penjualan 9 bulan.</p>
+      <div class="info-chart sm"><canvas id="chSupp"></canvas></div>
+      <div class="legend-row"><span>PT Tetra Pak Indonesia</span><span><b>Rp905 M</b> 16,5% <span class="down">▲3,5 poin</span></span></div>
+      <div class="legend-row"><span>SIG Combibloc</span><span><b>Rp409 M</b> 7,4% <span class="down">▲2,3 poin</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> porsi kemasan dari dua pemasok naik dari 18,2% ke 23,9% biaya pokok. Pembelian ke Tetra Pak naik 66% dan ke SIG naik 89%. Jika harga kemasan atau kurs naik, harga susu UHT di pasar ikut berisiko naik. Pantau perubahan harga jual Ultra di area.</p>
+      <button class="png-btn" onclick="exportCard('ig4','chSupp')">Unduh gambar</button>
+    </div>
+  </div>
+  <p class="note" style="margin:-6px 0 16px">Sumber infografis: laporan keuangan ULTJ 30 September 2026, catatan 27 sampai 30. Pembanding CMRY dari laporan interim CMRY 30 September 2026.</p>
 
   <div class="grid2">
     <div class="card">
@@ -263,6 +304,8 @@ const ACCENTS = {
 };
 
 /* Setiap grafik disimpan bersama fungsi pewarnanya, supaya ikut berganti saat aksen diubah */
+window.IG_SOURCE = "Sumber: laporan keuangan ULTJ 30 Sep 2026";
+window.IG_NAME = "ultj";
 const charts = [];
 
 function applyAccent(key) {
@@ -475,6 +518,54 @@ function renderCharts() {
     { label: "Penjualan neto 9 bulan", data: [sum(sales25), sum(sales26)] },
   ], { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } },
   (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = [soft, acc]; });
+
+  /* ===== Infografis ===== */
+  const wfRows = [
+    ["Penjualan termasuk PPN", 0, 9094.2, "t", "Rp9.094 M"],
+    ["PPN & bonus kinerja", 8179.2, 9094.2, "m", "−Rp915 M"],
+    ["Penjualan neto", 0, 8179.2, "t", "Rp8.179 M"],
+    ["Beban pokok penjualan", 2684.8, 8179.2, "m", "−Rp5.494 M"],
+    ["Laba bruto", 0, 2684.8, "t", "Rp2.685 M · margin 32,8%"],
+    ["Beban penjualan", 2004.1, 2684.8, "m", "−Rp681 M"],
+    ["Beban umum & adm.", 1721.6, 2004.1, "m", "−Rp282 M"],
+    ["Kurs & pendapatan lain", 1721.6, 1799.6, "p", "+Rp78 M"],
+    ["Laba usaha", 0, 1799.6, "t", "Rp1.800 M · margin 22,0%"],
+    ["Pendapatan keuangan & asosiasi", 1799.6, 1845.3, "p", "+Rp46 M"],
+    ["Pajak penghasilan", 1447.7, 1845.3, "m", "−Rp398 M"],
+    ["Laba bersih", 0, 1447.7, "n", "Rp1.448 M · margin 17,7%"],
+  ];
+  addChart("chWf", "bar", wfRows.map(r => r[0]), [
+    { label: "Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius: 6, borderSkipped: false, barPercentage: .8 },
+  ], { indexAxis: "y", plugins: { legend: { display: false }, valLabels: wfRows.map(r => r[4]),
+       tooltip: { callbacks: { label: c => wfRows[c.dataIndex][4] } } },
+       scales: { x: { beginAtZero: true, max: 11500, ticks: { callback: v => (v / 1000).toLocaleString("id-ID") + " T" } }, y: { grid: { display: false } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = wfRows.map(r => r[3] === "t" ? acc : r[3] === "m" ? "#8a8f99" : r[3] === "p" ? soft : "#0f1b3d");
+  });
+
+  const sellRows = [["Iklan & promosi", 356.3, 232.6], ["Angkutan pihak ketiga", 204.1, 266.3], ["Gaji & upah", 83.3, 81.9], ["Sewa & aset hak guna", 35.7, 35.6], ["Lain-lain", 61.4, 64.3]];
+  addChart("chSellMix", "bar", sellRows.map(r => r[0]), [
+    { label: "9M 2025", data: sellRows.map(r => r[1]) },
+    { label: "9M 2026", data: sellRows.map(r => r[2]) },
+  ], { indexAxis: "y", scales: { x: { beginAtZero: true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; });
+
+  addChart("chCust", "bar", ["ULTJ", "CMRY"], [
+    { label: "Indomaret", data: [0, 14.6] },
+    { label: "Alfamart", data: [0, 11.9] },
+    { label: "Pelanggan lain (masing-masing di bawah 10%)", data: [100, 73.5] },
+  ], { indexAxis: "y", scales: { x: { stacked: true, max: 100, ticks: { callback: v => v + "%" } }, y: { stacked: true } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = "#c8102e";
+    ch.data.datasets[1].backgroundColor = "#0057b8";
+    ch.data.datasets[2].backgroundColor = soft;
+  });
+
+  addChart("chSupp", "bar", ["9M 2025", "9M 2026"], [
+    { label: "Tetra Pak", data: [13.03, 16.48] },
+    { label: "SIG Combibloc", data: [5.16, 7.44] },
+  ], { scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => v + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = soft; });
 
   updateChartColors();
 }

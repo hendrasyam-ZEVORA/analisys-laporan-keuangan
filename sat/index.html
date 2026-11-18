@@ -6,6 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Analisis SAT (Alfamart) 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/infografis.js"></script>
+<link rel="stylesheet" href="../assets/infografis.css">
 <style>
   :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
   * { box-sizing:border-box; }
@@ -86,6 +88,41 @@
     <div class="kpi"><div class="label">Toko Alfamart, 30 Sep 2026</div><div class="value">21.613</div><div class="sub up">+493 vs akhir 2025</div></div>
   </div>
 
+  <h2 class="info-head">Infografis 9 bulan 2026</h2>
+  <div class="grid2">
+    <div class="card" id="ig1">
+      <p class="info-title"><span>Dari Rp100 Belanja di Alfamart, Laba Bersihnya</span> Rp2,4</p>
+      <p class="info-sub">Komposisi laba SAT Januari–September 2026, Rp miliar. Margin terhadap pendapatan.</p>
+      <div class="info-chart"><canvas id="chWf"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> margin kotor 21,9% harus menanggung biaya toko, gudang, dan karyawan, sehingga laba bersih tinggal 2,4%. Dengan margin setipis ini, SAT akan terus menekan pemasok lewat syarat dagang, biaya listing, dan dana promosi. Siapkan data sell-out sebelum negosiasi.</p>
+      <button class="png-btn" onclick="exportCard('ig1','chWf')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig2">
+      <p class="info-title">16,5% <span>Belanja Groceries Indonesia lewat</span> Alfamart <span>&amp;</span> Alfamidi</p>
+      <p class="info-sub">Pangsa pasar Alfamart dan Alfamidi, NielsenIQ, YTD September.</p>
+      <div class="info-chart sm"><canvas id="chMs"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> hampir 1 dari 6 rupiah belanja groceries nasional, dan 42,8% belanja di minimarket, lewat Alfamart dan Alfamidi. Pangsanya naik di ketiga ukuran. SKU dairy yang tidak terpasang di toko mereka kehilangan akses ke porsi besar pasar minimarket.</p>
+      <button class="png-btn" onclick="exportCard('ig2','chMs')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig3">
+      <p class="info-title"><span>Pendapatan Alfamart dari</span> Luar Jawa <span>Naik ke</span> 39,8%</p>
+      <p class="info-sub">Porsi pendapatan per wilayah (%).</p>
+      <div class="info-chart sm"><canvas id="chRegRev"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> porsi luar Jawa naik dari 33,1% (2022) menjadi 39,8% (9M 2026), sementara Greater Jakarta dan Java turun. Untuk area di luar Jawa, Alfamart makin penting sebagai channel. Prioritaskan listing dan ketersediaan stok di toko baru.</p>
+      <button class="png-btn" onclick="exportCard('ig3','chRegRev')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig4">
+      <p class="info-title">71,2% <span>Pendapatan Alfamart dari</span> Makanan</p>
+      <p class="info-sub">Porsi pendapatan makanan dan non-makanan (%). Member menyumbang sekitar 62% pendapatan.</p>
+      <div class="info-chart sm"><canvas id="chType"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> makanan, termasuk dairy, adalah inti bisnis Alfamart dan porsinya naik ke 71,2%. Dengan 62% pendapatan dari member dan 17,9 juta member aktif, promo lewat A-member dan Alfagift adalah jalan cepat ke pembeli dairy.</p>
+      <button class="png-btn" onclick="exportCard('ig4','chType')">Unduh gambar</button>
+    </div>
+  </div>
+  <p class="note" style="margin:-6px 0 16px">Sumber infografis: presentasi manajemen SAT YTD September 2026 (slide Financial Highlights, Market Share NielsenIQ, Online Sales). Beban usaha neto dan "bunga, pajak, dan lainnya" dihitung dari selisih angka di slide.</p>
+
   <div class="grid2">
     <div class="card">
       <h2>Pendapatan per kuartal, 2025 vs 2026</h2>
@@ -165,6 +202,9 @@
 </div>
 
 <script>
+window.IG_SOURCE = "Sumber: presentasi manajemen SAT YTD Sep 2026";
+window.IG_NAME = "sat";
+
 /* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
 const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
 const DRIVE_FOLDER_ID = "1vm3h8ifd7NjwHApdbqBgK6NGnVJ0sZwu";
@@ -272,6 +312,44 @@ function renderCharts() {
     ch.data.datasets[1].backgroundColor = acc;
     ch.data.datasets[2].backgroundColor = "#9aa5bd";
   });
+
+  /* ===== Infografis ===== */
+  const wfRows = [
+    ["Pendapatan", 0, 101288, "t", "Rp101.288 M"],
+    ["Beban pokok pendapatan", 22203, 101288, "m", "−Rp79.085 M"],
+    ["Laba kotor", 0, 22203, "t", "Rp22.203 M · margin 21,9%"],
+    ["Beban usaha, neto", 3192, 22203, "m", "−Rp19.011 M"],
+    ["Laba usaha", 0, 3192, "t", "Rp3.192 M · margin 3,2%"],
+    ["Bunga, pajak & lainnya", 2403, 3192, "m", "−Rp789 M"],
+    ["Laba bersih", 0, 2403, "n", "Rp2.403 M · margin 2,4%"],
+  ];
+  addChart("chWf", "bar", wfRows.map(r => r[0]), [
+    { label: "Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius: 6, borderSkipped: false, barPercentage: .8 },
+  ], { indexAxis: "y", plugins: { legend: { display: false }, valLabels: wfRows.map(r => r[4]),
+       tooltip: { callbacks: { label: c => wfRows[c.dataIndex][4] } } },
+       scales: { x: { beginAtZero: true, max: 130000, ticks: { callback: v => (v / 1000).toLocaleString("id-ID") + " T" } }, y: { grid: { display: false } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = wfRows.map(r => r[3] === "t" ? acc : r[3] === "m" ? "#8a8f99" : r[3] === "p" ? soft : "#0f1b3d");
+  });
+
+  addChart("chMs", "bar", ["Ke total Indonesia", "Ke modern trade", "Ke MT minimarket"], [
+    { label: "YTD Sep 2025", data: [15.9, 33.1, 42.2] },
+    { label: "YTD Sep 2026", data: [16.5, 33.6, 42.8] },
+  ], { scales: { y: { beginAtZero: true, ticks: { callback: v => v + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; });
+
+  addChart("chRegRev", "bar", ["2022", "2023", "2024", "2025", "9M 2025", "9M 2026"], [
+    { label: "Luar Jawa", data: [33.1, 33.7, 35.8, 38.1, 37.8, 39.8] },
+    { label: "Java", data: [38.6, 37.9, 36.8, 35.8, 35.9, 35.0] },
+    { label: "Greater Jakarta", data: [28.4, 28.4, 27.4, 26.1, 26.3, 25.2] },
+  ], { scales: { x: { stacked: true }, y: { stacked: true, max: 101, ticks: { callback: v => v + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = "#9aa5bd"; ch.data.datasets[2].backgroundColor = soft; });
+
+  addChart("chType", "bar", ["2022", "2023", "2024", "2025", "9M 2025", "9M 2026"], [
+    { label: "Makanan", data: [69.5, 70.7, 70.4, 70.7, 70.7, 71.2] },
+    { label: "Non-makanan", data: [30.5, 29.3, 29.6, 29.3, 29.3, 28.8] },
+  ], { scales: { x: { stacked: true }, y: { stacked: true, max: 100, ticks: { callback: v => v + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = soft; });
 
   updateChartColors();
 }
