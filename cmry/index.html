@@ -46,10 +46,20 @@
   #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
   .hidden { display:none !important; }
   .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  .info-title { font-size:22px; font-weight:800; line-height:1.2; margin:0 0 4px; }
+  .info-title span { color:var(--muted); font-weight:600; }
+  .info-sub { font-size:12px; color:var(--muted); margin:0 0 10px; }
+  .info-chart { position:relative; height:340px; }
+  .info-chart.sm { height:260px; }
+  .info-mean { font-size:13px; line-height:1.45; background:var(--bg); border-radius:8px; padding:10px 12px; margin-top:10px; }
+  .png-btn { margin-top:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer; }
+  .legend-row { display:flex; justify-content:space-between; font-size:13px; padding:5px 0; border-bottom:1px solid var(--line); }
+  .legend-row b { font-size:15px; }
   @media print {
     @page { size:A4 landscape; margin:10mm; }
     * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    #gate, #dokumen, .pdf-btn { display:none !important; }
+    #gate, #dokumen, .pdf-btn, .png-btn { display:none !important; }
+    .info-chart { height:260px !important; }
     #app { display:block !important; }
     main { padding:0; max-width:none; }
     header { padding:14px 18px; }
@@ -85,6 +95,51 @@
     <div class="kpi"><div class="label">Laba bersih Q3 2026</div><div class="value">Rp546</div><div class="sub down">turun 10,1% vs Q3 2025</div></div>
     <div class="kpi"><div class="label">Kas dan sekuritas, 30 Sep 2026</div><div class="value">Rp899</div><div class="sub down">turun Rp802 sejak 31 Des 2025</div></div>
   </div>
+
+  <h2 style="font-size:16px;margin:4px 0 10px">Infografis 9 bulan 2026</h2>
+  <div class="grid2">
+    <div class="card" id="ig1">
+      <p class="info-title"><span>Komposisi</span> Laba CMRY</p>
+      <p class="info-sub">Januari–September 2026, Rp miliar. Margin terhadap penjualan neto.</p>
+      <div class="info-chart"><canvas id="chWf"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> dari setiap Rp100 penjualan, Rp21,6 habis untuk beban penjualan dan pemasaran, dan Rp11,8 di antaranya untuk iklan dan promosi. Anggaran ini yang dipakai CMRY untuk merebut rak dan pembeli.</p>
+      <button class="png-btn" onclick="exportCard('ig1','chWf')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig2">
+      <p class="info-title">27% Penjualan CMRY <span>via</span> Indomaret <span>&amp;</span> Alfamart</p>
+      <p class="info-sub">Penjualan neto 9 bulan 2026 Rp9.930 miliar. Pelanggan dengan penjualan di atas 10% wajib diungkap di laporan.</p>
+      <div class="info-chart sm"><canvas id="chCust"></canvas></div>
+      <div class="legend-row"><span>Indomaret (PT Indomarco Prismatama)</span><span><b>Rp1.452 M</b> 14,6% <span class="down">▼1,5 poin</span></span></div>
+      <div class="legend-row"><span>Alfamart (PT Sumber Alfaria Trijaya)</span><span><b>Rp1.181 M</b> 11,9% <span class="down">▼2,7 poin</span></span></div>
+      <div class="legend-row"><span>Pelanggan lain</span><span><b>Rp7.296 M</b> 73,5% <span class="up">▲4,3 poin</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> penjualan CMRY ke Alfamart hanya naik 2,8%, padahal total penjualannya naik 26,1%. Pertumbuhan CMRY datang dari luar dua jaringan minimarket itu, kemungkinan general trade, ritel modern lain, dan jaringan agen sendiri.</p>
+      <button class="png-btn" onclick="exportCard('ig2','chCust')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig3">
+      <p class="info-title">Produk Susu CMRY <span>Tumbuh</span> 50,6%</p>
+      <p class="info-sub">Penjualan neto per jenis produk, 9 bulan, Rp miliar.</p>
+      <div class="info-chart sm"><canvas id="chMix"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> produk olahan susu CMRY naik dari Rp2.902 miliar ke Rp4.372 miliar, dan porsinya naik dari 36,9% ke 44,0% dari penjualan. Makanan konsumsi hanya naik 11,8%. Ini pesaing langsung di kategori dairy, bukan di kategori lain.</p>
+      <button class="png-btn" onclick="exportCard('ig3','chMix')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig4">
+      <p class="info-title"><span>Rincian</span> Beban Penjualan CMRY</p>
+      <p class="info-sub">Beban penjualan dan pemasaran, 9 bulan, Rp miliar. Total Rp2.141 miliar, naik 32,2%.</p>
+      <div class="info-chart sm"><canvas id="chSellMix"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> iklan dan promosi naik 29,2% menjadi Rp1.172 miliar. Biaya distribusi naik 44,6% dan gaji tim penjualan naik 40,5%, tanda CMRY menambah jangkauan distribusi dan tenaga penjualan.</p>
+      <button class="png-btn" onclick="exportCard('ig4','chSellMix')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="card" id="ig5" style="margin-bottom:16px">
+    <p class="info-title"><span>Tentang</span> Barang Rusak <span>&amp;</span> Penghapusan Stok CMRY</p>
+    <p class="info-sub">Biaya produk yang tidak terjual atau rusak, 9 bulan, Rp miliar.</p>
+    <div class="info-chart sm" style="max-width:640px"><canvas id="chWaste"></canvas></div>
+    <p class="info-mean"><strong>Artinya untuk area:</strong> barang rusak di beban pokok penjualan naik 51,8% menjadi Rp42,5 miliar. Ada juga kerugian penghapusan persediaan Rp95,2 miliar yang tahun lalu tidak ada. Ekspansi cepat CMRY ikut menambah produk yang kedaluwarsa atau rusak. Di toko area, cek apakah produk CMRY sering mendekati tanggal kedaluwarsa atau ditarik dari rak.</p>
+    <button class="png-btn" onclick="exportCard('ig5','chWaste')">Unduh gambar</button>
+  </div>
+  <p class="note" style="margin:-6px 0 16px">Sumber infografis: laporan keuangan konsolidasian interim CMRY 30 September 2026 (tidak diaudit), catatan 23 sampai 28.</p>
 
   <div class="grid2">
     <div class="card">
@@ -282,6 +337,45 @@ function updateChartColors() {
   for (const { ch, paint } of charts) { paint(ch, acc, soft); ch.update(); }
 }
 
+/* ===== Unduh kartu infografis sebagai gambar ===== */
+function exportCard(cardId, canvasId) {
+  const card = document.getElementById(cardId);
+  const src = document.getElementById(canvasId);
+  const title = card.querySelector(".info-title").textContent.trim();
+  const sub = card.querySelector(".info-sub").textContent.trim();
+  const mean = card.querySelector(".info-mean").textContent.trim();
+  const W = 1080, pad = 60, cw = W - pad * 2;
+  const out = document.createElement("canvas");
+  const c = out.getContext("2d");
+  const wrap = (txt, font, maxW) => {
+    c.font = font; const words = txt.split(" "); const lines = []; let line = "";
+    for (const w of words) { const t = line ? line + " " + w : w; if (c.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; }
+    if (line) lines.push(line); return lines;
+  };
+  const fT = "800 52px system-ui, sans-serif", fS = "400 26px system-ui, sans-serif", fM = "400 28px system-ui, sans-serif";
+  const tL = wrap(title, fT, cw), sL = wrap(sub, fS, cw), mL = wrap(mean, fM, cw - 40);
+  const chH = Math.round(cw * src.height / src.width);
+  const H = pad + tL.length * 62 + 16 + sL.length * 34 + 30 + chH + 30 + mL.length * 38 + 40 + 70;
+  out.width = W; out.height = H;
+  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
+  c.fillStyle = "#fff"; c.fillRect(0, 0, W, H);
+  c.fillStyle = acc; c.fillRect(0, 0, W, 14);
+  let y = pad + 40;
+  c.fillStyle = "#1d2430"; c.font = fT; tL.forEach(l => { c.fillText(l, pad, y); y += 62; });
+  c.fillStyle = acc; c.fillRect(pad, y - 34, 220, 6); y += 10;
+  c.fillStyle = "#6b7385"; c.font = fS; sL.forEach(l => { c.fillText(l, pad, y); y += 34; });
+  y += 10;
+  c.drawImage(src, pad, y, cw, chH); y += chH + 30;
+  c.fillStyle = "#f1f3f7"; c.fillRect(pad, y, cw, mL.length * 38 + 30);
+  c.fillStyle = "#1d2430"; c.font = fM; y += 40; mL.forEach(l => { c.fillText(l, pad + 20, y); y += 38; });
+  c.fillStyle = "#6b7385"; c.font = "400 22px system-ui, sans-serif";
+  c.fillText("Sumber: Laporan keuangan interim CMRY 30 Sep 2026 (tidak diaudit) · analisys.hendrasyam.online", pad, H - 34);
+  const a = document.createElement("a");
+  a.download = cardId + "-cmry.png";
+  a.href = out.toDataURL("image/png");
+  a.click();
+}
+
 let chartsDone = false;
 function renderCharts() {
   if (chartsDone) return;
@@ -335,6 +429,73 @@ function renderCharts() {
     { label: "Penjualan neto", data: [6378, 7773, 9026, 10724] },
     { label: "Laba bersih (pemilik)", data: [1061, 1242, 1519, 2033] },
   ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  /* ===== Infografis ===== */
+  const fmtM = v => "Rp" + v.toLocaleString("id-ID", { maximumFractionDigits:1 }) + " M";
+  const wfRows = [
+    ["Penjualan neto", 0, 9929.5, "t", "Rp9.930 M"],
+    ["Beban pokok penjualan", 4261.6, 9929.5, "m", "−Rp5.668 M"],
+    ["Laba bruto", 0, 4261.6, "t", "Rp4.262 M · margin 42,9%"],
+    ["Beban penjualan & pemasaran", 2120.2, 4261.6, "m", "−Rp2.141 M"],
+    ["Beban umum & adm.", 1956.7, 2120.2, "m", "−Rp164 M"],
+    ["Beban lain (hapus stok)", 1861.7, 1956.7, "m", "−Rp95 M"],
+    ["Laba usaha", 0, 1861.7, "t", "Rp1.862 M · margin 18,7%"],
+    ["Pendapatan keuangan & lain", 1861.7, 2166.8, "p", "+Rp305 M"],
+    ["Pajak penghasilan", 1717.8, 2166.8, "m", "−Rp449 M"],
+    ["Laba bersih", 0, 1717.8, "n", "Rp1.718 M · margin 17,3%"],
+  ];
+  const labelPlugin = {
+    id:"valLabels",
+    afterDatasetsDraw(chart) {
+      const lbl = chart.options.plugins.valLabels;
+      if (!Array.isArray(lbl)) return;
+      const { ctx } = chart;
+      chart.getDatasetMeta(0).data.forEach((bar, i) => {
+        ctx.save();
+        ctx.font = "600 11px system-ui, sans-serif";
+        ctx.fillStyle = "#1d2430";
+        ctx.textBaseline = "middle";
+        const x = Math.max(bar.x, bar.base) + 6;
+        const txt = lbl[i];
+        const w = ctx.measureText(txt).width;
+        if (x + w > chart.chartArea.right + 4) { ctx.textAlign = "right"; ctx.fillText(txt, Math.min(bar.x, bar.base) - 6, bar.y); }
+        else { ctx.textAlign = "left"; ctx.fillText(txt, x, bar.y); }
+        ctx.restore();
+      });
+    }
+  };
+  Chart.register(labelPlugin);
+
+  addChart("chWf", "bar", wfRows.map(r => r[0]), [
+    { label:"Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius:6, borderSkipped:false, barPercentage:.8 },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false }, valLabels: wfRows.map(r => r[4]),
+       tooltip:{ callbacks:{ label: c => wfRows[c.dataIndex][4] } } },
+       scales:{ x:{ beginAtZero:true, max:12500, ticks:{ callback: v => (v/1000).toLocaleString("id-ID") + " T" } }, y:{ grid:{ display:false } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = wfRows.map(r => r[3] === "t" ? acc : r[3] === "m" ? "#8a8f99" : r[3] === "p" ? soft : "#0f1b3d");
+  });
+
+  addChart("chCust", "doughnut", ["Indomaret", "Alfamart", "Pelanggan lain"], [
+    { label:"Porsi penjualan 9M 2026 (%)", data:[14.6, 11.9, 73.5] },
+  ], { cutout:"58%", plugins:{ legend:{ position:"right" }, tooltip:{ callbacks:{ label: c => c.label + ": " + c.parsed.toLocaleString("id-ID") + "%" } } } },
+  (ch) => { ch.data.datasets[0].backgroundColor = ["#c8102e", "#0057b8", "#c4c8d0"]; });
+
+  addChart("chMix", "bar", ["9M 2025", "9M 2026"], [
+    { label:"Produk olahan susu", data:[2902.4, 4372.2] },
+    { label:"Makanan konsumsi", data:[4970.8, 5557.3] },
+  ], { plugins:{ valLabels:null }, scales:{ x:{ stacked:true }, y:{ stacked:true, beginAtZero:true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = soft; });
+
+  const sellRows = [["Iklan, promosi & marketing", 906.6, 1171.7], ["Gaji & tunjangan", 330.9, 465.1], ["Distribusi & administrasi", 251.4, 363.5], ["Sewa", 42.5, 50.6], ["Penyusutan", 37.5, 42.1], ["Perjalanan dinas & lain", 41.2, 33.7]];
+  addChart("chSellMix", "bar", sellRows.map(r => r[0]), [
+    { label:"9M 2025", data: sellRows.map(r => r[1]) },
+    { label:"9M 2026", data: sellRows.map(r => r[2]) },
+  ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chWaste", "bar", ["Barang rusak (di HPP)", "Penghapusan persediaan"], [
+    { label:"9M 2025", data:[28.0, 0] },
+    { label:"9M 2026", data:[42.5, 95.2] },
+  ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
 
   addChart("chCf", "bar", ["Operasi", "Aset tetap + uang muka", "Dividen", "Surat berharga (neto)"], [
     { label: "9M 2025", data: [1521, -372, -1190, -158] },
