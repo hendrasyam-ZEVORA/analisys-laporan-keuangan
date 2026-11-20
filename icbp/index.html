@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Analisis ICBP (Indofood CBP) 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/infografis.js"></script>
+<link rel="stylesheet" href="../assets/infografis.css">
+<style>
+  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:#fff; padding:20px 24px; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; border-top:3px solid var(--accent); }
+  .kpi .label { font-size:12px; color:var(--muted); }
+  .kpi .value { font-size:24px; font-weight:700; margin-top:4px; }
+  .kpi .sub { font-size:12px; margin-top:4px; color:var(--muted); }
+  .up { color:var(--green); } .down { color:var(--red); } .warn { color:var(--amber); }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { margin:0 0 10px; font-size:15px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  th:first-child, td:first-child { text-align:left; }
+  th { color:var(--muted); font-weight:600; }
+  ol.insights > li { margin-bottom:18px; line-height:1.45; font-size:14px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  canvas { max-height:280px; }
+  .mini { position:relative; height:200px; max-width:560px; margin-top:8px; }
+  #dokumen ul { list-style:none; padding:0; margin:0; }
+  #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
+  #dokumen li:last-child { border-bottom:none; }
+  #dokumen li a { color:var(--accent); font-weight:600; text-decoration:none; }
+  #dokumen li a:hover { text-decoration:underline; }
+  #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
+  #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
+  #gate h2 { margin:0 0 6px; font-size:18px; }
+  #gate p { margin:0 0 16px; font-size:13px; color:var(--muted); }
+  #gate input { width:100%; padding:10px; font-size:15px; border:1px solid var(--line); border-radius:6px; }
+  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
+  #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
+  .hidden { display:none !important; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  @media print {
+    @page { size:A4 landscape; margin:10mm; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #gate, #dokumen, .pdf-btn { display:none !important; }
+    #app { display:block !important; }
+    main { padding:0; max-width:none; }
+    header { padding:14px 18px; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
+    .mini { height:180px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <h2>Analisis ICBP (Indofood CBP)</h2>
+    <p>Masukkan password untuk melihat analisis.</p>
+    <input id="pw" type="password" autocomplete="off" placeholder="Password">
+    <button id="unlock">Buka</button>
+    <div class="err" id="gerr"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header>
+  <h1>PT Indofood CBP Sukses Makmur Tbk (ICBP)</h1>
+  <p>Analisis laporan keuangan interim Q1 sampai Q3 2026 (tidak diaudit), dengan pembanding 2025 dan laporan tahunan 2025. Fokus pada divisi Dairy sebagai pesaing langsung. Angka dalam miliar rupiah kecuali disebutkan lain.</p>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
+</header>
+
+<main>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Penjualan neto 9 bulan 2026</div><div class="value">Rp64.446</div><div class="sub up">+14,5% vs 9M 2025</div></div>
+    <div class="kpi"><div class="label">Penjualan divisi Dairy 9 bulan 2026</div><div class="value">Rp8.667</div><div class="sub up">+20,8% vs 9M 2025</div></div>
+    <div class="kpi"><div class="label">Laba usaha 9 bulan 2026</div><div class="value">Rp13.667</div><div class="sub up">+7,2%, margin turun ke 21,2%</div></div>
+    <div class="kpi"><div class="label">Laba bersih pemilik 9 bulan 2026</div><div class="value">Rp6.166</div><div class="sub down">turun 13,3%, terutama karena rugi kurs</div></div>
+  </div>
+
+  <h2 class="info-head">Infografis 9 bulan 2026</h2>
+  <div class="grid2">
+    <div class="card" id="ig1">
+      <p class="info-title"><span>Komposisi</span> Laba ICBP</p>
+      <p class="info-sub">Januari–September 2026, Rp miliar. Margin terhadap penjualan neto.</p>
+      <div class="info-chart" style="height:400px"><canvas id="chWf"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> bisnis inti ICBP sehat, dengan laba usaha naik 7,2% menjadi Rp13,7 triliun. Laba bersih turun karena rugi kurs Rp3,3 triliun atas pinjaman valuta asing. Tekanan laba ini datang dari luar operasi, jadi tidak otomatis memotong anggaran pemasaran di lapangan.</p>
+      <button class="png-btn" onclick="exportCard('ig1','chWf')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig2">
+      <p class="info-title">Dairy ICBP <span>Tumbuh</span> 30,8% <span>di Q3, Laba Usahanya</span> Turun 23%</p>
+      <p class="info-sub">Penjualan ke pelanggan eksternal divisi Dairy per kuartal, Rp miliar.</p>
+      <div class="info-chart sm"><canvas id="chDairy"></canvas></div>
+      <div class="legend-row"><span>Laba usaha Dairy Q3 2026</span><span><b>Rp148 M</b> <span class="down">turun dari Rp192 M</span></span></div>
+      <div class="legend-row"><span>Laba usaha Dairy 9 bulan 2026</span><span><b>Rp699 M</b> <span class="up">naik 26,4%</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> di Q3, penjualan dairy ICBP naik 30,8% tetapi laba usahanya turun 23,1%. Margin per rupiah penjualan turun dari sekitar 8,1% ke 4,8%. Pola ini cocok dengan diskon, promosi, atau biaya bahan yang naik. Cek harga dan promo Indomilk di toko area minggu ini.</p>
+      <button class="png-btn" onclick="exportCard('ig2','chDairy')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig3">
+      <p class="info-title"><span>Penjualan Dairy 9 Bulan:</span> ICBP <span>vs</span> ULTJ <span>vs</span> CMRY</p>
+      <p class="info-sub">Rp miliar, 9 bulan 2026, dengan pertumbuhan dibanding 9 bulan 2025.</p>
+      <div class="info-chart sm"><canvas id="chPeer"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> divisi Dairy ICBP (Rp8,7 triliun) setara total penjualan Ultra, dan dua kali produk susu CMRY. Ketiganya tumbuh dua digit, dan CMRY tumbuh paling cepat. Angka ULTJ adalah total penjualan, termasuk minuman non-susu seperti teh.</p>
+      <button class="png-btn" onclick="exportCard('ig3','chPeer')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig4">
+      <p class="info-title">49% <span>Penjualan ICBP lewat Distributor Grup,</span> IAP</p>
+      <p class="info-sub">Penjualan ke PT Indomarco Adi Prima (IAP), pihak berelasi, terhadap penjualan neto 9 bulan.</p>
+      <div class="info-chart sm"><canvas id="chIap"></canvas></div>
+      <div class="legend-row"><span>IAP</span><span><b>Rp31.550 M</b> 49,0% <span class="down">▼1,5 poin</span></span></div>
+      <div class="legend-row"><span>Penjualan di Indonesia</span><span><b>Rp43.327 M</b> 67,2% <span class="up">+11,0%</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> hampir separuh penjualan ICBP mengalir lewat distributor grup sendiri, IAP. Satu jaringan distribusi melayani mi instan, dairy, dan produk lain sekaligus. Bandingkan jangkauan outlet IAP di area dengan distributor Anda, terutama di general trade.</p>
+      <button class="png-btn" onclick="exportCard('ig4','chIap')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig5">
+      <p class="info-title"><span>Rincian</span> Beban Penjualan <span>&amp;</span> Distribusi ICBP</p>
+      <p class="info-sub">9 bulan, Rp miliar. Total Rp6.978 miliar, naik 18,6%, setara Rp10,8 per Rp100 penjualan.</p>
+      <div class="info-chart sm"><canvas id="chSellMix"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> biaya angkut naik 27,9% dan iklan serta promosi naik 19,0% menjadi Rp2,1 triliun. Barang rusak di beban penjualan naik 21,7% menjadi Rp84 miliar. ICBP mendorong volume lebih jauh dengan biaya distribusi yang lebih besar.</p>
+      <button class="png-btn" onclick="exportCard('ig5','chSellMix')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig6">
+      <p class="info-title">Dairy 13,4% <span>Penjualan ICBP, Terbesar Kedua setelah</span> Mi Instan</p>
+      <p class="info-sub">Porsi penjualan ke pelanggan eksternal per divisi, 9 bulan 2026.</p>
+      <div class="info-chart sm"><canvas id="chSeg"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> mi instan masih 72,4% penjualan, dengan margin laba usaha 23,1%. Margin Dairy hanya 8,0%. Dairy ICBP bisa didanai dari bisnis mi instan yang jauh lebih menguntungkan, jadi kemampuannya bertahan dalam perang harga cukup besar.</p>
+      <button class="png-btn" onclick="exportCard('ig6','chSeg')">Unduh gambar</button>
+    </div>
+  </div>
+  <p class="note" style="margin:-6px 0 16px">Sumber infografis: laporan keuangan konsolidasian interim ICBP 31 Maret, 30 Juni, dan 30 September 2026 (tidak diaudit), catatan 24, 26, 30, 31, dan 32. Angka kuartal dihitung dari selisih laporan kumulatif. Pembanding ULTJ dan CMRY dari laporan 30 September 2026 masing-masing.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Penjualan neto per kuartal, 2025 vs 2026</h2>
+      <canvas id="chRev"></canvas>
+      <p class="note">Q2 dan Q3 dihitung dari selisih laporan kumulatif.</p>
+    </div>
+    <div class="card">
+      <h2>Laba bersih pemilik per kuartal, 2025 vs 2026</h2>
+      <canvas id="chNp"></canvas>
+      <p class="note">Laba periode berjalan yang diatribusikan ke pemilik entitas induk. Q2 2026 tertekan rugi kurs.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Ringkasan per kuartal (Rp miliar)</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>Metrik</th><th>Q1 2025</th><th>Q1 2026</th><th>Q2 2025</th><th>Q2 2026</th><th>Q3 2025</th><th>Q3 2026</th><th>9M 2025</th><th>9M 2026</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Penjualan neto</td><td>20.186</td><td>21.716 <span class="up">+7,6%</span></td><td>17.415</td><td>20.148 <span class="up">+15,7%</span></td><td>18.666</td><td>22.582 <span class="up">+21,0%</span></td><td>56.267</td><td>64.446 <span class="up">+14,5%</span></td></tr>
+        <tr><td>Laba bruto</td><td>7.294</td><td>7.549 <span class="up">+3,5%</span></td><td>5.828</td><td>6.818 <span class="up">+17,0%</span></td><td>6.782</td><td>7.614 <span class="up">+12,3%</span></td><td>19.905</td><td>21.982 <span class="up">+10,4%</span></td></tr>
+        <tr><td>Margin laba bruto (%)</td><td>36,1</td><td>34,8</td><td>33,5</td><td>33,8</td><td>36,3</td><td>33,7</td><td>35,4</td><td>34,1</td></tr>
+        <tr><td>Laba usaha</td><td>5.153</td><td>4.619 <span class="down">-10,4%</span></td><td>3.323</td><td>4.534 <span class="up">+36,5%</span></td><td>4.267</td><td>4.514 <span class="up">+5,8%</span></td><td>12.743</td><td>13.667 <span class="up">+7,2%</span></td></tr>
+        <tr><td>Margin laba usaha (%)</td><td>25,5</td><td>21,3</td><td>19,1</td><td>22,5</td><td>22,9</td><td>20,0</td><td>22,6</td><td>21,2</td></tr>
+        <tr><td>Laba bersih (pemilik)</td><td>2.657</td><td>2.574 <span class="down">-3,1%</span></td><td>2.879</td><td>1.129 <span class="down">-60,8%</span></td><td>1.572</td><td>2.463 <span class="up">+56,7%</span></td><td>7.108</td><td>6.166 <span class="down">-13,3%</span></td></tr>
+        <tr><td>Penjualan Dairy</td><td>2.675</td><td>2.858 <span class="up">+6,9%</span></td><td>2.132</td><td>2.713 <span class="up">+27,3%</span></td><td>2.367</td><td>3.096 <span class="up">+30,8%</span></td><td>7.173</td><td>8.667 <span class="up">+20,8%</span></td></tr>
+        <tr><td>Laba usaha Dairy</td><td>292</td><td>295 <span class="up">+1,2%</span></td><td>69</td><td>256</td><td>192</td><td>148 <span class="down">-23,1%</span></td><td>552</td><td>699 <span class="up">+26,4%</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Laba bersih Q2 dan Q3 berayun karena selisih kurs atas pinjaman valuta asing. Penjualan Dairy adalah penjualan ke pelanggan eksternal. Laba usaha Dairy Q2 2025 rendah, sehingga persentase kenaikan Q2 2026 tidak ditampilkan.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Temuan dan implikasi untuk area</h2>
+    <ol class="insights">
+      <li><strong>Penjualan ICBP makin cepat di setiap kuartal 2026.</strong> Pertumbuhan naik dari 7,6% di Q1 menjadi 15,7% di Q2 dan 21,0% di Q3. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: momentum ICBP sedang naik. Perhatikan apakah pertumbuhan Q3 juga terlihat di toko area, misalnya lewat display tambahan atau stok yang lebih banyak.</span></li>
+      <li><strong>Dairy tumbuh lebih cepat dari ICBP secara keseluruhan.</strong> Penjualan Dairy 9 bulan naik 20,8%, sedangkan total ICBP naik 14,5%. Di Q3, penjualan Dairy naik 30,8%. <span class="tag">fakta laporan, catatan segmen</span><br><span class="note">Aksi: ICBP sedang mendorong kategori dairy. Pantau share rak Indomilk dibanding brand Anda di toko modern dan general trade.</span></li>
+      <li><strong>Margin Dairy turun tajam di Q3.</strong> Laba usaha Dairy Q3 Rp148 miliar, turun 23,1%, meskipun penjualannya naik 30,8%. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: ini tanda ICBP membeli volume dengan margin. Antisipasi promo harga atau bonus pack Indomilk di Q4, dan siapkan respons yang tidak merusak harga.</span></li>
+      <li><strong>Penjualan di luar negeri tumbuh lebih cepat dari Indonesia.</strong> Penjualan di Indonesia naik 11,0%, Asia dan Afrika 21,7%, dan negara lain 28,8%. Porsi Indonesia turun ke 67,2%. <span class="tag">fakta laporan, segmen geografis</span><br><span class="note">Aksi: pertumbuhan domestik 11,0% tetap di atas pasar groceries nasional (6,3% dari data NielsenIQ di halaman Retail). ICBP mengambil pangsa di Indonesia.</span>
+        <div class="mini"><canvas id="chGeo"></canvas></div>
+      </li>
+      <li><strong>Laba bersih turun karena kurs, bukan operasi.</strong> Rugi kurs atas pinjaman naik dari Rp1,4 triliun ke Rp3,3 triliun. Laba usaha justru naik 7,2%. <span class="tag">fakta laporan, catatan 30</span><br><span class="note">Aksi: jangan berharap ICBP mengurangi tekanan di pasar karena laba bersihnya turun. Kegiatan penjualan dan pemasarannya dibiayai dari laba usaha yang masih naik.</span></li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Rencana aksi untuk area (urut prioritas)</h2>
+    <ol class="insights">
+      <li><strong>Minggu ini: catat harga dan promo Indomilk di 10 toko prioritas.</strong> Fokus pada produk yang bersaing langsung dengan brand Anda, termasuk harga coret dan bonus pack. <br><span class="note">Ukuran berhasil: ada catatan empat minggu berturut-turut, dibandingkan dengan harga dan promo brand Anda.</span></li>
+      <li><strong>Bulan ini: petakan jangkauan distributor IAP di area.</strong> Catat jumlah outlet general trade yang dikunjungi IAP dan frekuensi kunjungannya, dibandingkan distributor Anda. <br><span class="note">Ukuran berhasil: ada tabel per kecamatan atau kota yang menunjukkan outlet yang dilayani IAP tetapi belum dilayani distributor Anda.</span></li>
+      <li><strong>Sebelum Q4: siapkan skenario jika ICBP memotong harga dairy.</strong> Margin Dairy Q3 yang turun menunjukkan ruang perang harga. Siapkan respons berupa bundling atau aktivasi, bukan hanya potongan harga. <br><span class="note">Ukuran berhasil: rencana respons sudah disetujui atasan sebelum promo pesaing muncul.</span></li>
+      <li><strong>Bulanan: bandingkan pertumbuhan tiga pesaing dairy.</strong> Gunakan halaman ULTJ, CMRY, dan ICBP untuk memantau siapa yang paling agresif setiap kuartal. <br><span class="note">Ukuran berhasil: ringkasan satu halaman per kuartal untuk atasan, dengan dampaknya ke area.</span></li>
+    </ol>
+    <p class="note">Rencana ini disusun dari laporan keuangan ICBP. Sebelum dijalankan, cocokkan dengan data promo, sell-out, dan distributor di area Anda.</p>
+  </div>
+
+  <section id="dokumen" style="margin-bottom:16px;">
+    <div class="card">
+      <h2>Dokumen ICBP</h2>
+      <p class="note" style="font-size:13px;margin-top:0;">
+        Laporan keuangan interim dan tahunan. Daftar ini dimuat otomatis dari folder Drive.
+        <a href="https://drive.google.com/drive/folders/1KKNEni24gFCzG6XD9FZ4IiC9SiMuWWQT" target="_blank" rel="noopener">Buka folder Drive</a>
+      </p>
+      <p class="note" id="infoDok">Memuat daftar dokumen...</p>
+      <ul id="listDok"></ul>
+    </div>
+  </section>
+
+  <p class="note">
+    Sumber: laporan keuangan konsolidasian interim PT Indofood CBP Sukses Makmur Tbk untuk periode 3, 6, dan 9 bulan 2026 (tidak diaudit), serta laporan keuangan 31 Desember 2025. Analisis ini bukan rekomendasi investasi.
+  </p>
+</main>
+</div>
+<script>
+window.IG_SOURCE = "Sumber: laporan keuangan interim ICBP 30 Sep 2026 (tidak diaudit)";
+window.IG_NAME = "icbp";
+
+/* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
+const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
+const DRIVE_FOLDER_ID = "1KKNEni24gFCzG6XD9FZ4IiC9SiMuWWQT";
+
+/* ===== Gate: password sama dengan halaman lain ===== */
+const SALT = "ultj-analisys-v1";
+const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002";
+
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function showApp() {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderCharts();
+  loadDokumen();
+}
+async function tryUnlock() {
+  const err = document.getElementById("gerr");
+  const h = await sha256Hex(SALT + document.getElementById("pw").value);
+  if (h === PW_HASH) { sessionStorage.setItem("icbp_ok", "1"); showApp(); }
+  else { err.textContent = "Password salah."; }
+}
+document.getElementById("unlock").addEventListener("click", tryUnlock);
+document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+/* ===== Daftar dokumen otomatis dari Google Drive ===== */
+async function loadDokumen() {
+  const list = document.getElementById("listDok");
+  const info = document.getElementById("infoDok");
+  const q = "'" + DRIVE_FOLDER_ID + "' in parents and mimeType='application/pdf' and trashed=false";
+  const url = "https://www.googleapis.com/drive/v3/files"
+    + "?q=" + encodeURIComponent(q)
+    + "&fields=" + encodeURIComponent("files(id,name)")
+    + "&orderBy=name&pageSize=100"
+    + "&key=" + DRIVE_API_KEY;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    list.innerHTML = "";
+    if (!data.files || data.files.length === 0) { info.textContent = "Belum ada dokumen PDF di folder Drive."; return; }
+    info.textContent = data.files.length + " dokumen tersedia.";
+    for (const f of data.files) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://drive.google.com/file/d/" + f.id + "/view";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = f.name;
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+  } catch (e) {
+    info.textContent = "Daftar tidak bisa dimuat (" + e.message + "). Buka folder Drive secara langsung dari tautan di atas.";
+  }
+}
+
+/* ===== Grafik ===== */
+const charts = [];
+function addChart(id, type, labels, datasets, extraOpts, paint, keepAspect) {
+  const opts = Object.assign({ responsive:true, maintainAspectRatio: !!keepAspect, plugins:{ legend:{ position:"bottom" } } }, extraOpts || {});
+  const ch = new Chart(document.getElementById(id), { type, data:{ labels, datasets }, options: opts });
+  charts.push({ ch, paint });
+  return ch;
+}
+function updateChartColors() {
+  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
+  const soft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim() || "#b8c3dd";
+  for (const { ch, paint } of charts) { paint(ch, acc, soft); ch.update(); }
+}
+
+let chartsDone = false;
+function renderCharts() {
+  if (chartsDone) return;
+  chartsDone = true;
+  if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
+  const Q = ["Q1", "Q2", "Q3"];
+  const barPaint2 = (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; };
+
+  addChart("chRev", "bar", Q, [
+    { label: "2025", data: [20186, 17415, 18666] },
+    { label: "2026", data: [21716, 20148, 22582] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chNp", "bar", Q, [
+    { label: "2025", data: [2657, 2879, 1572] },
+    { label: "2026", data: [2574, 1129, 2463] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chGeo", "bar", ["Indonesia", "Asia dan Afrika", "Lain-lain"], [
+    { label: "9M 2025", data: [39035, 15236, 1996] },
+    { label: "9M 2026", data: [43327, 18549, 2570] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  /* ===== Infografis ===== */
+  const wfRows = [
+    ["Penjualan neto", 0, 64445.7, "t", "Rp64.446 M"],
+    ["Beban pokok penjualan", 21981.7, 64445.7, "m", "−Rp42.464 M"],
+    ["Laba bruto", 0, 21981.7, "t", "Rp21.982 M · margin 34,1%"],
+    ["Beban penjualan & distribusi", 15003.4, 21981.7, "m", "−Rp6.978 M"],
+    ["Beban umum & adm.", 12657.4, 15003.4, "m", "−Rp2.346 M"],
+    ["Operasi lain, neto", 12657.4, 13666.6, "p", "+Rp1.009 M"],
+    ["Laba usaha", 0, 13666.6, "t", "Rp13.667 M · margin 21,2%"],
+    ["Rugi kurs atas pinjaman", 10321.3, 13666.6, "m", "−Rp3.345 M"],
+    ["Bunga & beban bank", 8649.1, 10321.3, "m", "−Rp1.672 M"],
+    ["Pendapatan keuangan & asosiasi", 8649.1, 9636.4, "p", "+Rp987 M"],
+    ["Pajak penghasilan", 7505.0, 9636.4, "m", "−Rp2.131 M"],
+    ["Laba periode berjalan", 0, 7505.0, "t", "Rp7.505 M · margin 11,6%"],
+    ["Bagian nonpengendali", 6165.9, 7505.0, "m", "−Rp1.339 M"],
+    ["Laba bersih pemilik", 0, 6165.9, "n", "Rp6.166 M · margin 9,6%"],
+  ];
+  addChart("chWf", "bar", wfRows.map(r => r[0]), [
+    { label:"Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius:6, borderSkipped:false, barPercentage:.8 },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false }, valLabels: wfRows.map(r => r[4]),
+       tooltip:{ callbacks:{ label: c => wfRows[c.dataIndex][4] } } },
+       scales:{ x:{ beginAtZero:true, max:82000, ticks:{ callback: v => (v/1000).toLocaleString("id-ID") + " T" } }, y:{ grid:{ display:false } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = wfRows.map(r => r[3] === "t" ? acc : r[3] === "m" ? "#8a8f99" : r[3] === "p" ? soft : "#0f1b3d");
+  });
+
+  addChart("chDairy", "bar", Q, [
+    { label: "2025", data: [2674.8, 2131.6, 2366.9] },
+    { label: "2026", data: [2858.5, 2712.7, 3096.3] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chPeer", "bar", ["ICBP Dairy", "ULTJ (total)", "CMRY produk susu"], [
+    { label: "9M 2025", data: [7173.3, 6237.7, 2902.4] },
+    { label: "9M 2026", data: [8667.4, 8179.2, 4372.2] },
+  ], { plugins:{ valLabels:null, tooltip:{ callbacks:{ afterLabel: c => c.datasetIndex === 1 ? ["Tumbuh +20,8%", "Tumbuh +31,1%", "Tumbuh +50,6%"][c.dataIndex] : "" } } },
+       scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chIap", "doughnut", ["IAP (distributor grup)", "Pelanggan lain"], [
+    { label: "Porsi penjualan 9M 2026 (%)", data: [49.0, 51.0] },
+  ], { cutout:"58%", plugins:{ legend:{ position:"right" }, tooltip:{ callbacks:{ label: c => c.label + ": " + c.parsed.toLocaleString("id-ID") + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = [acc, "#c4c8d0"]; });
+
+  const sellRows = [["Pengangkutan & penanganan", 1681.4, 2149.6], ["Iklan & promosi", 1748.1, 2080.7], ["Gaji & imbalan kerja", 750.6, 774.6], ["Royalti", 640.8, 719.3], ["Distribusi", 369.0, 403.4], ["Sewa", 126.8, 193.0], ["Barang rusak", 69.4, 84.5]];
+  addChart("chSellMix", "bar", sellRows.map(r => r[0]), [
+    { label: "9M 2025", data: sellRows.map(r => r[1]) },
+    { label: "9M 2026", data: sellRows.map(r => r[2]) },
+  ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chSeg", "doughnut", ["Mi instan", "Dairy", "Makanan ringan", "Penyedap makanan", "Nutrisi & makanan khusus", "Minuman"], [
+    { label: "Porsi penjualan 9M 2026 (%)", data: [72.4, 13.4, 5.8, 4.8, 1.8, 1.8] },
+  ], { cutout:"55%", plugins:{ legend:{ position:"right" }, tooltip:{ callbacks:{ label: c => c.label + ": " + c.parsed.toLocaleString("id-ID") + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = ["#c4c8d0", acc, soft, "#9aa5bd", "#dfe3ea", "#6b7385"]; });
+
+  updateChartColors();
+}
+
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
+if (sessionStorage.getItem("icbp_ok") === "1") showApp();
+</script>
+</body>
+</html>
