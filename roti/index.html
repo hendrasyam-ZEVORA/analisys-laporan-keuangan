@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Analisis ROTI (Nippon Indosari Corpindo) 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/infografis.js"></script>
+<link rel="stylesheet" href="../assets/infografis.css">
+<style>
+  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:#fff; padding:20px 24px; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; border-top:3px solid var(--accent); }
+  .kpi .label { font-size:12px; color:var(--muted); }
+  .kpi .value { font-size:24px; font-weight:700; margin-top:4px; }
+  .kpi .sub { font-size:12px; margin-top:4px; color:var(--muted); }
+  .up { color:var(--green); } .down { color:var(--red); } .warn { color:var(--amber); }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { margin:0 0 10px; font-size:15px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  th:first-child, td:first-child { text-align:left; }
+  th { color:var(--muted); font-weight:600; }
+  ol.insights > li { margin-bottom:18px; line-height:1.45; font-size:14px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  canvas { max-height:280px; }
+  .mini { position:relative; height:200px; max-width:560px; margin-top:8px; }
+  #dokumen ul { list-style:none; padding:0; margin:0; }
+  #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
+  #dokumen li:last-child { border-bottom:none; }
+  #dokumen li a { color:var(--accent); font-weight:600; text-decoration:none; }
+  #dokumen li a:hover { text-decoration:underline; }
+  #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
+  #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
+  #gate h2 { margin:0 0 6px; font-size:18px; }
+  #gate p { margin:0 0 16px; font-size:13px; color:var(--muted); }
+  #gate input { width:100%; padding:10px; font-size:15px; border:1px solid var(--line); border-radius:6px; }
+  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
+  #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
+  .hidden { display:none !important; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  @media print {
+    @page { size:A4 landscape; margin:10mm; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #gate, #dokumen, .pdf-btn { display:none !important; }
+    #app { display:block !important; }
+    main { padding:0; max-width:none; }
+    header { padding:14px 18px; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
+    .mini { height:180px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <h2>Analisis ROTI (Sari Roti)</h2>
+    <p>Masukkan password untuk melihat analisis.</p>
+    <input id="pw" type="password" autocomplete="off" placeholder="Password">
+    <button id="unlock">Buka</button>
+    <div class="err" id="gerr"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header>
+  <h1>PT Nippon Indosari Corpindo Tbk (ROTI, Sari Roti)</h1>
+  <p>Analisis laporan keuangan interim Q1 sampai Q3 2026 (tidak diaudit), dengan pembanding 2025 dan laporan tahunan 2025. Sari Roti bukan pesaing dairy, tetapi berbagi rak, pembeli, dan peritel yang sama, terutama Indomaret dan Alfamart. Angka dalam miliar rupiah kecuali disebutkan lain.</p>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
+</header>
+
+<main>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Pendapatan neto 9 bulan 2026</div><div class="value">Rp2.739</div><div class="sub down">-0,1% vs 9M 2025</div></div>
+    <div class="kpi"><div class="label">Retur penjualan 9 bulan 2026</div><div class="value">Rp638</div><div class="sub down">18,8% dari penjualan kotor</div></div>
+    <div class="kpi"><div class="label">Laba usaha 9 bulan 2026</div><div class="value">Rp123</div><div class="sub down">turun 43,1%</div></div>
+    <div class="kpi"><div class="label">Porsi Indomaret + Alfamart</div><div class="value">57,9%</div><div class="sub">turun dari 60,4%</div></div>
+  </div>
+
+  <section class="asm">
+    <h2>Deep dive Area Sales Manager</h2>
+    <p class="lead">Sari Roti tidak bersaing langsung dengan susu. Tetapi laporannya adalah pelajaran paling jelas tentang risiko bergantung pada minimarket dan biaya retur. Sari Roti juga punya jaringan 100.000 titik penjualan dan unit distribusi yang membawa merek pihak ketiga, jadi bisa menjadi mitra, bukan hanya tetangga rak.</p>
+    <div class="asm-sum">
+      <div><b>Pelajaran</b>Penjualan kotor Sari Roti naik 2,1%, tetapi retur naik 12,2% dan barang kedaluwarsa naik 8,0%. Hasilnya pendapatan neto datar dan laba usaha turun 43,1%. Kirim lebih banyak tidak sama dengan jual lebih banyak.</div>
+      <div><b>Peluang</b>Roti dan susu dibeli bersama untuk sarapan. Sari Roti menjangkau lebih dari 100.000 titik penjualan, termasuk warung dan penjaja keliling (hawker), dan unit distribusinya membawa merek pihak ketiga.</div>
+      <div><b>Minggu ini</b>Cek data retur dan produk mendekati kedaluwarsa (near-ED) brand Anda di Indomaret dan Alfamart area, terutama produk dingin dan umur simpan pendek.</div>
+    </div>
+
+    <h3>1. Apa yang terjadi di minimarket? <span class="verdict bad">Sari Roti kehilangan porsi</span></h3>
+    <p class="txt">Penjualan Sari Roti ke Indomaret turun 3,3% dan ke Alfamart turun 5,8% dalam 9 bulan. Padahal pendapatan Alfamart sendiri naik 7,2% (lihat halaman SAT). Sebaliknya, penjualan ke pelanggan lain naik 6,3%. Porsi dua jaringan minimarket turun dari 60,4% ke 57,9%. Pembeli minimarket tetap datang, tetapi uangnya tidak lagi ke roti Sari Roti.</p>
+    <div class="mini" style="max-width:none;height:220px"><canvas id="chCust"></canvas></div>
+
+    <h3>2. Berapa biaya barang yang tidak laku? <span class="verdict bad">Rp819 miliar</span></h3>
+    <p class="txt">Retur penjualan Rp638 miliar, atau 18,8% dari penjualan kotor (tahun lalu 17,1%). Barang kedaluwarsa dan cacat dibebankan Rp261 miliar. Sebagian dijual kembali sebagai barang usang senilai Rp80 miliar. Totalnya sekitar Rp819 miliar, hampir 7 kali laba usaha. Di Q1 dan Q2, tingkat retur melonjak ke 20,8% dan 22,7%.</p>
+    <div class="mini" style="max-width:none;height:220px"><canvas id="chRet"></canvas></div>
+
+    <h3>3. Apa yang berubah di Q3? <span class="verdict">Kiriman dikurangi, laba pulih</span></h3>
+    <p class="txt">Di Q3, penjualan kotor turun 6,5%, tetapi retur turun 34,0% dan barang kedaluwarsa turun 35,0%. Tingkat retur turun ke 12,8%. Pendapatan neto hanya turun 0,4%, dan laba usaha Q3 Rp89 miliar, hampir sama dengan tahun lalu. Sari Roti mengurangi kiriman berlebih, dan hasilnya laba lebih baik walaupun barang yang dikirim lebih sedikit.</p>
+
+    <h3>4. Di wilayah mana Sari Roti tertekan?</h3>
+    <p class="txt">Sari Roti melaporkan tiga wilayah. Wilayah Barat tumbuh 5,8%, Timur 0,7%, dan Tengah, wilayah terbesar dengan separuh pendapatan, turun 2,5%. Wilayah Tengah merugi Rp160 miliar dalam 9 bulan, dua kali lipat rugi tahun lalu. Laporan tidak merinci provinsi di setiap wilayah.</p>
+    <div class="mini" style="max-width:none;height:200px"><canvas id="chReg"></canvas></div>
+
+    <h3>5. Pembanding dengan emiten lain</h3>
+    <div style="overflow-x:auto">
+    <table class="peer">
+      <thead><tr><th>Perusahaan</th><th>Penjualan domestik 9M 2026</th><th>Iklan &amp; promosi per Rp100 penjualan</th><th>Margin laba kotor</th><th>Laba bersih per Rp100</th><th>Porsi Indomaret + Alfamart</th></tr></thead>
+      <tbody>
+        <tr style="background:var(--bg)"><td><strong>ROTI</strong></td><td><strong>-0,1%</strong></td><td><strong>6,6</strong></td><td><strong>51,6%</strong></td><td><strong>2,0</strong></td><td><strong>57,9%</strong></td></tr>
+        <tr><td>CMRY</td><td>+24,9%</td><td>11,8</td><td>42,9%</td><td>17,3</td><td>26,5%</td></tr>
+        <tr><td>ULTJ</td><td>+31,1%</td><td>2,8</td><td>32,8%</td><td>17,7</td><td>tidak ada pelanggan di atas 10%</td></tr>
+        <tr><td>DMND (semester I)</td><td>+22,3%</td><td>5,7</td><td>20,5%</td><td>3,0</td><td>tidak ada pelanggan di atas 10%</td></tr>
+        <tr><td>ICBP</td><td>+11,0%</td><td>3,2</td><td>34,1%</td><td>9,6</td><td>tidak diungkap per peritel</td></tr>
+        <tr><td>Pasar groceries (NielsenIQ, YTD Sep)</td><td>+6,3%</td><td>–</td><td>–</td><td>–</td><td>–</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Angka dari laporan keuangan masing-masing. Porsi Indomaret dan Alfamart hanya muncul jika penjualan ke satu pelanggan di atas 10%. ULTJ: penjualan lokal termasuk PPN. Penjualan pabrik tidak sama dengan sell-out, jadi perbandingan dengan pasar bersifat indikatif.</p>
+
+    <h3>6. Sinyal di lapangan dan respons</h3>
+    <div style="overflow-x:auto">
+    <table class="play">
+      <thead><tr><th>Sinyal yang terlihat di lapangan</th><th>Artinya, menurut laporan</th><th>Respons area</th></tr></thead>
+      <tbody>
+        <tr><td>Retur atau produk near-ED brand Anda di minimarket naik.</td><td>Sari Roti menunjukkan retur 18,8% bisa menghapus seluruh pertumbuhan dan memotong laba usaha 43%.</td><td>Atur ulang kiriman per toko berdasarkan sell-out, bukan target. Tarik near-ED lebih awal ke outlet dengan perputaran cepat.</td></tr>
+        <tr><td>Rak roti di minimarket sepi, sementara toko tetap ramai.</td><td>Penjualan Sari Roti ke Indomaret dan Alfamart turun, padahal Alfamart tumbuh 7,2%.</td><td>Tawarkan ke toko program sarapan, susu dengan roti, untuk mengisi ruang dan menarik pembeli sarapan.</td></tr>
+        <tr><td>Penjaja keliling Sari Roti atau unit distribusinya aktif di area Anda.</td><td>Sari Roti menjangkau lebih dari 100.000 titik, termasuk warung dan hawker, dan unit distribusinya membawa merek pihak ketiga.</td><td>Jajaki kerja sama distribusi untuk kota atau kanal yang belum dijangkau distributor Anda, misalnya sekolah dan perumahan.</td></tr>
+        <tr><td>Peritel menekan syarat dagang dan retur ke pemasok.</td><td>Margin Alfamart hanya 2,4%. Bagi pemasok seperti Sari Roti, retur ditanggung produsen.</td><td>Negosiasikan batas retur dan skema pembagian biaya near-ED sebelum menambah SKU baru di minimarket.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>7. Pertanyaan untuk tim dan distributor minggu ini</h3>
+    <ul class="check">
+      <li>Ke tim modern trade: berapa tingkat retur dan near-ED brand Anda per toko bulan ini, dibanding bulan lalu?</li>
+      <li>Ke distributor: apakah kiriman ke minimarket berdasarkan sell-out atau target bulanan?</li>
+      <li>Ke tim key account: apakah ada peluang program sarapan bersama produk roti di Indomaret atau Alfamart area?</li>
+      <li>Ke salesman: apakah penjaja keliling Sari Roti melewati sekolah atau perumahan yang belum Anda jangkau?</li>
+    </ul>
+  </section>
+
+  <h2 class="info-head">Infografis 9 bulan 2026</h2>
+  <div class="grid2">
+    <div class="card" id="ig1">
+      <p class="info-title"><span>Komposisi</span> Laba Sari Roti</p>
+      <p class="info-sub">Januari–September 2026, Rp miliar. Margin terhadap pendapatan neto.</p>
+      <div class="info-chart" style="height:400px"><canvas id="chWf"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> dari Rp3,4 triliun roti yang dikirim, Rp638 miliar kembali sebagai retur. Margin kotor 51,6% tinggi, tetapi beban penjualan, termasuk barang kedaluwarsa, transportasi, dan promosi, menghabiskan hampir semuanya. Laba bersih hanya Rp2,0 per Rp100 pendapatan.</p>
+      <button class="png-btn" onclick="exportCard('ig1','chWf')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig2">
+      <p class="info-title">58% <span>Pendapatan Sari Roti via</span> Indomaret <span>&amp;</span> Alfamart</p>
+      <p class="info-sub">Porsi pendapatan neto 9 bulan 2026 (%).</p>
+      <div class="info-chart sm"><canvas id="chShare"></canvas></div>
+      <div class="legend-row"><span>Indomaret (PT Indomarco Prismatama)</span><span><b>Rp929 M</b> 33,9% <span class="down">▼1,1 poin</span></span></div>
+      <div class="legend-row"><span>Alfamart (PT Sumber Alfaria Trijaya)</span><span><b>Rp656 M</b> 23,9% <span class="down">▼1,4 poin</span></span></div>
+      <div class="legend-row"><span>Pelanggan lain</span><span><b>Rp1.155 M</b> 42,1% <span class="up">▲2,6 poin</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> hampir 6 dari 10 rupiah pendapatan Sari Roti bergantung pada dua jaringan minimarket. Ketika penjualan ke keduanya turun, seluruh perusahaan ikut tertahan. Bandingkan dengan porsi minimarket di penjualan area Anda.</p>
+      <button class="png-btn" onclick="exportCard('ig2','chShare')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig3">
+      <p class="info-title"><span>Tentang</span> Retur <span>&amp;</span> Rabat <span>Sari Roti</span></p>
+      <p class="info-sub">Penjualan kotor, retur, dan rabat, 9 bulan, Rp miliar.</p>
+      <div class="info-chart sm"><canvas id="chGross"></canvas></div>
+      <div class="legend-row"><span>Retur penjualan</span><span><b>Rp638 M</b> 18,8% dari penjualan kotor <span class="down">▲1,7 poin</span></span></div>
+      <div class="legend-row"><span>Rabat pelanggan</span><span><b>Rp15 M</b></span></div>
+      <div class="legend-row"><span>Penjualan barang usang (dijual kembali)</span><span><b>Rp80 M</b></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> Sari Roti menanggung risiko produk yang tidak laku lewat skema hak retur. Barang yang kembali sebagian dijual lagi sebagai barang usang. Untuk produk dingin dan berumur simpan pendek, pola ini adalah risiko yang sama bagi brand Anda.</p>
+      <button class="png-btn" onclick="exportCard('ig3','chGross')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig4">
+      <p class="info-title"><span>Rincian</span> Beban Penjualan <span>Sari Roti</span></p>
+      <p class="info-sub">9 bulan, Rp miliar. Total Rp1.094 miliar, naik 7,8%.</p>
+      <div class="info-chart sm"><canvas id="chSell"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> beban terbesar adalah gaji tim penjualan dan barang kedaluwarsa atau cacat (Rp261 miliar), disusul transportasi. Iklan dan promosi naik 25,6%, tetapi pendapatan tetap datar. Promosi tidak menolong jika barang di rak tidak berputar.</p>
+      <button class="png-btn" onclick="exportCard('ig4','chSell')">Unduh gambar</button>
+    </div>
+  </div>
+  <p class="note" style="margin:-6px 0 16px">Sumber infografis: laporan keuangan konsolidasian interim ROTI 31 Maret, 30 Juni, dan 30 September 2026 (tidak diaudit), catatan 24 sampai 28, serta laporan tahunan dan keberlanjutan 2025. Angka kuartal dihitung dari selisih laporan kumulatif.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Pendapatan neto per kuartal, 2025 vs 2026</h2>
+      <canvas id="chRev"></canvas>
+      <p class="note">Q2 dan Q3 dihitung dari selisih laporan kumulatif.</p>
+    </div>
+    <div class="card">
+      <h2>Laba usaha per kuartal, 2025 vs 2026</h2>
+      <canvas id="chOi"></canvas>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Ringkasan per kuartal (Rp miliar)</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>Metrik</th><th>Q1 2025</th><th>Q1 2026</th><th>Q2 2025</th><th>Q2 2026</th><th>Q3 2025</th><th>Q3 2026</th><th>9M 2025</th><th>9M 2026</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Penjualan kotor</td><td>1.024</td><td>1.106 <span class="up">+8,0%</span></td><td>1.108</td><td>1.172 <span class="up">+5,8%</span></td><td>1.193</td><td>1.116 <span class="down">-6,5%</span></td><td>3.324</td><td>3.393 <span class="up">+2,1%</span></td></tr>
+        <tr><td>Retur penjualan</td><td>161</td><td>230 <span class="down">+43,0%</span></td><td>192</td><td>266 <span class="down">+38,7%</span></td><td>216</td><td>143 <span class="up">-34,0%</span></td><td>569</td><td>638 <span class="down">+12,2%</span></td></tr>
+        <tr><td>Tingkat retur (%)</td><td>15,7</td><td>20,8</td><td>17,3</td><td>22,7</td><td>18,2</td><td>12,8</td><td>17,1</td><td>18,8</td></tr>
+        <tr><td>Pendapatan neto</td><td>860</td><td>871 <span class="up">+1,3%</span></td><td>911</td><td>901 <span class="down">-1,1%</span></td><td>971</td><td>967 <span class="down">-0,4%</span></td><td>2.742</td><td>2.739 <span class="down">-0,1%</span></td></tr>
+        <tr><td>Margin laba bruto (%)</td><td>51,1</td><td>51,1</td><td>52,6</td><td>51,7</td><td>53,3</td><td>52,0</td><td>52,4</td><td>51,6</td></tr>
+        <tr><td>Barang kedaluwarsa/cacat</td><td>69</td><td>93 <span class="down">+35,3%</span></td><td>81</td><td>108 <span class="down">+33,8%</span></td><td>92</td><td>60 <span class="up">-35,0%</span></td><td>241</td><td>261 <span class="down">+8,0%</span></td></tr>
+        <tr><td>Iklan dan promosi</td><td>48</td><td>58 <span class="down">+19,8%</span></td><td>48</td><td>63 <span class="down">+32,2%</span></td><td>47</td><td>59 <span class="down">+24,8%</span></td><td>143</td><td>180 <span class="down">+25,6%</span></td></tr>
+        <tr><td>Laba usaha</td><td>39</td><td>14 <span class="down">-64,5%</span></td><td>79</td><td>20 <span class="down">-75,2%</span></td><td>97</td><td>89 <span class="down">-8,6%</span></td><td>215</td><td>123 <span class="down">-43,1%</span></td></tr>
+        <tr><td>Laba bersih (pemilik)</td><td>23</td><td>2 <span class="down">-90,4%</span></td><td>49</td><td>2 <span class="down">-96,4%</span></td><td>65</td><td>51 <span class="down">-21,0%</span></td><td>137</td><td>55 <span class="down">-59,6%</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Tingkat retur adalah retur dibagi penjualan kotor. Warna pada baris biaya menunjukkan arah: naik ditandai merah. Pendapatan 2025 setahun penuh Rp3.758 miliar, turun 4,4% dari 2024.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Penjualan kotor per kategori, 9 bulan (Rp miliar)</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Kategori</th><th>9M 2025</th><th>9M 2026</th><th>Perubahan</th></tr></thead>
+      <tbody>
+        <tr><td>Roti tawar</td><td>1.764</td><td>1.823</td><td class="up">+3,4%</td></tr>
+        <tr><td>Roti manis</td><td>1.205</td><td>1.216</td><td class="up">+0,9%</td></tr>
+        <tr><td>Kue</td><td>280</td><td>243</td><td class="down">-13,1%</td></tr>
+        <tr><td>Lain-lain</td><td>76</td><td>111</td><td class="up">+46,4%</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Penjualan kotor sebelum retur dan rabat (catatan 25).</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Rencana aksi untuk area (urut prioritas)</h2>
+    <ol class="insights">
+      <li><strong>Minggu ini: cek retur dan near-ED brand Anda per toko minimarket.</strong> Pisahkan toko dengan retur di atas rata-rata area. <br><span class="note">Ukuran berhasil: daftar 10 toko dengan retur tertinggi beserta penyebabnya.</span></li>
+      <li><strong>Bulan ini: ubah pola kiriman ke toko dengan retur tinggi.</strong> Kirim berdasarkan sell-out, seperti yang dilakukan Sari Roti di Q3. <br><span class="note">Ukuran berhasil: tingkat retur di toko-toko itu turun dalam dua bulan, tanpa penjualan neto ikut turun.</span></li>
+      <li><strong>Bulan ini: jajaki program sarapan bersama produk roti di minimarket.</strong> Susu dan roti dibeli untuk kebutuhan yang sama. <br><span class="note">Ukuran berhasil: satu proposal program bersama diajukan ke key account atau tim trade marketing.</span></li>
+      <li><strong>Kuartal ini: hitung porsi penjualan area dari Indomaret dan Alfamart.</strong> Jika di atas 50%, siapkan rencana memperkuat kanal lain. <br><span class="note">Ukuran berhasil: porsi kanal per kota tercatat, dan ada target untuk kanal non-minimarket.</span></li>
+    </ol>
+    <p class="note">Rencana ini disusun dari laporan keuangan Sari Roti sebagai pelajaran untuk kanal minimarket. Sebelum dijalankan, cocokkan dengan data retur, sell-out, dan distributor di area Anda.</p>
+  </div>
+
+  <section id="dokumen" style="margin-bottom:16px;">
+    <div class="card">
+      <h2>Dokumen ROTI</h2>
+      <p class="note" style="font-size:13px;margin-top:0;">
+        Laporan keuangan interim dan laporan tahunan. Daftar ini dimuat otomatis dari folder Drive.
+        <a href="https://drive.google.com/drive/folders/1rffYckpxG0fByLXYBnnIPNzg3ClqvZAJ" target="_blank" rel="noopener">Buka folder Drive</a>
+      </p>
+      <p class="note" id="infoDok">Memuat daftar dokumen...</p>
+      <ul id="listDok"></ul>
+    </div>
+  </section>
+
+  <p class="note">
+    Sumber: laporan keuangan konsolidasian interim PT Nippon Indosari Corpindo Tbk untuk periode 3, 6, dan 9 bulan 2026 (tidak diaudit) dengan pembanding 2025, serta laporan tahunan dan keberlanjutan 2025. Analisis ini bukan rekomendasi investasi.
+  </p>
+</main>
+</div>
+<script>
+window.IG_SOURCE = "Sumber: laporan keuangan interim ROTI 30 Sep 2026 (tidak diaudit)";
+window.IG_NAME = "roti";
+
+/* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
+const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
+const DRIVE_FOLDER_ID = "1rffYckpxG0fByLXYBnnIPNzg3ClqvZAJ";
+
+/* ===== Gate: password sama dengan halaman lain ===== */
+const SALT = "ultj-analisys-v1";
+const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002";
+
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function showApp() {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderCharts();
+  loadDokumen();
+}
+async function tryUnlock() {
+  const err = document.getElementById("gerr");
+  const h = await sha256Hex(SALT + document.getElementById("pw").value);
+  if (h === PW_HASH) { sessionStorage.setItem("roti_ok", "1"); showApp(); }
+  else { err.textContent = "Password salah."; }
+}
+document.getElementById("unlock").addEventListener("click", tryUnlock);
+document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+/* ===== Daftar dokumen otomatis dari Google Drive ===== */
+async function loadDokumen() {
+  const list = document.getElementById("listDok");
+  const info = document.getElementById("infoDok");
+  const q = "'" + DRIVE_FOLDER_ID + "' in parents and mimeType='application/pdf' and trashed=false";
+  const url = "https://www.googleapis.com/drive/v3/files"
+    + "?q=" + encodeURIComponent(q)
+    + "&fields=" + encodeURIComponent("files(id,name)")
+    + "&orderBy=name&pageSize=100"
+    + "&key=" + DRIVE_API_KEY;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    list.innerHTML = "";
+    if (!data.files || data.files.length === 0) { info.textContent = "Belum ada dokumen PDF di folder Drive."; return; }
+    info.textContent = data.files.length + " dokumen tersedia.";
+    for (const f of data.files) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://drive.google.com/file/d/" + f.id + "/view";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = f.name;
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+  } catch (e) {
+    info.textContent = "Daftar tidak bisa dimuat (" + e.message + "). Buka folder Drive secara langsung dari tautan di atas.";
+  }
+}
+
+/* ===== Grafik ===== */
+const charts = [];
+function addChart(id, type, labels, datasets, extraOpts, paint, keepAspect) {
+  const opts = Object.assign({ responsive:true, maintainAspectRatio: !!keepAspect, plugins:{ legend:{ position:"bottom" } } }, extraOpts || {});
+  const ch = new Chart(document.getElementById(id), { type, data:{ labels, datasets }, options: opts });
+  charts.push({ ch, paint });
+  return ch;
+}
+function updateChartColors() {
+  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
+  const soft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim() || "#b8c3dd";
+  for (const { ch, paint } of charts) { paint(ch, acc, soft); ch.update(); }
+}
+
+let chartsDone = false;
+function renderCharts() {
+  if (chartsDone) return;
+  chartsDone = true;
+  if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
+  const Q = ["Q1", "Q2", "Q3"];
+  const barPaint2 = (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; };
+
+  addChart("chRev", "bar", Q, [
+    { label: "2025", data: [860, 911, 971] },
+    { label: "2026", data: [871, 901, 967] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chOi", "bar", Q, [
+    { label: "2025", data: [39, 79, 97] },
+    { label: "2026", data: [14, 20, 89] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  /* ===== Deep dive ASM ===== */
+  addChart("chCust", "bar", ["Indomaret", "Alfamart", "Pelanggan lain", "Pendapatan Alfamart (SAT)"], [
+    { label: "Pertumbuhan 9M 2026", data: [-3.3, -5.8, 6.3, 7.2] },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false } }, scales:{ x:{ ticks:{ callback: v => v + "%" } } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = ["#c8102e", "#0057b8", acc, "#c4c8d0"]; });
+
+  addChart("chRet", "bar", ["Q1 2025", "Q2 2025", "Q3 2025", "Q1 2026", "Q2 2026", "Q3 2026"], [
+    { label: "Tingkat retur (% dari penjualan kotor)", data: [15.7, 17.3, 18.2, 20.8, 22.7, 12.8] },
+  ], { plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, ticks:{ callback: v => v + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = [soft, soft, soft, acc, acc, acc]; });
+
+  addChart("chReg", "bar", ["Wilayah Barat", "Wilayah Tengah", "Wilayah Timur"], [
+    { label: "9M 2025", data: [458, 1406, 879] },
+    { label: "9M 2026", data: [484, 1370, 885] },
+  ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
+
+  /* ===== Infografis ===== */
+  const wfRows = [
+    ["Penjualan kotor", 0, 3393.1, "t", "Rp3.393 M"],
+    ["Retur & rabat", 2739.3, 3393.1, "m", "−Rp654 M"],
+    ["Pendapatan neto", 0, 2739.3, "t", "Rp2.739 M"],
+    ["Beban pokok penjualan", 1413.7, 2739.3, "m", "−Rp1.326 M"],
+    ["Laba bruto", 0, 1413.7, "t", "Rp1.414 M · margin 51,6%"],
+    ["Beban penjualan", 319.6, 1413.7, "m", "−Rp1.094 M"],
+    ["Beban umum & adm.", 42.4, 319.6, "m", "−Rp277 M"],
+    ["Operasi lain, neto (barang usang)", 42.4, 122.6, "p", "+Rp80 M"],
+    ["Laba usaha", 0, 122.6, "t", "Rp123 M · margin 4,5%"],
+    ["Bunga, pajak & lainnya", 55.3, 122.6, "m", "−Rp67 M"],
+    ["Laba bersih pemilik", 0, 55.3, "n", "Rp55 M · margin 2,0%"],
+  ];
+  addChart("chWf", "bar", wfRows.map(r => r[0]), [
+    { label:"Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius:6, borderSkipped:false, barPercentage:.8, minBarLength:3 },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false }, valLabels: wfRows.map(r => r[4]),
+       tooltip:{ callbacks:{ label: c => wfRows[c.dataIndex][4] } } },
+       scales:{ x:{ beginAtZero:true, max:4300, ticks:{ callback: v => (v/1000).toLocaleString("id-ID") + " T" } }, y:{ grid:{ display:false } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = wfRows.map(r => r[3] === "t" ? acc : r[3] === "m" ? "#8a8f99" : r[3] === "p" ? soft : "#0f1b3d");
+  });
+
+  addChart("chShare", "doughnut", ["Indomaret", "Alfamart", "Pelanggan lain"], [
+    { label: "Porsi pendapatan 9M 2026 (%)", data: [33.9, 23.9, 42.1] },
+  ], { cutout:"58%", plugins:{ legend:{ position:"right" }, tooltip:{ callbacks:{ label: c => c.label + ": " + c.parsed.toLocaleString("id-ID") + "%" } } } },
+  (ch) => { ch.data.datasets[0].backgroundColor = ["#c8102e", "#0057b8", "#c4c8d0"]; });
+
+  addChart("chGross", "bar", ["9M 2025", "9M 2026"], [
+    { label: "Pendapatan neto", data: [2742.5, 2739.3] },
+    { label: "Retur", data: [568.9, 638.5] },
+    { label: "Rabat", data: [13.0, 15.3] },
+  ], { scales:{ x:{ stacked:true }, y:{ stacked:true, beginAtZero:true } } },
+  (ch, acc) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = "#8a8f99"; ch.data.datasets[2].backgroundColor = "#c4c8d0"; });
+
+  const sellRows = [["Gaji & kesejahteraan", 262.5, 271.2], ["Barang kedaluwarsa/cacat", 241.4, 260.6], ["Transportasi", 219.5, 227.1], ["Iklan & promosi", 143.1, 179.7], ["Jasa distribusi", 48.5, 51.8], ["Kesejahteraan mitra-hawker", 16.7, 13.7]];
+  addChart("chSell", "bar", sellRows.map(r => r[0]), [
+    { label: "9M 2025", data: sellRows.map(r => r[1]) },
+    { label: "9M 2026", data: sellRows.map(r => r[2]) },
+  ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
+
+  updateChartColors();
+}
+
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
+if (sessionStorage.getItem("roti_ok") === "1") showApp();
+</script>
+</body>
+</html>
