@@ -201,6 +201,19 @@
     <p class="note">Total kas dan sekuritas turun Rp802 miliar sejak 31 Desember 2025. Selisih sekitar Rp163 miliar antara arus kas sekuritas dan perubahan saldo sekuritas belum saya telusuri. Perlu dicek di catatan laporan keuangan tentang investasi surat berharga.</p>
   </div>
 
+  <div class="card" id="igDmnd" style="margin-bottom:16px">
+    <p class="info-title"><span>Pembanding:</span> Cimory <span>vs</span> Diamond (DMND)</p>
+    <p class="info-sub">Diamond memproduksi susu UHT, susu segar, es krim, yogurt, dan keju di pabriknya di Cikarang, dan menjalankan distribusi cold chain lewat PT Sukanda Djaya. Detail ada di halaman DMND.</p>
+    <div class="info-chart sm"><canvas id="chDmnd"></canvas></div>
+    <div class="legend-row"><span>Pertumbuhan produk utama</span><span><b>CMRY produk susu +50,6%</b> (9 bulan) · Diamond produk bermerek +24,7% (semester I)</span></div>
+    <div class="legend-row"><span>Iklan dan promosi per Rp100 penjualan</span><span><b>CMRY Rp11,8</b> · Diamond Rp5,7</span></div>
+    <div class="legend-row"><span>Margin laba kotor</span><span><b>CMRY 42,9%</b> · Diamond 20,5%</span></div>
+    <div class="legend-row"><span>Laba bersih per Rp100 penjualan</span><span><b>CMRY Rp17,3</b> · Diamond Rp3,0</span></div>
+    <p class="info-mean"><strong>Artinya untuk area:</strong> Cimory dan Diamond sama-sama kuat di kategori dingin, seperti yogurt dan susu segar, yang butuh cold chain. Cimory menang lewat merek dan belanja promosi yang dua kali lebih besar per rupiah penjualan. Diamond menang lewat jaringan cold chain sendiri dan HOREKA. Di chiller minimarket dan kafe, keduanya bersaing langsung. Catat ruang chiller yang dipakai Cimory dan Diamond di toko prioritas area.</p>
+    <button class="png-btn" onclick="exportCard('igDmnd','chDmnd')">Unduh gambar</button>
+    <p class="note" style="margin-top:8px">Diamond: semester I 2026 dan laporan tahunan 2025, karena laporan Q3 2026 Diamond belum tersedia. Pembanding lain: 9 bulan 2026.</p>
+  </div>
+
   <div class="card" style="margin-bottom:16px">
     <h2>Temuan dan implikasi untuk area</h2>
     <ol class="insights">
@@ -385,6 +398,13 @@ function renderCharts() {
     { label: "Penjualan neto", data: [6378, 7773, 9026, 10724] },
     { label: "Laba bersih (pemilik)", data: [1061, 1242, 1519, 2033] },
   ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  /* ===== Pembanding Diamond ===== */
+  addChart("chDmnd", "bar", ["Pertumbuhan penjualan (%)", "Iklan & promosi per Rp100", "Laba bersih per Rp100"], [
+    { label: "CMRY", data: [26.1, 11.8, 17.3] },
+    { label: "DMND", data: [22.3, 5.7, 3.0] },
+  ], { scales:{ y:{ beginAtZero:true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = "#c4c8d0"; });
 
   /* ===== Infografis ===== */
   const wfRows = [

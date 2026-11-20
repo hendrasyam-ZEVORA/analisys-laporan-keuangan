@@ -125,11 +125,12 @@
         <tr><td>ICBP</td><td>+11,0%</td><td>3,2</td><td>34,1%</td><td>51 hari</td></tr>
         <tr style="background:var(--bg)"><td><strong>INDF</strong></td><td><strong>+9,1%</strong></td><td><strong>2,2</strong></td><td><strong>32,9%</strong></td><td><strong>34 hari</strong></td></tr>
         <tr><td>MYOR</td><td>+6,1%</td><td>8,5</td><td>25,1%</td><td>93 hari²</td></tr>
+        <tr><td>DMND³</td><td>+22,3%</td><td>5,7</td><td>20,5%</td><td>38 hari</td></tr>
         <tr><td>Pasar groceries (NielsenIQ)</td><td>+6,3%</td><td>–</td><td>–</td><td>–</td></tr>
       </tbody>
     </table>
     </div>
-    <p class="note">Angka 9 bulan 2026 dari laporan keuangan masing-masing. ¹ULTJ: penjualan lokal termasuk PPN. ²MYOR: piutang rupiah, hampir semuanya ke distributor terafiliasi, dibagi penjualan lokal. Hari piutang = piutang usaha akhir September dibagi rata-rata penjualan harian Q3. Penjualan pabrik ke distributor tidak sama dengan sell-out, jadi perbandingan dengan pasar bersifat indikatif.</p>
+    <p class="note">Angka 9 bulan 2026 dari laporan keuangan masing-masing. ¹ULTJ: penjualan lokal termasuk PPN. ²MYOR: piutang rupiah, hampir semuanya ke distributor terafiliasi, dibagi penjualan lokal. Hari piutang = piutang usaha akhir September dibagi rata-rata penjualan harian Q3. Penjualan pabrik ke distributor tidak sama dengan sell-out, jadi perbandingan dengan pasar bersifat indikatif. ³DMND: semester I 2026, karena laporan Q3 2026 belum tersedia; hari piutang dihitung dari penjualan Q2.</p>
 
     <h3>6. Sinyal di lapangan dan respons</h3>
     <div style="overflow-x:auto">
@@ -404,8 +405,8 @@ function renderCharts() {
     { label: "9M 2026", data: [1884, 404, 679, 92] },
   ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
 
-  addChart("chPeerAp", "bar", ["CMRY", "MYOR", "ICBP", "ULTJ", "INDF"], [
-    { label: "Iklan & promosi per Rp100 penjualan, 9M 2026", data: [11.8, 8.5, 3.2, 2.8, 2.2] },
+  addChart("chPeerAp", "bar", ["CMRY", "MYOR", "DMND", "ICBP", "ULTJ", "INDF"], [
+    { label: "Iklan & promosi per Rp100 penjualan (DMND: semester I)", data: [11.8, 8.5, 5.7, 3.2, 2.8, 2.2] },
   ], { indexAxis:"y", plugins:{ legend:{ display:false } }, scales:{ x:{ beginAtZero:true, ticks:{ callback: v => "Rp" + v } } } },
   (ch, acc) => { ch.data.datasets[0].backgroundColor = ch.data.labels.map(l => l === ME ? acc : "#c4c8d0"); });
 

@@ -227,6 +227,19 @@
     </div>
   </div>
 
+  <div class="card" id="igDmnd" style="margin-bottom:16px">
+    <p class="info-title"><span>Pembanding:</span> Ultra <span>vs</span> Diamond (DMND)</p>
+    <p class="info-sub">Diamond memproduksi susu UHT, susu segar, es krim, yogurt, dan keju di pabriknya di Cikarang, dan menjalankan distribusi cold chain lewat PT Sukanda Djaya. Detail ada di halaman DMND.</p>
+    <div class="info-chart sm"><canvas id="chDmnd"></canvas></div>
+    <div class="legend-row"><span>Pertumbuhan penjualan</span><span><b>Ultra +31,1%</b> (9 bulan) · Diamond +22,3% (semester I)</span></div>
+    <div class="legend-row"><span>Iklan dan promosi per Rp100 penjualan</span><span><b>Ultra Rp2,8</b> · Diamond Rp5,7</span></div>
+    <div class="legend-row"><span>Laba bersih per Rp100 penjualan</span><span><b>Ultra Rp17,7</b> · Diamond Rp3,0</span></div>
+    <div class="legend-row"><span>Distribusi Diamond</span><span><b>24 titik cold chain, 38 provinsi</b>, fokus HOREKA</span></div>
+    <p class="info-mean"><strong>Artinya untuk area:</strong> Diamond menjual Diamond UHT dan Diamond All Purpose Milk, jadi bersaing langsung dengan Ultra di susu UHT. Ultra tumbuh lebih cepat dan jauh lebih untung, sehingga lebih tahan dalam perang harga. Ancaman Diamond ada di jalur distribusi: Diamond memakai distributor pihak ketiga yang fokus pada susu UHT untuk masuk ke kota-kota tersier, dan kuat di kafe, hotel, dan bakery. Cek distributor UHT di kota kecil area Anda dan kafe atau bakery yang memakai susu Diamond.</p>
+    <button class="png-btn" onclick="exportCard('igDmnd','chDmnd')">Unduh gambar</button>
+    <p class="note" style="margin-top:8px">Diamond: semester I 2026 dan laporan tahunan 2025, karena laporan Q3 2026 Diamond belum tersedia. Pembanding lain: 9 bulan 2026.</p>
+  </div>
+
   <div class="card" style="margin-bottom:16px">
     <h2>Temuan dan rekomendasi untuk area</h2>
     <ol class="insights">
@@ -518,6 +531,13 @@ function renderCharts() {
     { label: "Penjualan neto 9 bulan", data: [sum(sales25), sum(sales26)] },
   ], { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } },
   (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = [soft, acc]; });
+
+  /* ===== Pembanding Diamond ===== */
+  addChart("chDmnd", "bar", ["Pertumbuhan penjualan (%)", "Iklan & promosi per Rp100", "Laba bersih per Rp100"], [
+    { label: "ULTJ", data: [31.1, 2.8, 17.7] },
+    { label: "DMND", data: [22.3, 5.7, 3.0] },
+  ], { scales:{ y:{ beginAtZero:true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = "#c4c8d0"; });
 
   /* ===== Infografis ===== */
   const wfRows = [
