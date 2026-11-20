@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Analisis MYOR (Mayora Indah) 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="../assets/infografis.js"></script>
+<link rel="stylesheet" href="../assets/infografis.css">
+<style>
+  :root { --accent:#1f3a8a; --accent-soft:#b8c3dd; --bg:#f5f6f8; --card:#fff; --ink:#1d2430; --muted:#6b7385; --line:#e3e6ec; --green:#1a7f4b; --red:#b42318; --amber:#b25e09; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:var(--accent); color:#fff; padding:20px 24px; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; border-top:3px solid var(--accent); }
+  .kpi .label { font-size:12px; color:var(--muted); }
+  .kpi .value { font-size:24px; font-weight:700; margin-top:4px; }
+  .kpi .sub { font-size:12px; margin-top:4px; color:var(--muted); }
+  .up { color:var(--green); } .down { color:var(--red); } .warn { color:var(--amber); }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { margin:0 0 10px; font-size:15px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:7px 8px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+  th:first-child, td:first-child { text-align:left; }
+  th { color:var(--muted); font-weight:600; }
+  ol.insights > li { margin-bottom:18px; line-height:1.45; font-size:14px; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; background:var(--accent-soft); color:var(--ink); margin-left:4px; }
+  .note { font-size:12px; color:var(--muted); line-height:1.5; }
+  canvas { max-height:280px; }
+  .mini { position:relative; height:200px; max-width:560px; margin-top:8px; }
+  #dokumen ul { list-style:none; padding:0; margin:0; }
+  #dokumen li { padding:12px 0; border-bottom:1px solid var(--line); }
+  #dokumen li:last-child { border-bottom:none; }
+  #dokumen li a { color:var(--accent); font-weight:600; text-decoration:none; }
+  #dokumen li a:hover { text-decoration:underline; }
+  #gate { position:fixed; inset:0; background:var(--accent); display:flex; align-items:center; justify-content:center; z-index:10; }
+  #gate .box { background:#fff; padding:28px; border-radius:12px; width:min(90vw,340px); text-align:center; }
+  #gate h2 { margin:0 0 6px; font-size:18px; }
+  #gate p { margin:0 0 16px; font-size:13px; color:var(--muted); }
+  #gate input { width:100%; padding:10px; font-size:15px; border:1px solid var(--line); border-radius:6px; }
+  #gate button { margin-top:12px; width:100%; padding:10px; background:var(--accent); color:#fff; border:0; border-radius:6px; font-size:15px; cursor:pointer; }
+  #gate .err { color:var(--red); font-size:13px; min-height:18px; margin-top:8px; }
+  .hidden { display:none !important; }
+  .pdf-btn { margin-top:12px; background:#fff; color:var(--accent); border:0; border-radius:6px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  @media print {
+    @page { size:A4 landscape; margin:10mm; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #gate, #dokumen, .pdf-btn { display:none !important; }
+    #app { display:block !important; }
+    main { padding:0; max-width:none; }
+    header { padding:14px 18px; }
+    .card, .kpi, ol.insights > li { break-inside:avoid; page-break-inside:avoid; }
+    canvas { max-height:240px !important; }
+    .mini { height:180px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <h2>Analisis MYOR (Mayora Indah)</h2>
+    <p>Masukkan password untuk melihat analisis.</p>
+    <input id="pw" type="password" autocomplete="off" placeholder="Password">
+    <button id="unlock">Buka</button>
+    <div class="err" id="gerr"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header>
+  <h1>PT Mayora Indah Tbk (MYOR)</h1>
+  <p>Analisis laporan keuangan interim Q1 sampai Q3 2026 (tidak diaudit), dengan pembanding 2025 dan laporan tahunan 2025. Mayora menjual makanan olahan dan minuman olahan dalam kemasan, di dalam negeri dan ekspor. Angka dalam miliar rupiah kecuali disebutkan lain.</p>
+  <button class="pdf-btn" onclick="window.print()">Unduh PDF</button>
+</header>
+
+<main>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Penjualan bersih 9 bulan 2026</div><div class="value">Rp28.133</div><div class="sub up">+3,6% vs 9M 2025</div></div>
+    <div class="kpi"><div class="label">Margin laba kotor 9 bulan 2026</div><div class="value">25,1%</div><div class="sub up">naik dari 21,2%</div></div>
+    <div class="kpi"><div class="label">Laba bersih pemilik 9 bulan 2026</div><div class="value">Rp2.427</div><div class="sub up">+31,2% vs 9M 2025</div></div>
+    <div class="kpi"><div class="label">Iklan dan promosi 9 bulan 2026</div><div class="value">Rp2.394</div><div class="sub warn">+21,9%, Q3 naik 40,1%</div></div>
+  </div>
+
+  <h2 class="info-head">Infografis 9 bulan 2026</h2>
+  <div class="grid2">
+    <div class="card" id="ig1">
+      <p class="info-title"><span>Komposisi</span> Laba Mayora</p>
+      <p class="info-sub">Januari–September 2026, Rp miliar. Margin terhadap penjualan bersih.</p>
+      <div class="info-chart" style="height:380px"><canvas id="chWf"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> dari setiap Rp100 penjualan, Mayora menghabiskan Rp11,9 untuk beban penjualan, dan Rp8,5 di antaranya untuk iklan dan promosi. Porsi iklan ini sekitar tiga kali Ultra (Rp2,8) dan ICBP (Rp3,2), tetapi masih di bawah CMRY (Rp11,8). Laba bersih naik 31,2% karena margin kotor membaik.</p>
+      <button class="png-btn" onclick="exportCard('ig1','chWf')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig2">
+      <p class="info-title"><span>Biaya Bahan Baku Turun</span> 11,7%<span>, Margin Kotor Naik ke</span> 25,1%</p>
+      <p class="info-sub">Margin laba kotor per kuartal (%).</p>
+      <div class="info-chart sm"><canvas id="chGpm"></canvas></div>
+      <div class="legend-row"><span>Bahan baku dan kemasan yang dipakai, 9 bulan</span><span><b>Rp15.929 M</b> <span class="up">turun dari Rp18.046 M</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> penjualan hanya naik 3,6%, tetapi biaya bahan baku dan kemasan turun 11,7%. Margin kotor naik hampir 4 poin. Tambahan margin inilah yang dipakai Mayora untuk menaikkan iklan dan promosi.</p>
+      <button class="png-btn" onclick="exportCard('ig2','chGpm')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig3">
+      <p class="info-title">Iklan &amp; Promosi Mayora <span>Naik</span> 40,1% <span>di Q3</span></p>
+      <p class="info-sub">Beban penjualan per jenis, 9 bulan, Rp miliar. Total Rp3.335 miliar, naik 22,8%.</p>
+      <div class="info-chart sm"><canvas id="chSellMix"></canvas></div>
+      <div class="legend-row"><span>Iklan dan promosi per Rp100 penjualan, Q3 2026</span><span><b>Rp9,2</b> <span class="down">naik dari Rp7,2</span></span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> iklan dan promosi naik 21,9% menjadi Rp2,4 triliun, dan di Q3 naik 40,1%. Biaya pengiriman naik 37,9%, serta survei dan riset naik 57,2%. Mayora sedang gencar di pasar domestik. Pantau aktivitasnya di toko dan outlet area, terutama di rak dan kulkas minuman.</p>
+      <button class="png-btn" onclick="exportCard('ig3','chSellMix')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig4">
+      <p class="info-title">Penjualan Lokal <span>Naik</span> 17,6% <span>di Q3, Ekspor Turun</span></p>
+      <p class="info-sub">Penjualan lokal dan ekspor per kuartal, Rp miliar.</p>
+      <div class="info-chart sm"><canvas id="chLocal"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> penjualan lokal sempat turun 8,2% di Q1, lalu naik 11,6% di Q2 dan 17,6% di Q3. Ekspor justru turun 3,8% di Q3. Mayora mengalihkan dorongan ke pasar Indonesia, bersamaan dengan kenaikan iklan dan promosi.</p>
+      <button class="png-btn" onclick="exportCard('ig4','chLocal')">Unduh gambar</button>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card" id="ig5">
+      <p class="info-title">74% <span>Penjualan Mayora lewat</span> Pihak Berelasi</p>
+      <p class="info-sub">Porsi penjualan bersih 9 bulan 2026 (%).</p>
+      <div class="info-chart sm"><canvas id="chRel"></canvas></div>
+      <div class="legend-row"><span>Penjualan lokal ke pihak berelasi</span><span><b>Rp16.923 M</b> 99,3% dari penjualan lokal</span></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> hampir semua penjualan lokal Mayora lewat perusahaan terafiliasi, termasuk distributor PT Inbisco Niagatama Semesta. Polanya mirip Indofood dengan IAP: satu jaringan distribusi milik grup. Kenali tim dan jadwal kunjungan distributor Mayora di area.</p>
+      <button class="png-btn" onclick="exportCard('ig5','chRel')">Unduh gambar</button>
+    </div>
+    <div class="card" id="ig6">
+      <p class="info-title"><span>Laba Usaha</span> Minuman Mayora <span>Turun</span> 31,3% <span>di 2025</span></p>
+      <p class="info-sub">Laba operasi per segmen, tahun 2024 dan 2025, Rp miliar (laporan tahunan 2025).</p>
+      <div class="info-chart sm"><canvas id="chSeg"></canvas></div>
+      <p class="info-mean"><strong>Artinya untuk area:</strong> di 2025, laba operasi minuman olahan turun 31,3% dan marginnya turun dari 11,1% ke 7,8%. Makanan olahan naik 24,7%. Minuman menyumbang 38,0% penjualan Mayora. Dengan biaya bahan baku yang turun di 2026, segmen minuman punya ruang untuk promosi lagi.</p>
+      <button class="png-btn" onclick="exportCard('ig6','chSeg')">Unduh gambar</button>
+    </div>
+  </div>
+  <p class="note" style="margin:-6px 0 16px">Sumber infografis: laporan keuangan konsolidasian interim MYOR 31 Maret, 30 Juni, dan 30 September 2026 (tidak diaudit), catatan 25 sampai 27 dan 34, serta laporan keuangan 2025 (segmen operasi). Angka kuartal dihitung dari selisih laporan kumulatif. Laporan interim tidak menyajikan segmen per produk.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Penjualan bersih per kuartal, 2025 vs 2026</h2>
+      <canvas id="chRev"></canvas>
+      <p class="note">Q2 dan Q3 dihitung dari selisih laporan kumulatif.</p>
+    </div>
+    <div class="card">
+      <h2>Laba bersih pemilik per kuartal, 2025 vs 2026</h2>
+      <canvas id="chNp"></canvas>
+      <p class="note">Laba periode berjalan yang diatribusikan ke pemilik entitas induk.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Ringkasan per kuartal (Rp miliar)</h2>
+    <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr><th>Metrik</th><th>Q1 2025</th><th>Q1 2026</th><th>Q2 2025</th><th>Q2 2026</th><th>Q3 2025</th><th>Q3 2026</th><th>9M 2025</th><th>9M 2026</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Penjualan bersih</td><td>9.860</td><td>9.392 <span class="down">-4,7%</span></td><td>7.937</td><td>8.530 <span class="up">+7,5%</span></td><td>9.361</td><td>10.211 <span class="up">+9,1%</span></td><td>27.157</td><td>28.133 <span class="up">+3,6%</span></td></tr>
+        <tr><td>&nbsp;&nbsp;Lokal</td><td>6.192</td><td>5.683 <span class="down">-8,2%</span></td><td>4.257</td><td>4.752 <span class="up">+11,6%</span></td><td>5.619</td><td>6.606 <span class="up">+17,6%</span></td><td>16.068</td><td>17.042 <span class="up">+6,1%</span></td></tr>
+        <tr><td>&nbsp;&nbsp;Ekspor</td><td>3.671</td><td>3.720 <span class="up">+1,3%</span></td><td>3.685</td><td>3.783 <span class="up">+2,7%</span></td><td>3.748</td><td>3.607 <span class="down">-3,8%</span></td><td>11.104</td><td>11.110 <span class="up">+0,1%</span></td></tr>
+        <tr><td>Laba kotor</td><td>2.164</td><td>2.494 <span class="up">+15,3%</span></td><td>1.613</td><td>2.118 <span class="up">+31,3%</span></td><td>1.986</td><td>2.449 <span class="up">+23,3%</span></td><td>5.763</td><td>7.061 <span class="up">+22,5%</span></td></tr>
+        <tr><td>Margin laba kotor (%)</td><td>21,9</td><td>26,6</td><td>20,3</td><td>24,8</td><td>21,2</td><td>24,0</td><td>21,2</td><td>25,1</td></tr>
+        <tr><td>Iklan dan promosi</td><td>830</td><td>814 <span class="up">-1,9%</span></td><td>461</td><td>638 <span class="down">+38,3%</span></td><td>672</td><td>942 <span class="down">+40,1%</span></td><td>1.964</td><td>2.394 <span class="down">+21,9%</span></td></tr>
+        <tr><td>Laba usaha</td><td>846</td><td>1.177 <span class="up">+39,1%</span></td><td>691</td><td>792 <span class="up">+14,6%</span></td><td>849</td><td>900 <span class="up">+5,9%</span></td><td>2.387</td><td>2.869 <span class="up">+20,2%</span></td></tr>
+        <tr><td>Margin laba usaha (%)</td><td>8,6</td><td>12,5</td><td>8,7</td><td>9,3</td><td>9,1</td><td>8,8</td><td>8,8</td><td>10,2</td></tr>
+        <tr><td>Laba bersih (pemilik)</td><td>689</td><td>946 <span class="up">+37,2%</span></td><td>477</td><td>764 <span class="up">+60,1%</span></td><td>683</td><td>718 <span class="up">+5,1%</span></td><td>1.850</td><td>2.427 <span class="up">+31,2%</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="note">Penjualan lokal dan ekspor adalah angka sebelum retur, sehingga jumlahnya sedikit di atas penjualan bersih. Warna pada baris iklan menunjukkan arah biaya: naik ditandai merah.</p>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Temuan dan implikasi untuk area</h2>
+    <ol class="insights">
+      <li><strong>Margin Mayora pulih karena bahan baku lebih murah.</strong> Bahan baku dan kemasan yang dipakai turun 11,7%, sementara penjualan naik 3,6%. Margin kotor naik dari 21,2% ke 25,1%. <span class="tag">fakta laporan, catatan 26</span><br><span class="note">Aksi: Mayora punya ruang lebih besar untuk diskon dan promosi di sisa 2026. Jangan anggap margin pesaing sedang tertekan.</span></li>
+      <li><strong>Tambahan margin dipakai untuk iklan dan promosi.</strong> Iklan dan promosi Q3 naik 40,1% menjadi Rp942 miliar, atau Rp9,2 per Rp100 penjualan. Akibatnya laba usaha Q3 hanya naik 5,9%. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: catat aktivitas Mayora di toko area minggu ini, termasuk display, harga promo, dan program untuk pemilik warung.</span></li>
+      <li><strong>Dorongan Mayora sekarang di pasar domestik.</strong> Penjualan lokal naik 17,6% di Q3, sedangkan ekspor turun 3,8%. <span class="tag">perhitungan dari laporan</span><br><span class="note">Aksi: perkirakan persaingan ruang rak dan modal outlet yang lebih ketat di Q4.</span>
+        <div class="mini"><canvas id="chLocalMini"></canvas></div>
+      </li>
+      <li><strong>Distribusi lokal hampir seluruhnya lewat perusahaan terafiliasi.</strong> 99,3% penjualan lokal adalah penjualan ke pihak berelasi, termasuk PT Inbisco Niagatama Semesta. <span class="tag">fakta laporan, catatan 25 dan 34</span><br><span class="note">Aksi: petakan cakupan distributor Mayora di area, seperti untuk IAP di halaman ICBP dan INDF.</span></li>
+      <li><strong>Segmen minuman sempat tertekan di 2025.</strong> Laba operasi minuman olahan turun 31,3% di 2025, sedangkan makanan olahan naik 24,7%. <span class="tag">fakta laporan tahunan 2025</span><br><span class="note">Aksi: minuman siap minum Mayora bersaing di kulkas dan rak minuman yang sama dengan susu siap minum. Pantau peluncuran dan promo minumannya.</span></li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Rencana aksi untuk area (urut prioritas)</h2>
+    <ol class="insights">
+      <li><strong>Minggu ini: catat aktivitas Mayora di 10 toko dan 10 warung prioritas.</strong> Fokus pada display, harga promo, dan posisi di kulkas minuman dibanding produk susu siap minum Anda. <br><span class="note">Ukuran berhasil: ada catatan empat minggu berturut-turut, dibandingkan dengan aktivitas brand Anda.</span></li>
+      <li><strong>Bulan ini: petakan distributor Mayora di area.</strong> Catat nama distributor, jumlah salesman, dan frekuensi kunjungan ke outlet general trade. <br><span class="note">Ukuran berhasil: ada tabel per kota yang membandingkan cakupan distributor Mayora, IAP, dan distributor Anda.</span></li>
+      <li><strong>Sebelum Q4: amankan ruang kulkas dan rak di outlet utama.</strong> Dengan anggaran iklan dan promosi yang naik 40%, Mayora kemungkinan menawar ruang kulkas dan display. <br><span class="note">Ukuran berhasil: kesepakatan ruang display atau kulkas di outlet prioritas sudah diperbarui sebelum Desember.</span></li>
+      <li><strong>Per kuartal: pantau porsi iklan dan promosi terhadap penjualan.</strong> Bandingkan Mayora, ICBP, ULTJ, dan CMRY di halaman masing-masing. <br><span class="note">Ukuran berhasil: tabel satu halaman per kuartal untuk atasan.</span></li>
+    </ol>
+    <p class="note">Rencana ini disusun dari laporan keuangan Mayora. Sebelum dijalankan, cocokkan dengan data distributor, sell-out, dan promo di area Anda.</p>
+  </div>
+
+  <section id="dokumen" style="margin-bottom:16px;">
+    <div class="card">
+      <h2>Dokumen MYOR</h2>
+      <p class="note" style="font-size:13px;margin-top:0;">
+        Laporan keuangan interim, tahunan, laporan tahunan, dan laporan keberlanjutan. Daftar ini dimuat otomatis dari folder Drive.
+        <a href="https://drive.google.com/drive/folders/15c7X1kxfSxaDF2fj13JoDnjeMnPAZUFm" target="_blank" rel="noopener">Buka folder Drive</a>
+      </p>
+      <p class="note" id="infoDok">Memuat daftar dokumen...</p>
+      <ul id="listDok"></ul>
+    </div>
+  </section>
+
+  <p class="note">
+    Sumber: laporan keuangan konsolidasian interim PT Mayora Indah Tbk untuk periode 3, 6, dan 9 bulan 2026 (tidak diaudit), serta laporan keuangan konsolidasian 31 Desember 2025. Laporan tahunan dan laporan keberlanjutan di folder belum dianalisis di versi ini. Analisis ini bukan rekomendasi investasi.
+  </p>
+</main>
+</div>
+<script>
+window.IG_SOURCE = "Sumber: laporan keuangan interim MYOR 30 Sep 2026 (tidak diaudit)";
+window.IG_NAME = "myor";
+
+/* ===== Konfigurasi Google Drive (API key dibatasi ke domain dan Drive API) ===== */
+const DRIVE_API_KEY = "AIzaSyCR6eWXOz7K2TKLLH8MUOhtw0vk0Z-c_nM";
+const DRIVE_FOLDER_ID = "15c7X1kxfSxaDF2fj13JoDnjeMnPAZUFm";
+
+/* ===== Gate: password sama dengan halaman lain ===== */
+const SALT = "ultj-analisys-v1";
+const PW_HASH = "55bf9c846567e5f384332815de40d5cbb8b2c8729395f1de64b9210ea5e0a002";
+
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+function showApp() {
+  document.getElementById("gate").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderCharts();
+  loadDokumen();
+}
+async function tryUnlock() {
+  const err = document.getElementById("gerr");
+  const h = await sha256Hex(SALT + document.getElementById("pw").value);
+  if (h === PW_HASH) { sessionStorage.setItem("myor_ok", "1"); showApp(); }
+  else { err.textContent = "Password salah."; }
+}
+document.getElementById("unlock").addEventListener("click", tryUnlock);
+document.getElementById("pw").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+
+/* ===== Daftar dokumen otomatis dari Google Drive ===== */
+async function loadDokumen() {
+  const list = document.getElementById("listDok");
+  const info = document.getElementById("infoDok");
+  const q = "'" + DRIVE_FOLDER_ID + "' in parents and mimeType='application/pdf' and trashed=false";
+  const url = "https://www.googleapis.com/drive/v3/files"
+    + "?q=" + encodeURIComponent(q)
+    + "&fields=" + encodeURIComponent("files(id,name)")
+    + "&orderBy=name&pageSize=100"
+    + "&key=" + DRIVE_API_KEY;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    list.innerHTML = "";
+    if (!data.files || data.files.length === 0) { info.textContent = "Belum ada dokumen PDF di folder Drive."; return; }
+    info.textContent = data.files.length + " dokumen tersedia.";
+    for (const f of data.files) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "https://drive.google.com/file/d/" + f.id + "/view";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = f.name;
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+  } catch (e) {
+    info.textContent = "Daftar tidak bisa dimuat (" + e.message + "). Buka folder Drive secara langsung dari tautan di atas.";
+  }
+}
+
+/* ===== Grafik ===== */
+const charts = [];
+function addChart(id, type, labels, datasets, extraOpts, paint, keepAspect) {
+  const opts = Object.assign({ responsive:true, maintainAspectRatio: !!keepAspect, plugins:{ legend:{ position:"bottom" } } }, extraOpts || {});
+  const ch = new Chart(document.getElementById(id), { type, data:{ labels, datasets }, options: opts });
+  charts.push({ ch, paint });
+  return ch;
+}
+function updateChartColors() {
+  const acc = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#1f3a8a";
+  const soft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim() || "#b8c3dd";
+  for (const { ch, paint } of charts) { paint(ch, acc, soft); ch.update(); }
+}
+
+let chartsDone = false;
+function renderCharts() {
+  if (chartsDone) return;
+  chartsDone = true;
+  if (typeof Chart === "undefined") { console.error("Chart.js gagal dimuat"); return; }
+  const Q = ["Q1", "Q2", "Q3"];
+  const barPaint2 = (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = soft; ch.data.datasets[1].backgroundColor = acc; };
+
+  addChart("chRev", "bar", Q, [
+    { label: "2025", data: [9860, 7937, 9361] },
+    { label: "2026", data: [9392, 8530, 10211] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chNp", "bar", Q, [
+    { label: "2025", data: [689, 477, 683] },
+    { label: "2026", data: [946, 764, 718] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2, true);
+
+  addChart("chLocalMini", "bar", Q, [
+    { label: "Lokal 2025", data: [6192, 4257, 5619] },
+    { label: "Lokal 2026", data: [5683, 4752, 6606] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  /* ===== Infografis ===== */
+  const wfRows = [
+    ["Penjualan bersih", 0, 28132.7, "t", "Rp28.133 M"],
+    ["Beban pokok penjualan", 7061.0, 28132.7, "m", "−Rp21.072 M"],
+    ["Laba kotor", 0, 7061.0, "t", "Rp7.061 M · margin 25,1%"],
+    ["Beban penjualan", 3726.0, 7061.0, "m", "−Rp3.335 M"],
+    ["Beban umum & adm.", 2868.7, 3726.0, "m", "−Rp857 M"],
+    ["Laba usaha", 0, 2868.7, "t", "Rp2.869 M · margin 10,2%"],
+    ["Laba selisih kurs", 2868.7, 3239.8, "p", "+Rp371 M"],
+    ["Bunga & lain-lain, neto", 3103.7, 3239.8, "m", "−Rp136 M"],
+    ["Pajak penghasilan", 2468.9, 3103.7, "m", "−Rp635 M"],
+    ["Laba periode berjalan", 0, 2468.9, "t", "Rp2.469 M · margin 8,8%"],
+    ["Bagian nonpengendali", 2427.3, 2468.9, "m", "−Rp42 M"],
+    ["Laba bersih pemilik", 0, 2427.3, "n", "Rp2.427 M · margin 8,6%"],
+  ];
+  addChart("chWf", "bar", wfRows.map(r => r[0]), [
+    { label:"Rp miliar", data: wfRows.map(r => [r[1], r[2]]), borderRadius:6, borderSkipped:false, barPercentage:.8 },
+  ], { indexAxis:"y", plugins:{ legend:{ display:false }, valLabels: wfRows.map(r => r[4]),
+       tooltip:{ callbacks:{ label: c => wfRows[c.dataIndex][4] } } },
+       scales:{ x:{ beginAtZero:true, max:36000, ticks:{ callback: v => (v/1000).toLocaleString("id-ID") + " T" } }, y:{ grid:{ display:false } } } },
+  (ch, acc, soft) => {
+    ch.data.datasets[0].backgroundColor = wfRows.map(r => r[3] === "t" ? acc : r[3] === "m" ? "#8a8f99" : r[3] === "p" ? soft : "#0f1b3d");
+  });
+
+  addChart("chGpm", "bar", Q, [
+    { label: "2025", data: [21.9, 20.3, 21.2] },
+    { label: "2026", data: [26.6, 24.8, 24.0] },
+  ], { scales:{ y:{ beginAtZero:true, ticks:{ callback: v => v + "%" } } } }, barPaint2);
+
+  const sellRows = [["Iklan & promosi", 1963.6, 2394.0], ["Pengiriman", 431.3, 595.0], ["Remunerasi & karyawan", 238.1, 228.1], ["Survei & riset", 55.1, 86.6], ["Lain-lain", 27.8, 31.4]];
+  addChart("chSellMix", "bar", sellRows.map(r => r[0]), [
+    { label: "9M 2025", data: sellRows.map(r => r[1]) },
+    { label: "9M 2026", data: sellRows.map(r => r[2]) },
+  ], { indexAxis:"y", scales:{ x:{ beginAtZero:true } } }, barPaint2);
+
+  addChart("chLocal", "bar", ["Q1 2025", "Q1 2026", "Q2 2025", "Q2 2026", "Q3 2025", "Q3 2026"], [
+    { label: "Lokal", data: [6192, 5683, 4257, 4752, 5619, 6606] },
+    { label: "Ekspor", data: [3671, 3720, 3685, 3783, 3748, 3607] },
+  ], { scales:{ x:{ stacked:true }, y:{ stacked:true, beginAtZero:true } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = acc; ch.data.datasets[1].backgroundColor = soft; });
+
+  addChart("chRel", "doughnut", ["Lokal ke pihak berelasi", "Ekspor ke pihak berelasi", "Pihak ketiga"], [
+    { label: "Porsi penjualan 9M 2026 (%)", data: [60.2, 13.9, 25.9] },
+  ], { cutout:"58%", plugins:{ legend:{ position:"right" }, tooltip:{ callbacks:{ label: c => c.label + ": " + c.parsed.toLocaleString("id-ID") + "%" } } } },
+  (ch, acc, soft) => { ch.data.datasets[0].backgroundColor = [acc, soft, "#c4c8d0"]; });
+
+  addChart("chSeg", "bar", ["Makanan olahan", "Minuman olahan"], [
+    { label: "2024", data: [1843.0, 2076.0] },
+    { label: "2025", data: [2299.2, 1427.2] },
+  ], { scales:{ y:{ beginAtZero:true } } }, barPaint2);
+
+  updateChartColors();
+}
+
+window.addEventListener("beforeprint", () => charts.forEach(c => c.ch.resize()));
+if (sessionStorage.getItem("myor_ok") === "1") showApp();
+</script>
+</body>
+</html>
