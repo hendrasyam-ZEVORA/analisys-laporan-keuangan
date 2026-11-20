@@ -13,3 +13,20 @@
   .png-btn { display:none !important; }
   .info-chart { height:260px !important; }
 }
+
+/* Deep dive Area Sales Manager */
+.asm { border:2px solid var(--accent); border-radius:12px; padding:16px; margin-bottom:18px; background:var(--card); }
+.asm > h2 { margin:0 0 4px; font-size:18px; }
+.asm > .lead { font-size:13px; color:var(--muted); margin:0 0 12px; }
+.asm-sum { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin-bottom:14px; }
+.asm-sum div { background:var(--bg); border-radius:8px; padding:10px 12px; font-size:13px; line-height:1.45; }
+.asm-sum b { display:block; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--accent); margin-bottom:4px; }
+.asm h3 { font-size:15px; margin:16px 0 6px; }
+.asm p.txt { font-size:14px; line-height:1.5; margin:0 0 8px; }
+.verdict { display:inline-block; font-size:12px; font-weight:700; padding:2px 8px; border-radius:4px; background:#e7f4ec; color:var(--green); }
+.verdict.bad { background:#fdecea; color:var(--red); }
+.verdict.mid { background:#fff3e0; color:var(--amber); }
+table.play td, table.play th { white-space:normal; text-align:left; vertical-align:top; font-size:13px; line-height:1.4; }
+table.peer td, table.peer th { font-size:13px; }
+ul.check { margin:0; padding-left:18px; font-size:14px; line-height:1.6; }
+@media print { .asm { break-inside:auto; } .asm .card, .asm table { break-inside:avoid; } }
